@@ -23,6 +23,7 @@ export default function AdminMarksheetPage() {
   const [data, setData] = useState<MarksheetPageData | null>(null);
   const [learningCenterLine, setLearningCenterLine] = useState("");
   const [bg, setBg] = useState("");
+  const [sig, setSig] = useState("");
   const [templatePainted, setTemplatePainted] = useState(true);
   const [downloading, setDownloading] = useState(false);
   const [bgResolved, setBgResolved] = useState(false);
@@ -57,6 +58,21 @@ export default function AdminMarksheetPage() {
       })
       .catch(() => setBg(""))
       .finally(() => setBgResolved(true));
+
+    fetch("/api/public/settings?key=auth_signature")
+      .then((r) => r.json())
+      .then((res) => {
+        if (res?.value) {
+          setSig(res.value);
+          return;
+        }
+        return fetch("/api/public/settings?key=authorized_signature")
+          .then((r2) => r2.json())
+          .then((res2) => {
+            if (res2?.value) setSig(res2.value);
+          });
+      })
+      .catch(() => {});
   }, [examId, router]);
 
   const downloadPdf = useCallback(async () => {
@@ -157,6 +173,7 @@ export default function AdminMarksheetPage() {
             data={data}
             learningCenter={learningCenterLine || brandName?.toUpperCase() || ""}
             verifyUrl={verifyUrl}
+            signatureUrl={sig || undefined}
           />
         ) : null}
       </div>

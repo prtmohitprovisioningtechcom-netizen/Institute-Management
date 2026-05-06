@@ -47,8 +47,8 @@ const L = {
   /** Verification QR — fits snugly inside the printed square placeholder. */
   qr: { top: "119mm", left: "200mm", w: "30mm", h: "30mm" },
 
-  /** "Authorised Signature" right-side footer slot. */
-  sigAuth: { top: "176mm", right: "22mm", w: "60mm", h: "16mm" },
+  /** Signature moved slightly more up and toward right side. */
+  sigAuth: { top: "158mm", right: "16mm", w: "60mm", h: "16mm" },
 } as const;
 
 const ink = "#050505";
@@ -88,7 +88,7 @@ export type CertificatePageData = CertificateBgData & {
 
 type Props = {
   data: CertificateBgData;
-  /** Site brand / institute name printed after "at" (e.g. "Yukti Computer Institute"). */
+  /** Optional fallback brand name (used only when center name/code is missing). */
   brandName?: string;
   signatureUrl?: string;
   verifyUrl?: string;
@@ -123,10 +123,9 @@ export default function CertificateBackgroundOverlay({
 }: Props) {
   const s = pickStudent(data.studentId);
   const parentLine = safeText(s?.fatherName) || safeText(s?.motherName);
-  // After "at" we print the issuing brand / institute name (e.g. "Yukti Computer
-  // Institute") and fall back to the ATC centre name only if no brand is set.
+  // After "at" we should print the issuing center name (as requested), not site brand.
   const centerDisplay =
-    safeText(brandName) || safeText(data.centerName) || safeText(data.centerCode);
+    safeText(data.centerName) || safeText(data.centerCode) || safeText(brandName);
 
   const fromDisplay =
     safeText(data.fromLabel) ||

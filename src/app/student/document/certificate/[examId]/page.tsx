@@ -49,11 +49,19 @@ export default function StudentCertificatePage() {
         if (!cancelled) setBgResolved(true);
       });
 
-    void apiFetch("/api/public/settings?key=authorized_signature")
+    void apiFetch("/api/public/settings?key=auth_signature")
       .then((r) => r.json())
       .then((sigRes) => {
         if (cancelled) return;
-        if (sigRes?.value) setSig(sigRes.value);
+        if (sigRes?.value) {
+          setSig(sigRes.value);
+          return;
+        }
+        return apiFetch("/api/public/settings?key=authorized_signature")
+          .then((r2) => r2.json())
+          .then((sigRes2) => {
+            if (!cancelled && sigRes2?.value) setSig(sigRes2.value);
+          });
       })
       .catch(() => {});
 

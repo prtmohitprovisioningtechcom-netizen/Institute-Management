@@ -19,6 +19,7 @@ export default function AtcMarksheetPage() {
   const [data, setData] = useState<MarksheetPageData | null>(null);
   const [learningCenterLine, setLearningCenterLine] = useState("");
   const [bg, setBg] = useState("");
+  const [sig, setSig] = useState("");
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
   const [bgResolved, setBgResolved] = useState(false);
@@ -33,6 +34,7 @@ export default function AtcMarksheetPage() {
     setData(null);
     setLearningCenterLine("");
     setBg("");
+    setSig("");
     setBgResolved(false);
 
     void apiFetch("/api/public/background/marksheet")
@@ -46,6 +48,22 @@ export default function AtcMarksheetPage() {
       .finally(() => {
         if (!cancelled) setBgResolved(true);
       });
+
+    void apiFetch("/api/public/settings?key=auth_signature")
+      .then((r) => r.json())
+      .then((res) => {
+        if (cancelled) return;
+        if (res?.value) {
+          setSig(res.value);
+          return;
+        }
+        return apiFetch("/api/public/settings?key=authorized_signature")
+          .then((r2) => r2.json())
+          .then((res2) => {
+            if (!cancelled && res2?.value) setSig(res2.value);
+          });
+      })
+      .catch(() => {});
 
     void (async () => {
       try {
@@ -144,6 +162,7 @@ export default function AtcMarksheetPage() {
             data={data}
             learningCenter={learningCenterLine || brandName?.toUpperCase() || ""}
             verifyUrl={verifyUrl}
+            signatureUrl={sig || undefined}
           />
         ) : null}
         {docPending ? (

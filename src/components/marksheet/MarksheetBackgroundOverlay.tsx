@@ -49,6 +49,8 @@ const L = {
   obtCx: "80mm",
 
   date: { top: "225mm", left: "34mm" },
+  /** Signature slot moved further up and slightly left. */
+  sigAuth: { top: "220mm", right: "34mm", w: "48mm", h: "16mm" },
 } as const;
 
 /** Lift so glyphs sit clearly *above* dotted rules (dots were striking through text). */
@@ -115,6 +117,8 @@ type Props = {
   learningCenter?: string;
   /** Optional verify URL — encoded into the QR shown in the top-right box. */
   verifyUrl?: string;
+  /** Admin setting signature image. */
+  signatureUrl?: string;
 };
 
 /** DD-MM-YYYY for DOB and issue date on marksheet. */
@@ -154,7 +158,12 @@ function looksLikeLearningCenterLine(t: string): boolean {
   return u.includes("ATC REG:") || (u.includes(" · ") && u.includes("ATC"));
 }
 
-export default function MarksheetBackgroundOverlay({ data, learningCenter, verifyUrl }: Props) {
+export default function MarksheetBackgroundOverlay({
+  data,
+  learningCenter,
+  verifyUrl,
+  signatureUrl,
+}: Props) {
   const [gradeBands, setGradeBands] = useState<GradeBand[]>(() => [...DEFAULT_MARKSHEET_GRADE_BANDS]);
 
   useEffect(() => {
@@ -512,6 +521,25 @@ export default function MarksheetBackgroundOverlay({ data, learningCenter, verif
       >
         {formatDateDDMMYYYY(data.issueDate)}
       </p>
+
+      <div
+        className="absolute flex items-end justify-center pb-[1mm]"
+        style={{
+          top: L.sigAuth.top,
+          right: L.sigAuth.right,
+          width: L.sigAuth.w,
+          height: L.sigAuth.h,
+        }}
+      >
+        {signatureUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={signatureUrl}
+            alt=""
+            className="max-h-[80%] max-w-[92%] object-contain mix-blend-multiply"
+          />
+        ) : null}
+      </div>
     </div>
   );
 }

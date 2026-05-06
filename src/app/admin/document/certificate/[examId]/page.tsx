@@ -54,10 +54,18 @@ export default function AdminCertificatePage() {
       .catch(() => setBg(""))
       .finally(() => setBgResolved(true));
 
-    fetch("/api/public/settings?key=authorized_signature")
+    fetch("/api/public/settings?key=auth_signature")
       .then((r) => r.json())
       .then((res) => {
-        if (res?.value) setSig(res.value);
+        if (res?.value) {
+          setSig(res.value);
+          return;
+        }
+        return fetch("/api/public/settings?key=authorized_signature")
+          .then((r2) => r2.json())
+          .then((res2) => {
+            if (res2?.value) setSig(res2.value);
+          });
       })
       .catch(() => {});
   }, [examId, router]);
