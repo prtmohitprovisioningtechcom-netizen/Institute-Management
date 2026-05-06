@@ -19,6 +19,7 @@ export default function AtcCertificatePage() {
   const [data, setData] = useState<CertificatePageData | null>(null);
   const [bg, setBg] = useState("");
   const [sig, setSig] = useState("");
+  const [atcSig, setAtcSig] = useState("");
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
   const [bgResolved, setBgResolved] = useState(false);
@@ -33,6 +34,7 @@ export default function AtcCertificatePage() {
     setData(null);
     setBg("");
     setSig("");
+    setAtcSig("");
     setBgResolved(false);
 
     void apiFetch("/api/public/background/certificate")
@@ -74,6 +76,7 @@ export default function AtcCertificatePage() {
           return;
         }
         setData(docRes.data as CertificatePageData);
+        setAtcSig(typeof docRes.atcSignature === "string" ? docRes.atcSignature : "");
       } catch {
         if (!cancelled) router.push("/atc/dashboard");
       } finally {
@@ -160,6 +163,7 @@ export default function AtcCertificatePage() {
             data={data}
             brandName={brandName || undefined}
             signatureUrl={sig || undefined}
+            atcSignatureUrl={atcSig || undefined}
             verifyUrl={verifyUrl}
           />
         ) : null}

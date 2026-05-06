@@ -5,6 +5,7 @@ import { Course } from "@/models/Course";
 import { StudentExam } from "@/models/StudentExam";
 import { AtcStudent } from "@/models/Student";
 import { StudentMedia } from "@/models/StudentMedia";
+import { resolveAtcSignature } from "@/lib/documentAtcSignature";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
@@ -60,7 +61,8 @@ export async function GET(request: Request) {
       if (course?.durationMonths) certData.durationMonths = course.durationMonths;
     }
 
-    return NextResponse.json({ data: certData });
+    const atcSignature = await resolveAtcSignature(cert.atcId?.toString());
+    return NextResponse.json({ data: certData, atcSignature });
   } catch {
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }

@@ -24,6 +24,7 @@ export default function AdminMarksheetPage() {
   const [learningCenterLine, setLearningCenterLine] = useState("");
   const [bg, setBg] = useState("");
   const [sig, setSig] = useState("");
+  const [atcSig, setAtcSig] = useState("");
   const [templatePainted, setTemplatePainted] = useState(true);
   const [downloading, setDownloading] = useState(false);
   const [bgResolved, setBgResolved] = useState(false);
@@ -41,12 +42,14 @@ export default function AdminMarksheetPage() {
 
   useEffect(() => {
     setBgResolved(false);
+    setAtcSig("");
     fetch(`/api/admin/documents/marksheet?examId=${examId}`)
       .then((r) => r.json())
       .then((d) => {
         if (d?.data) {
           setData(d.data as MarksheetPageData);
           setLearningCenterLine(typeof d.learningCenterLine === "string" ? d.learningCenterLine : "");
+          setAtcSig(typeof d.atcSignature === "string" ? d.atcSignature : "");
         } else router.push("/admin/panel");
       })
       .catch(() => router.push("/admin/panel"));
@@ -174,6 +177,7 @@ export default function AdminMarksheetPage() {
             learningCenter={learningCenterLine || brandName?.toUpperCase() || ""}
             verifyUrl={verifyUrl}
             signatureUrl={sig || undefined}
+            atcSignatureUrl={atcSig || undefined}
           />
         ) : null}
       </div>

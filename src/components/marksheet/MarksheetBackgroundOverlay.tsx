@@ -50,7 +50,8 @@ const L = {
 
   date: { top: "225mm", left: "34mm" },
   /** Signature slot moved further up and slightly left. */
-  sigAuth: { top: "220mm", right: "34mm", w: "48mm", h: "16mm" },
+  sigAtc: { top: "223mm", right: "128mm", w: "52mm", h: "18mm" },
+  sigAuth: { top: "220mm", right: "34mm", w: "52mm", h: "18mm" },
 } as const;
 
 /** Lift so glyphs sit clearly *above* dotted rules (dots were striking through text). */
@@ -119,6 +120,8 @@ type Props = {
   verifyUrl?: string;
   /** Admin setting signature image. */
   signatureUrl?: string;
+  /** ATC application signature image. */
+  atcSignatureUrl?: string;
 };
 
 /** DD-MM-YYYY for DOB and issue date on marksheet. */
@@ -163,6 +166,7 @@ export default function MarksheetBackgroundOverlay({
   learningCenter,
   verifyUrl,
   signatureUrl,
+  atcSignatureUrl,
 }: Props) {
   const [gradeBands, setGradeBands] = useState<GradeBand[]>(() => [...DEFAULT_MARKSHEET_GRADE_BANDS]);
 
@@ -525,6 +529,25 @@ export default function MarksheetBackgroundOverlay({
       <div
         className="absolute flex items-end justify-center pb-[1mm]"
         style={{
+          top: L.sigAtc.top,
+          right: L.sigAtc.right,
+          width: L.sigAtc.w,
+          height: L.sigAtc.h,
+        }}
+      >
+        {atcSignatureUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={atcSignatureUrl}
+            alt=""
+            className="max-h-[88%] max-w-[95%] object-contain mix-blend-multiply"
+          />
+        ) : null}
+      </div>
+
+      <div
+        className="absolute flex items-end justify-center pb-[1mm]"
+        style={{
           top: L.sigAuth.top,
           right: L.sigAuth.right,
           width: L.sigAuth.w,
@@ -536,7 +559,7 @@ export default function MarksheetBackgroundOverlay({
           <img
             src={signatureUrl}
             alt=""
-            className="max-h-[80%] max-w-[92%] object-contain mix-blend-multiply"
+            className="max-h-[88%] max-w-[95%] object-contain mix-blend-multiply"
           />
         ) : null}
       </div>

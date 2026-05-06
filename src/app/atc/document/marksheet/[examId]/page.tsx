@@ -20,6 +20,7 @@ export default function AtcMarksheetPage() {
   const [learningCenterLine, setLearningCenterLine] = useState("");
   const [bg, setBg] = useState("");
   const [sig, setSig] = useState("");
+  const [atcSig, setAtcSig] = useState("");
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
   const [bgResolved, setBgResolved] = useState(false);
@@ -35,6 +36,7 @@ export default function AtcMarksheetPage() {
     setLearningCenterLine("");
     setBg("");
     setSig("");
+    setAtcSig("");
     setBgResolved(false);
 
     void apiFetch("/api/public/background/marksheet")
@@ -77,6 +79,7 @@ export default function AtcMarksheetPage() {
         }
         setData(docRes.data as MarksheetPageData);
         setLearningCenterLine(typeof docRes.learningCenterLine === "string" ? docRes.learningCenterLine : "");
+        setAtcSig(typeof docRes.atcSignature === "string" ? docRes.atcSignature : "");
       } catch {
         if (!cancelled) router.push("/atc/dashboard");
       } finally {
@@ -163,6 +166,7 @@ export default function AtcMarksheetPage() {
             learningCenter={learningCenterLine || brandName?.toUpperCase() || ""}
             verifyUrl={verifyUrl}
             signatureUrl={sig || undefined}
+            atcSignatureUrl={atcSig || undefined}
           />
         ) : null}
         {docPending ? (

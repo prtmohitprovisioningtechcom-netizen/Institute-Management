@@ -19,6 +19,7 @@ export default function StudentCertificatePage() {
   const [data, setData] = useState<CertificatePageData | null>(null);
   const [bg, setBg] = useState("");
   const [sig, setSig] = useState("");
+  const [atcSig, setAtcSig] = useState("");
   const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
   /** Background API settled (success / fail) — avoids rendering text before we know if a template exists. */
@@ -35,6 +36,7 @@ export default function StudentCertificatePage() {
     setData(null);
     setBg("");
     setSig("");
+    setAtcSig("");
     setBgResolved(false);
 
     void apiFetch("/api/public/background/certificate")
@@ -76,6 +78,7 @@ export default function StudentCertificatePage() {
           return;
         }
         setData(docRes.data as CertificatePageData);
+        setAtcSig(typeof docRes.atcSignature === "string" ? docRes.atcSignature : "");
       } catch {
         if (!cancelled) router.push("/student/dashboard");
       } finally {
@@ -162,6 +165,7 @@ export default function StudentCertificatePage() {
             data={data}
             brandName={brandName || undefined}
             signatureUrl={sig || undefined}
+            atcSignatureUrl={atcSig || undefined}
             verifyUrl={verifyUrl}
           />
         ) : null}

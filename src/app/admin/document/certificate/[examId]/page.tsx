@@ -22,6 +22,7 @@ export default function AdminCertificatePage() {
   const [data, setData] = useState<CertificatePageData | null>(null);
   const [bg, setBg] = useState("");
   const [sig, setSig] = useState("");
+  const [atcSig, setAtcSig] = useState("");
   const [templatePainted, setTemplatePainted] = useState(true);
   const [downloading, setDownloading] = useState(false);
   const [bgResolved, setBgResolved] = useState(false);
@@ -39,11 +40,17 @@ export default function AdminCertificatePage() {
 
   useEffect(() => {
     setBgResolved(false);
+    setAtcSig("");
     fetch(`/api/admin/documents/certificate?examId=${examId}`)
       .then((r) => r.json())
-      .then((d) =>
-        d?.data ? setData(d.data as CertificatePageData) : router.push("/admin/panel"),
-      )
+      .then((d) => {
+        if (d?.data) {
+          setData(d.data as CertificatePageData);
+          setAtcSig(typeof d.atcSignature === "string" ? d.atcSignature : "");
+          return;
+        }
+        router.push("/admin/panel");
+      })
       .catch(() => router.push("/admin/panel"));
 
     fetch("/api/public/background/certificate")
@@ -170,6 +177,7 @@ export default function AdminCertificatePage() {
             data={data}
             brandName={brandName || undefined}
             signatureUrl={sig || undefined}
+            atcSignatureUrl={atcSig || undefined}
             verifyUrl={verifyUrl}
           />
         ) : null}

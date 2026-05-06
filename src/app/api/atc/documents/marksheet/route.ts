@@ -4,6 +4,7 @@ import { Marksheet } from "@/models/Marksheet";
 import { AtcStudent } from "@/models/Student";
 import { StudentMedia } from "@/models/StudentMedia";
 import { learningCenterLineForMarksheet } from "@/lib/marksheetLearningCenter";
+import { resolveAtcSignature } from "@/lib/documentAtcSignature";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
@@ -46,8 +47,9 @@ export async function GET(request: Request) {
     }
 
     const learningCenterLine = await learningCenterLineForMarksheet(marksheet.atcId);
+    const atcSignature = await resolveAtcSignature(marksheet.atcId?.toString());
 
-    return NextResponse.json({ data, learningCenterLine });
+    return NextResponse.json({ data, learningCenterLine, atcSignature });
   } catch {
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }

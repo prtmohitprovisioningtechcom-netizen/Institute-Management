@@ -48,7 +48,8 @@ const L = {
   qr: { top: "119mm", left: "200mm", w: "30mm", h: "30mm" },
 
   /** Signature moved slightly more up and toward right side. */
-  sigAuth: { top: "158mm", right: "16mm", w: "60mm", h: "16mm" },
+  sigAtc: { top: "158mm", right: "192mm", w: "64mm", h: "18mm" },
+  sigAuth: { top: "158mm", right: "16mm", w: "64mm", h: "18mm" },
 } as const;
 
 const ink = "#050505";
@@ -91,6 +92,7 @@ type Props = {
   /** Optional fallback brand name (used only when center name/code is missing). */
   brandName?: string;
   signatureUrl?: string;
+  atcSignatureUrl?: string;
   verifyUrl?: string;
 };
 
@@ -119,6 +121,7 @@ export default function CertificateBackgroundOverlay({
   data,
   brandName,
   signatureUrl,
+  atcSignatureUrl,
   verifyUrl,
 }: Props) {
   const s = pickStudent(data.studentId);
@@ -286,6 +289,20 @@ export default function CertificateBackgroundOverlay({
 
       <div
         className="absolute flex items-end justify-center pb-[1mm]"
+        style={{ top: L.sigAtc.top, right: L.sigAtc.right, width: L.sigAtc.w, height: L.sigAtc.h }}
+      >
+        {atcSignatureUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={atcSignatureUrl}
+            alt=""
+            className="max-h-[88%] max-w-[95%] object-contain mix-blend-multiply"
+          />
+        ) : null}
+      </div>
+
+      <div
+        className="absolute flex items-end justify-center pb-[1mm]"
         style={{ top: L.sigAuth.top, right: L.sigAuth.right, width: L.sigAuth.w, height: L.sigAuth.h }}
       >
         {signatureUrl ? (
@@ -293,7 +310,7 @@ export default function CertificateBackgroundOverlay({
           <img
             src={signatureUrl}
             alt=""
-            className="max-h-[80%] max-w-[92%] object-contain mix-blend-multiply"
+            className="max-h-[88%] max-w-[95%] object-contain mix-blend-multiply"
           />
         ) : null}
       </div>
