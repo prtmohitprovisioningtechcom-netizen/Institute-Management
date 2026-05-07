@@ -46,12 +46,16 @@ export async function POST(request: Request) {
     const mobile = String(formData.get("mobile") ?? "");
     const email = String(formData.get("email") ?? "");
     const centerCode = String(formData.get("centerCode") ?? "");
+    const qualYearPassing = String(formData.get("qualYearPassing") ?? "").replace(/\D/g, "").slice(0, 4);
 
     if (!/^\d{10}$/.test(mobile)) {
       return NextResponse.json({ message: "Mobile must be exactly 10 digits." }, { status: 400 });
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json({ message: "Please enter a valid email address." }, { status: 400 });
+    }
+    if (qualYearPassing && !/^\d{4}$/.test(qualYearPassing)) {
+      return NextResponse.json({ message: "Year of passing must be exactly 4 digits." }, { status: 400 });
     }
 
     await connectDB();
@@ -90,7 +94,7 @@ export async function POST(request: Request) {
       highestQualification: String(formData.get("highestQualification") ?? "").trim(),
       qualSchool: String(formData.get("qualSchool") ?? "").trim(),
       qualSchoolOther: String(formData.get("qualSchoolOther") ?? "").trim(),
-      qualYearPassing: String(formData.get("qualYearPassing") ?? "").trim(),
+      qualYearPassing,
       qualPercentObtained: String(formData.get("qualPercentObtained") ?? "").trim(),
       aadharNo: String(formData.get("aadharNo") || "").trim(),
       referredBy: String(formData.get("referredBy") || "").trim(),

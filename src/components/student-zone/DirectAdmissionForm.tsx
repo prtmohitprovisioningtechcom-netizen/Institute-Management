@@ -383,9 +383,11 @@ export default function DirectAdmissionForm() {
                   <input
                     type="text"
                     value={qualYearPassing}
-                    onChange={(e) => setQualYearPassing(e.target.value)}
+                    onChange={(e) => setQualYearPassing(e.target.value.replace(/\D/g, "").slice(0, 4))}
                     className={`${inputCls("qualYearPassing")} py-3 text-base`}
-                    placeholder="e.g. 2024 or N/A"
+                    placeholder="e.g. 2024"
+                    inputMode="numeric"
+                    maxLength={4}
                     autoComplete="off"
                   />
                 </div>

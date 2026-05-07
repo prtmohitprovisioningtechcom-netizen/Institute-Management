@@ -99,6 +99,13 @@ export async function PATCH(
     }
     else if (action === "updateDetails") {
       if (!updateData) return NextResponse.json({ message: "Update data is required" }, { status: 400 });
+      if (typeof updateData.qualYearPassing === "string") {
+        const normalizedYear = updateData.qualYearPassing.replace(/\D/g, "").slice(0, 4);
+        if (normalizedYear && !/^\d{4}$/.test(normalizedYear)) {
+          return NextResponse.json({ message: "Year of passing must be exactly 4 digits." }, { status: 400 });
+        }
+        updateData.qualYearPassing = normalizedYear;
+      }
       // Filter out fields we don't want to update via this action
       const allowedFields = [
         "name", "fatherName", "motherName", "mobile", "email", "course", 

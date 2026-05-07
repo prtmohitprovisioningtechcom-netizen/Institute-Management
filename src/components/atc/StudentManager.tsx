@@ -257,7 +257,7 @@ export default function StudentManager({ isDirectAdmission = false, initialFilte
           setQualOther("");
         }
         setQualSchool(formatQualSchoolDisplay(s.qualSchool, s.qualSchoolOther));
-        setQualYearPassing(String(s.qualYearPassing ?? ""));
+        setQualYearPassing(String(s.qualYearPassing ?? "").replace(/\D/g, "").slice(0, 4));
         setQualPercent(String(s.qualPercentObtained ?? ""));
         
         setMsg({ type: "success", text: "Student details fetched and auto-filled!" });
@@ -990,7 +990,7 @@ export default function StudentManager({ isDirectAdmission = false, initialFilte
                                   permanentAddress: s.permanentAddress || "",
                                   highestQualification: s.highestQualification || "",
                                   qualSchool: formatQualSchoolDisplay(s.qualSchool, s.qualSchoolOther),
-                                  qualYearPassing: s.qualYearPassing || "",
+                                  qualYearPassing: String(s.qualYearPassing || "").replace(/\D/g, "").slice(0, 4),
                                   qualPercentObtained: s.qualPercentObtained || "",
                                   aadharNo: s.aadharNo || "",
                                   category: s.category || "General",
@@ -1124,7 +1124,7 @@ export default function StudentManager({ isDirectAdmission = false, initialFilte
                 </div>
                 <div>
                   <label className={labelCls("course")}>Course *</label>
-                  <select required name="course" className={inputCls("course")} disabled={availableCourses.length === 0} onChange={() => void fetchCourses()}>
+                  <select required name="course" className={inputCls("course")} onChange={() => void fetchCourses()}>
                     <option value="">{availableCourses.length > 0 ? "Select Course" : "Select Course"}</option>
                     {availableCourses.map(c => (
                       <option key={c._id} value={c.name}>{c.name}</option>
@@ -1242,9 +1242,11 @@ export default function StudentManager({ isDirectAdmission = false, initialFilte
                       <input
                         type="text"
                         value={qualYearPassing}
-                        onChange={(e) => setQualYearPassing(e.target.value)}
+                        onChange={(e) => setQualYearPassing(e.target.value.replace(/\D/g, "").slice(0, 4))}
                         className={`${inputCls("qualYearPassing")} py-3 text-base`}
-                        placeholder="e.g. 2024 or N/A"
+                        placeholder="e.g. 2024"
+                        inputMode="numeric"
+                        maxLength={4}
                         autoComplete="off"
                       />
                     </div>
@@ -1562,9 +1564,11 @@ export default function StudentManager({ isDirectAdmission = false, initialFilte
                             <input
                               type="text"
                               value={editForm.qualYearPassing}
-                              onChange={(e) => setEditForm({ ...editForm, qualYearPassing: e.target.value })}
+                              onChange={(e) => setEditForm({ ...editForm, qualYearPassing: e.target.value.replace(/\D/g, "").slice(0, 4) })}
                               className={modalInputCls("qualYearPassing")}
-                              placeholder="e.g. 2024 or N/A"
+                              placeholder="e.g. 2024"
+                              inputMode="numeric"
+                              maxLength={4}
                               autoComplete="off"
                             />
                           </div>

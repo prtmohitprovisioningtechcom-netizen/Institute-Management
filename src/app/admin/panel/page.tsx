@@ -326,6 +326,7 @@ export default function AdminPanelPage() {
         aadharNo: mergedStudent.aadharNo || mergedLoose.aadhaarNo || "",
         parentsMobile: mergedStudent.parentsMobile || mergedLoose.parentMobile || mergedLoose.emergencyMobile || "",
         referredBy: mergedStudent.referredBy || mergedLoose.referenceBy || "",
+        qualYearPassing: String(mergedStudent.qualYearPassing || "").replace(/\D/g, "").slice(0, 4),
       };
       setEditingStudent(normalizedStudent);
       setStudentEditValues(normalizedStudent as StudentEditValues);
@@ -336,6 +337,7 @@ export default function AdminPanelPage() {
         aadharNo: student.aadharNo || studentLoose.aadhaarNo || "",
         parentsMobile: student.parentsMobile || studentLoose.parentMobile || studentLoose.emergencyMobile || "",
         referredBy: student.referredBy || studentLoose.referenceBy || "",
+        qualYearPassing: String(student.qualYearPassing || "").replace(/\D/g, "").slice(0, 4),
       };
       setEditingStudent(normalizedStudent);
       setStudentEditValues(normalizedStudent as StudentEditValues);
@@ -3457,8 +3459,16 @@ export default function AdminPanelPage() {
                                 type="text"
                                 value={getStudentFieldValue(studentEditValues, field.key)}
                                 onChange={(e) =>
-                                  setStudentEditValues((prev) => ({ ...prev, [field.key]: e.target.value }))
+                                  setStudentEditValues((prev) => ({
+                                    ...prev,
+                                    [field.key]:
+                                      field.key === "qualYearPassing"
+                                        ? e.target.value.replace(/\D/g, "").slice(0, 4)
+                                        : e.target.value,
+                                  }))
                                 }
+                                inputMode={field.key === "qualYearPassing" ? "numeric" : undefined}
+                                maxLength={field.key === "qualYearPassing" ? 4 : undefined}
                                 className="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-400 transition"
                               />
                             )}

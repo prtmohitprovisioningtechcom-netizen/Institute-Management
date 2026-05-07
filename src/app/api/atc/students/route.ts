@@ -112,6 +112,11 @@ export async function POST(request: Request) {
 
     const studentMobile = String(formData.get("mobile") || "").trim();
     const aadharNo = String(formData.get("aadharNo") || "").trim();
+    const qualYearPassing = String(formData.get("qualYearPassing") ?? "").replace(/\D/g, "").slice(0, 4);
+
+    if (qualYearPassing && !/^\d{4}$/.test(qualYearPassing)) {
+      return NextResponse.json({ message: "Year of passing must be exactly 4 digits." }, { status: 400 });
+    }
     
     const studentData: any = {
       atcId: user.id,
@@ -145,7 +150,7 @@ export async function POST(request: Request) {
       highestQualification: String(formData.get("highestQualification") ?? "").trim(),
       qualSchool: String(formData.get("qualSchool") ?? "").trim(),
       qualSchoolOther: String(formData.get("qualSchoolOther") ?? "").trim(),
-      qualYearPassing: String(formData.get("qualYearPassing") ?? "").trim(),
+      qualYearPassing,
       qualPercentObtained: String(formData.get("qualPercentObtained") ?? "").trim(),
       photo,
       studentSignature,
