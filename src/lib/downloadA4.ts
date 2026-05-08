@@ -114,49 +114,29 @@ export async function downloadElementAsA4Pdf(
   orientation: A4Orientation = "portrait",
   /** Lower values → smaller PDF; default keeps text sharp on A4 without multi‑MB PNGs. */
   pixelRatio = 1.35,
-  jpegQuality = 0.82,
+  jpegQuality = 0.88,
 ): Promise<void> {
   await waitForImages(el);
   await waitForFontsAndPaintSettle();
 
-  const [{ toJpeg }, { default: jsPDF }] = await Promise.all([
+  const [{ toPng }, { default: jsPDF }] = await Promise.all([
     import("html-to-image"),
     import("jspdf"),
   ]);
 
   const { w, h } = capturePixelSize(el);
-  const cw = Math.max(1, Math.round(w * pixelRatio));
-  const ch = Math.max(1, Math.round(h * pixelRatio));
-  const exportEl = buildExportClone(el, w, h);
-  await waitForImages(exportEl);
-  await waitForFontsAndPaintSettle();
-  const captureWithHtml2Canvas = async (): Promise<string> => {
-    const { default: html2canvas } = await import("html2canvas");
-    const canvas = await html2canvas(exportEl, {
-      backgroundColor: "#ffffff",
-      useCORS: true,
-      allowTaint: false,
-      scale: Math.max(1, pixelRatio),
-      imageTimeout: 12000,
-      logging: false,
-      width: w,
-      height: h,
-    });
-    return canvas.toDataURL("image/jpeg", jpegQuality);
-  };
+  const cw = Math.max(1, Math.round(w * Math.max(1.6, pixelRatio)));
+  const ch = Math.max(1, Math.round(h * Math.max(1.6, pixelRatio)));
 
-  const captureWithHtmlToImage = async (): Promise<string> =>
-    toJpeg(exportEl, {
+  const captureVisibleWithToPng = async (): Promise<string> =>
+    toPng(el, {
       cacheBust: true,
-      pixelRatio,
-      quality: jpegQuality,
+      pixelRatio: Math.max(1.6, pixelRatio),
       width: w,
       height: h,
       canvasWidth: cw,
       canvasHeight: ch,
       backgroundColor: "#ffffff",
-      // Avoid broken / cross-origin @font-face inlining on some hosts; overlay
-      // text uses explicit system font stacks so capture stays readable.
       skipFonts: true,
       style: {
         transform: "none",
@@ -164,21 +144,47 @@ export async function downloadElementAsA4Pdf(
       },
     });
 
+  const captureWithCloneFallback = async (): Promise<string> => {
+    const { toJpeg } = await import("html-to-image");
+    const exportEl = buildExportClone(el, w, h);
+    await waitForImages(exportEl);
+    await waitForFontsAndPaintSettle();
+    try {
+      return await toJpeg(exportEl, {
+        cacheBust: true,
+        pixelRatio,
+        quality: jpegQuality,
+        width: w,
+        height: h,
+        canvasWidth: cw,
+        canvasHeight: ch,
+        backgroundColor: "#ffffff",
+        // Avoid broken / cross-origin @font-face inlining on some hosts; overlay
+        // text uses explicit system font stacks so capture stays readable.
+        skipFonts: true,
+        style: {
+          transform: "none",
+          margin: "0",
+        },
+      });
+    } finally {
+      exportEl.remove();
+    }
+  };
+
   let jpeg: string;
   try {
-    // Prefer html2canvas: it captures the already-rendered DOM, so production
-    // exports match what users see on screen (text + positioned overlays).
-    jpeg = await captureWithHtml2Canvas();
+    // Primary path: exact visible DOM capture (WYSIWYG).
+    jpeg = await captureVisibleWithToPng();
   } catch {
-    // Fallback path if canvas capture fails on specific browser/env combinations.
-    jpeg = await captureWithHtmlToImage();
-  } finally {
-    exportEl.remove();
+    // Fallback path if visible-DOM capture fails.
+    jpeg = await captureWithCloneFallback();
   }
 
   const dims = ORIENTATION_TO_MM[orientation];
   const pdf = new jsPDF({ orientation, unit: "mm", format: "a4" });
-  pdf.addImage(jpeg, "JPEG", 0, 0, dims.width, dims.height);
+  const fmt = jpeg.startsWith("data:image/png") ? "PNG" : "JPEG";
+  pdf.addImage(jpeg, fmt, 0, 0, dims.width, dims.height);
   const safeName = fileName.trim() || "document";
   pdf.save(safeName.endsWith(".pdf") ? safeName : `${safeName}.pdf`);
 }
