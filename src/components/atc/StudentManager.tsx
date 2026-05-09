@@ -2112,7 +2112,9 @@ export default function StudentManager({ isDirectAdmission = false, initialFilte
                                <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest">{doc.label}</span>
                             </div>
                             <button 
-                              onClick={() => openDocumentInNewTab(doc.data)}
+                              onClick={() => {
+                                if (doc.data) openDocumentInNewTab(doc.data);
+                              }}
                               className="px-4 py-2 bg-white text-blue-600 rounded-lg text-[9px] font-black uppercase tracking-widest border border-slate-200 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all shadow-sm"
                             >
                                View Full

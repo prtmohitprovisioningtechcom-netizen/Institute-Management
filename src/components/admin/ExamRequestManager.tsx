@@ -218,7 +218,7 @@ export default function ExamRequestManager({ atcId, role = "admin" }: { atcId?: 
     return () => {
       cancelled = true;
     };
-  }, [showResultModal, selectedExam?._id]);
+  }, [showResultModal, selectedExam]);
 
   const offlineDerivedGrade = useMemo(
     () =>

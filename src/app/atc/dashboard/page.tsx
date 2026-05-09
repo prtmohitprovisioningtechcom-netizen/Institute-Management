@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import {
   Building2, LayoutDashboard, LogOut, CheckCircle,
-  Phone, Mail, User, Calendar, Menu, XCircle, Users, Monitor, BookOpen, FileText,
+  Phone, Mail, User, Menu, XCircle, Users, Monitor, BookOpen, FileText,
   Lock, Eye, EyeOff, ShieldAlert, Clock, CreditCard, UserPlus
 } from "lucide-react";
 import dynamic from "next/dynamic";
@@ -237,7 +237,7 @@ export default function AtcDashboardPage() {
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 w-72 bg-gradient-to-b from-[#0a2e1a] to-[#0a7a3b] text-white flex flex-col shadow-2xl z-50 transition-transform duration-300 transform lg:translate-x-0 lg:static lg:block ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
+      <aside className={`fixed inset-y-0 left-0 w-72 bg-linear-to-b from-[#0a2e1a] to-[#0a7a3b] text-white flex flex-col shadow-2xl z-50 transition-transform duration-300 transform lg:translate-x-0 lg:static lg:block ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="px-4 py-1 border-b border-white/10 flex items-start justify-between">
           <div className="flex-1 flex flex-col items-center text-center gap-0">
             <div className="h-24 w-24 shrink-0 overflow-hidden flex items-center justify-center">
@@ -376,7 +376,7 @@ export default function AtcDashboardPage() {
             </Link>
             <button 
               onClick={() => setTab("profile")}
-              className="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow hover:scale-105 transition"
+              className="w-9 h-9 rounded-xl bg-linear-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow hover:scale-105 transition"
             >
               {user.trainingPartnerName?.charAt(0).toUpperCase() || "U"}
             </button>
@@ -391,7 +391,7 @@ export default function AtcDashboardPage() {
           {(tab === "dashboard" || tab === "profile") && (
             <>
               {/* Welcome Banner */}
-              <div className="bg-gradient-to-r from-[#0a2e1a] via-[#0d4d2e] to-[#0a7a3b] rounded-2xl p-6 text-white shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="bg-linear-to-r from-[#0a2e1a] via-[#0d4d2e] to-[#0a7a3b] rounded-2xl p-6 text-white shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <CheckCircle className="w-5 h-5 text-green-300" />
@@ -694,7 +694,7 @@ export default function AtcDashboardPage() {
                   </div>
 
                   {/* Contact Support */}
-                  <div className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-2xl p-6 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="bg-linear-to-r from-slate-800 to-slate-900 rounded-2xl p-6 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
                       <h3 className="font-bold text-lg">Need Help?</h3>
                       <p className="text-slate-300 text-sm mt-0.5">Contact our support team for any assistance.</p>

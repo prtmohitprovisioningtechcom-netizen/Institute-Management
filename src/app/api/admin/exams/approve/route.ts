@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 
     await connectDB();
 
-    const updateData: any = { approvalStatus };
+    const updateData: Record<string, unknown> = { approvalStatus };
     if (examDate) {
       if (!isValidIsoDate(normalizedExamDate)) {
         return NextResponse.json({ message: "Exam date must be a valid date in YYYY-MM-DD format." }, { status: 400 });
