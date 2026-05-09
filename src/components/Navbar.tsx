@@ -108,6 +108,8 @@ export default function Navbar() {
     return children?.some((child) => child.href === activeSection) ?? false;
   };
 
+  const shouldOpenInNewTab = (href: string) => href === "/admin/login" || href === "/student/login";
+
   return (
     <header className="relative z-50">
       <div className="bg-[#0a0aa1] text-xs text-white">
@@ -121,7 +123,7 @@ export default function Navbar() {
               <LogIn className="h-3 w-3" />
               ATC Login
             </Link>
-            <Link href="/student/login" className="inline-flex items-center gap-1 hover:text-blue-200">
+            <Link href="/student/login" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-blue-200">
               <LogIn className="h-3 w-3" />
               Student Login
             </Link>
@@ -249,6 +251,8 @@ export default function Navbar() {
                       <Link
                         key={child.label}
                         href={child.href}
+                        target={shouldOpenInNewTab(child.href) ? "_blank" : undefined}
+                        rel={shouldOpenInNewTab(child.href) ? "noopener noreferrer" : undefined}
                         onClick={handleNavClick(child.href)}
                         className="block px-4 py-2.5 text-left text-sm font-medium text-white/85 transition hover:bg-white/10 hover:text-white"
                       >
@@ -263,6 +267,8 @@ export default function Navbar() {
                         <Link
                           key={child.label}
                           href={child.href}
+                          target={shouldOpenInNewTab(child.href) ? "_blank" : undefined}
+                          rel={shouldOpenInNewTab(child.href) ? "noopener noreferrer" : undefined}
                           onClick={handleNavClick(child.href)}
                           className="block py-2 text-xs font-medium text-white/85 transition hover:text-white"
                         >

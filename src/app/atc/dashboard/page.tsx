@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import {
   Building2, LayoutDashboard, LogOut, CheckCircle,
@@ -367,6 +368,12 @@ export default function AtcDashboardPage() {
             <span className="text-[10px] bg-green-50 text-green-700 px-3 py-1 rounded-full font-bold uppercase">{tab}</span>
           </div>
           <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl border border-blue-200 text-blue-700 text-xs sm:text-sm font-semibold hover:bg-blue-50 transition"
+            >
+              Back to Website
+            </Link>
             <button 
               onClick={() => setTab("profile")}
               className="w-9 h-9 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow hover:scale-105 transition"

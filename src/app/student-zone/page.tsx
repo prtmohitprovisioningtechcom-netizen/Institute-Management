@@ -169,7 +169,7 @@ export default function StudentZonePage() {
              </div>
 
              <div className="mt-10 flex flex-wrap gap-4">
-                <Link href="/student/login" className="px-8 py-4 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-800 transition flex items-center gap-2">
+                <Link href="/student/login" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-black text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-800 transition flex items-center gap-2">
                    Login to Dashboard <ArrowRight size={14} />
                 </Link>
                 <button onClick={() => setSearchResult(null)} className="px-8 py-4 bg-slate-100 text-slate-500 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-200 transition">
@@ -189,7 +189,13 @@ export default function StudentZonePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {zones.map((zone, idx) => (
-            <Link key={idx} href={zone.link} className="group relative flex flex-col justify-between p-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 overflow-hidden">
+            <Link
+              key={idx}
+              href={zone.link}
+              target={zone.link === "/student/login" ? "_blank" : undefined}
+              rel={zone.link === "/student/login" ? "noopener noreferrer" : undefined}
+              className="group relative flex flex-col justify-between p-8 bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 overflow-hidden"
+            >
                <div className={`absolute top-0 right-0 w-24 h-24 ${zone.color} opacity-[0.03] rounded-bl-[4rem] group-hover:scale-150 transition-transform duration-500`} />
                
                <div className="relative z-10">

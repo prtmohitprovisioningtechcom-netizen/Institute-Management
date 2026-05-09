@@ -1,18 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { GraduationCap, Lock, User, ArrowRight, CheckCircle2, AlertCircle } from "lucide-react";
 import { useBrand } from "@/context/BrandContext";
 
 export default function StudentLoginPage() {
   const { brandName, brandLogo } = useBrand();
-  const router = useRouter();
+  const [isHydrated, setIsHydrated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [enrollmentNo, setEnrollmentNo] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +33,7 @@ export default function StudentLoginPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Login failed");
 
-      router.push("/student/dashboard");
+      window.open("/student/dashboard", "_blank", "noopener,noreferrer");
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -43,7 +47,7 @@ export default function StudentLoginPage() {
         {/* Logo/Icon */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-32 h-32 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-xl mb-4 transform -rotate-6 hover:rotate-0 transition-transform duration-300 overflow-hidden">
-            {brandLogo ? (
+            {isHydrated && brandLogo ? (
               <Image src={brandLogo} alt={brandName} width={112} height={112} unoptimized className="h-full w-full object-contain scale-125" />
             ) : (
               <GraduationCap size={44} />
@@ -105,7 +109,7 @@ export default function StudentLoginPage() {
                 <span className="w-5 h-5 rounded-full border-2 border-white/20 border-t-white animate-spin" />
               ) : (
                 <>
-                  Continue <ArrowRight size={18} />
+                  Sign In <ArrowRight size={18} />
                 </>
               )}
             </button>
@@ -116,6 +120,12 @@ export default function StudentLoginPage() {
               Don't have access? Please contact your <br />
               Authorized Training Center for help.
             </p>
+            <Link
+              href="/"
+              className="mt-4 inline-flex text-xs text-blue-600 hover:text-blue-800 transition"
+            >
+              ← Back to Website
+            </Link>
           </div>
         </div>
 

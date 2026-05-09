@@ -1,22 +1,25 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { Eye, EyeOff, ShieldCheck, LogIn } from "lucide-react";
 import { useBrand } from "@/context/BrandContext";
 import { useAuth } from "@/context/AuthContext";
 
 export default function AdminLoginPage() {
   const { brandName, brandLogo } = useBrand();
-  const router = useRouter();
+  const [isHydrated, setIsHydrated] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const { login } = useAuth();
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -37,7 +40,7 @@ export default function AdminLoginPage() {
       
       if (data.token && data.user) {
         login(data.token, data.user);
-        router.push("/admin/panel");
+        window.open("/admin/panel", "_blank", "noopener,noreferrer");
       } else {
         setError("Invalid response from server.");
       }
@@ -54,7 +57,7 @@ export default function AdminLoginPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="relative inline-flex items-center justify-center w-32 h-32 rounded-2xl bg-white/10 backdrop-blur border border-white/20 mb-4 shadow-lg overflow-hidden">
-            {brandLogo ? (
+            {isHydrated && brandLogo ? (
                <Image src={brandLogo} alt={brandName} fill className="object-contain scale-125" />
             ) : (
                <ShieldCheck className="w-10 h-10 text-white" />

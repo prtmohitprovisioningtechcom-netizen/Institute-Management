@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { 
   GraduationCap, BookOpen, User,
@@ -273,6 +274,12 @@ export default function StudentDashboardPage() {
           </div>
           
           <div className="flex items-center gap-3 sm:gap-6">
+            <Link
+              href="/"
+              className="flex items-center px-3 sm:px-4 py-2 rounded-xl border border-blue-200 text-blue-700 text-[10px] sm:text-xs font-bold uppercase tracking-wide hover:bg-blue-50 transition"
+            >
+              Back to Website
+            </Link>
             <button className="relative w-10 h-10 flex items-center justify-center text-slate-400 hover:text-blue-600 transition group">
               <Bell size={20} />
               <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />

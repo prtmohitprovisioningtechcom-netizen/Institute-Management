@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import InternalPageLayout from "@/components/InternalPageLayout";
 import { useBrand } from "@/context/BrandContext";
 import { useAuth } from "@/context/AuthContext";
@@ -11,12 +10,16 @@ import { Building2 } from "lucide-react";
 
 export default function AtcLoginPage() {
   const { brandName, brandLogo } = useBrand();
-  const router = useRouter();
+  const [isHydrated, setIsHydrated] = useState(false);
   const [form, setForm] = useState({ tpCode: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const { login } = useAuth();
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -34,7 +37,7 @@ export default function AtcLoginPage() {
       
       if (data.token && data.user) {
         login(data.token, data.user);
-        router.push("/atc/dashboard");
+        window.open("/atc/dashboard", "_blank", "noopener,noreferrer");
       } else {
         setError("Invalid response from server.");
       }
@@ -58,7 +61,7 @@ export default function AtcLoginPage() {
         <div className="bg-white rounded-2xl border border-slate-200 shadow-xl overflow-hidden p-6 sm:p-10">
           <div className="text-center mb-8">
             <div className="relative inline-flex items-center justify-center w-32 h-32 rounded-2xl bg-slate-50 border border-slate-100 mb-4 shadow-sm overflow-hidden mx-auto">
-              {brandLogo ? (
+              {isHydrated && brandLogo ? (
                  <Image src={brandLogo} alt={brandName} fill className="object-contain scale-125" />
               ) : (
                  <Building2 className="w-10 h-10 text-slate-300" />

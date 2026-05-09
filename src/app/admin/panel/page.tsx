@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, Fragment, type FormEvent, type ChangeEvent } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { useBrand } from "@/context/BrandContext";
 import { apiFetch } from "@/utils/api";
@@ -1609,9 +1610,17 @@ export default function AdminPanelPage() {
             <div className="lg:hidden flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-100">
                <span className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">{tabLabel[tab]}</span>
             </div>
-            <button onClick={handleLogout} className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-xl border border-red-200 text-red-600 text-sm font-semibold hover:bg-red-50 transition">
-              <LogOut className="w-4 h-4" /> Logout
-            </button>
+            <div className="flex items-center gap-2">
+              <Link
+                href="/"
+                className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-xl border border-blue-200 text-blue-700 text-xs sm:text-sm font-semibold hover:bg-blue-50 transition"
+              >
+                Back to Website
+              </Link>
+              <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 rounded-xl border border-red-200 text-red-600 text-sm font-semibold hover:bg-red-50 transition">
+                <LogOut className="w-4 h-4" /> Logout
+              </button>
+            </div>
           </header>
 
           <div className="flex-1 p-6">
