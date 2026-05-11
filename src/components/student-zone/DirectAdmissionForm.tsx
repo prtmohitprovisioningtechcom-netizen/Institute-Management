@@ -13,6 +13,7 @@ import { ISO_DATE_MIN, isoDateToday, sanitizeIsoDateInput } from "@/lib/isoDate"
 interface Course {
   _id: string;
   name: string;
+  courseFee?: number;
 }
 
 interface Center {
@@ -82,6 +83,11 @@ export default function DirectAdmissionForm() {
   const [admissionDate, setAdmissionDate] = useState("");
   const [isMounted, setIsMounted] = useState(false);
   const [centersLoaded, setCentersLoaded] = useState(false);
+  const [selectedCourseName, setSelectedCourseName] = useState("");
+
+  const selectedCourseDetails = useMemo(() => {
+    return availableCourses.find(c => c.name === selectedCourseName);
+  }, [availableCourses, selectedCourseName]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -408,12 +414,24 @@ export default function DirectAdmissionForm() {
             </div>
             <div className="md:col-span-2">
               <label className={labelCls("course")}>Course *</label>
-              <select required name="course" className={inputCls("course")} disabled={availableCourses.length === 0}>
+              <select 
+                required 
+                name="course" 
+                className={inputCls("course")} 
+                disabled={availableCourses.length === 0}
+                value={selectedCourseName}
+                onChange={(e) => setSelectedCourseName(e.target.value)}
+              >
                 <option value="">{availableCourses.length > 0 ? "Select Course" : "Loading Courses..."}</option>
                 {availableCourses.map(c => (
                   <option key={c._id} value={c.name}>{c.name}</option>
                 ))}
               </select>
+              {selectedCourseDetails && selectedCourseDetails.courseFee !== undefined ? (
+                <div className="mt-2 text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-2 rounded-lg border border-emerald-100 animate-in fade-in zoom-in-95 duration-200">
+                  Total Course Fee (INR): ₹{selectedCourseDetails.courseFee}
+                </div>
+              ) : null}
             </div>
             <div>
               <label className={labelCls("examMode")}>Exam Mode *</label>

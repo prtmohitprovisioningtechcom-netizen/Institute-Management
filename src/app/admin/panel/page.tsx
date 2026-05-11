@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import AdminAtcForm from "@/components/admin/AdminAtcForm";
 import CourseManager from "@/components/admin/CourseManager";
+import CourseEnquiriesManager from "@/components/admin/CourseEnquiriesManager";
 import ExamSetManager from "@/components/admin/ExamSetManager";
 import ExamRequestManager from "@/components/admin/ExamRequestManager";
 import StudentIdCard from "@/components/common/StudentIdCard";
@@ -237,7 +238,7 @@ const fallbackCredentialTextFromStudent = (student: Pick<Student, "qualSchool" |
   return `${qual} | ${school} |  | ${year} | ${obtained}`;
 };
 
-type Tab = "dashboard" | "create" | "courses" | "questionSets" | "centers" | "examRequests" | "materials" | "settings" | "students" | "resultReview" | "registration" | "fees" | "backgrounds" | "walletRequests" | "walletPayment";
+type Tab = "dashboard" | "create" | "courses" | "courseEnquiries" | "questionSets" | "centers" | "examRequests" | "materials" | "settings" | "students" | "resultReview" | "registration" | "fees" | "backgrounds" | "walletRequests" | "walletPayment";
 
 const PrintField = ({ label, value }: { label: string; value: string | number | null | undefined }) => (
   <div>
@@ -1454,6 +1455,7 @@ export default function AdminPanelPage() {
     dashboard: "Admin Dashboard",
     create: "Create ATC Application",
     courses: "Course Management",
+    courseEnquiries: "Course Enquiries",
     questionSets: "Exam Sets",
     centers: "Manage Centers",
     examRequests: "Exam Requests",
@@ -1472,6 +1474,7 @@ export default function AdminPanelPage() {
     dashboard: "Comprehensive overview of ATC applications and system metrics",
     create: "Manually create an ATC application as admin",
     courses: "Define and manage courses by zones",
+    courseEnquiries: "View enquiries submitted from the website",
     questionSets: "Build question sets and populate the exam bank",
     centers: "View and manage status of approved ATC centers",
     examRequests: "Manage online/offline exam requests and results",
@@ -1537,6 +1540,7 @@ export default function AdminPanelPage() {
                 { id: "fees" as Tab, icon: CreditCard, label: "Fee Management" },
                 { id: "walletRequests" as Tab, icon: CreditCard, label: "Wallet Requests" },
                 { id: "courses" as Tab, icon: BookOpen, label: "Courses" },
+                { id: "courseEnquiries" as Tab, icon: BookOpen, label: "Course Enquiries" },
               ].map((item) => (
                 <button
                   key={item.id}
@@ -1728,6 +1732,9 @@ export default function AdminPanelPage() {
 
             {/* ── COURSES TAB ── */}
             {tab === "courses" && <CourseManager />}
+
+            {/* ── COURSE ENQUIRIES TAB ── */}
+            {tab === "courseEnquiries" && <CourseEnquiriesManager />}
 
             {/* ── EXAM SETS TAB ── */}
             {tab === "questionSets" && <ExamSetManager role="admin" />}

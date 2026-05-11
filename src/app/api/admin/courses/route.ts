@@ -57,6 +57,7 @@ export async function POST(req: Request) {
       hasMarksheet,
       hasCertificate,
       subjects,
+      courseFee,
     } = body;
 
     if (
@@ -80,6 +81,7 @@ export async function POST(req: Request) {
       hasMarksheet: hasMarksheet ?? true,
       hasCertificate: hasCertificate ?? true,
       subjects: normaliseSubjects(subjects),
+      courseFee: Number(courseFee) || 0,
     });
     return NextResponse.json(course, { status: 201 });
   } catch (error: any) {

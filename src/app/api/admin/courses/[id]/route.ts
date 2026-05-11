@@ -39,6 +39,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
       hasMarksheet,
       hasCertificate,
       subjects,
+      courseFee,
     } = body;
     const { id } = await context.params;
 
@@ -53,6 +54,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
     if (typeof hasMarksheet !== "undefined") updateData.hasMarksheet = hasMarksheet;
     if (typeof hasCertificate !== "undefined") updateData.hasCertificate = hasCertificate;
     if (typeof subjects !== "undefined") updateData.subjects = normaliseSubjects(subjects);
+    if (typeof courseFee !== "undefined") updateData.courseFee = courseFee;
 
     const course = await Course.findByIdAndUpdate(id, updateData, { new: true });
 

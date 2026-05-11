@@ -29,6 +29,7 @@ interface Course {
   shortName: string;
   durationMonths: number;
   registrationFee: number;
+  courseFee: number;
   zone: string;
   hasMarksheet: boolean;
   hasCertificate: boolean;
@@ -92,6 +93,7 @@ export default function CourseManager() {
   const [shortName, setShortName] = useState("");
   const [duration, setDuration] = useState("");
   const [registrationFee, setRegistrationFee] = useState("");
+  const [courseFee, setCourseFee] = useState("");
   const [zone, setZone] = useState("");
   const [zoneCatalog, setZoneCatalog] = useState<ZoneFeeRow[]>([]);
   const [zoneCatalogLoading, setZoneCatalogLoading] = useState(true);
@@ -100,6 +102,8 @@ export default function CourseManager() {
   const [subjectDrafts, setSubjectDrafts] = useState<SubjectDraft[]>([emptySubject()]);
 
   const [editSubjects, setEditSubjects] = useState<SubjectDraft[]>([]);
+  const [editRegistrationFee, setEditRegistrationFee] = useState("");
+  const [editCourseFee, setEditCourseFee] = useState("");
 
   const fetchCourses = useCallback(async () => {
     if (authLoading || !authUser) return;
@@ -165,6 +169,7 @@ export default function CourseManager() {
     setShortName("");
     setDuration("");
     setRegistrationFee("");
+    setCourseFee("");
     setZone("");
     setHasMarksheet(true);
     setHasCertificate(true);
@@ -192,6 +197,7 @@ export default function CourseManager() {
           shortName,
           durationMonths: Number(duration),
           registrationFee: Number(registrationFee),
+          courseFee: Number(courseFee),
           zone: finalZone,
           hasMarksheet,
           hasCertificate,
@@ -252,11 +258,15 @@ export default function CourseManager() {
   const beginEditSubjects = (course: Course) => {
     setEditingId(course._id);
     setEditSubjects(toDrafts(course.subjects));
+    setEditRegistrationFee(String(course.registrationFee || ""));
+    setEditCourseFee(String(course.courseFee || ""));
   };
 
   const cancelEditSubjects = () => {
     setEditingId(null);
     setEditSubjects([]);
+    setEditRegistrationFee("");
+    setEditCourseFee("");
   };
 
   const saveSubjects = async () => {
@@ -273,7 +283,11 @@ export default function CourseManager() {
       const res = await apiFetch(`/api/admin/courses/${editingId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ subjects: payload }),
+        body: JSON.stringify({ 
+          subjects: payload,
+          registrationFee: Number(editRegistrationFee),
+          courseFee: Number(editCourseFee),
+        }),
       });
       if (res.ok) {
         cancelEditSubjects();
@@ -341,6 +355,16 @@ export default function CourseManager() {
                 placeholder="e.g. 500"
                 value={registrationFee}
                 onChange={(e) => setRegistrationFee(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Total Course Fee (Display) (INR)</label>
+              <input
+                type="number"
+                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 outline-none text-sm"
+                placeholder="e.g. 5000"
+                value={courseFee}
+                onChange={(e) => setCourseFee(e.target.value)}
               />
             </div>
             <div className="space-y-3 md:col-span-2">
@@ -432,6 +456,7 @@ export default function CourseManager() {
                 <th className="px-6 py-4">Short Name</th>
                 <th className="px-6 py-4">Duration</th>
                 <th className="px-6 py-4">Reg. Fee</th>
+                <th className="px-6 py-4">Total Course Fee (Display) (INR)</th>
                 <th className="px-6 py-4">Zone</th>
                 <th className="px-6 py-4 text-center">Subjects</th>
                 <th className="px-6 py-4 text-center">Marksheet</th>
@@ -461,7 +486,11 @@ export default function CourseManager() {
                     isEditing={editingId === c._id}
                     saving={savingSubjects}
                     editDrafts={editSubjects}
+                    editRegistrationFee={editRegistrationFee}
+                    editCourseFee={editCourseFee}
                     onEditDraftsChange={setEditSubjects}
+                    onEditRegistrationFeeChange={setEditRegistrationFee}
+                    onEditCourseFeeChange={setEditCourseFee}
                     onBeginEdit={() => beginEditSubjects(c)}
                     onCancelEdit={cancelEditSubjects}
                     onSaveEdit={saveSubjects}
@@ -484,7 +513,11 @@ type CourseRowProps = {
   isEditing: boolean;
   saving: boolean;
   editDrafts: SubjectDraft[];
+  editRegistrationFee: string;
+  editCourseFee: string;
   onEditDraftsChange: (drafts: SubjectDraft[]) => void;
+  onEditRegistrationFeeChange: (val: string) => void;
+  onEditCourseFeeChange: (val: string) => void;
   onBeginEdit: () => void;
   onCancelEdit: () => void;
   onSaveEdit: () => void;
@@ -502,7 +535,11 @@ function CourseRow({
   isEditing,
   saving,
   editDrafts,
+  editRegistrationFee,
+  editCourseFee,
   onEditDraftsChange,
+  onEditRegistrationFeeChange,
+  onEditCourseFeeChange,
   onBeginEdit,
   onCancelEdit,
   onSaveEdit,
@@ -519,6 +556,7 @@ function CourseRow({
         <td className="px-6 py-4 text-slate-500">{c.shortName}</td>
         <td className="px-6 py-4 text-slate-500">{c.durationMonths} Months</td>
         <td className="px-6 py-4 text-slate-700 font-bold">₹{c.registrationFee || 0}</td>
+        <td className="px-6 py-4 text-slate-700 font-bold">₹{c.courseFee || 0}</td>
         <td className="px-6 py-4">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 text-[10px] font-bold border border-blue-100 uppercase">
             <Layers className="w-3 h-3" />
@@ -596,6 +634,26 @@ function CourseRow({
         <tr className="bg-slate-50/60">
           <td colSpan={10} className="px-6 py-5">
             <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-4 rounded-xl border border-slate-200">
+                <div>
+                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Registration Fee (INR)</label>
+                  <input
+                    type="number"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 outline-none text-sm"
+                    value={editRegistrationFee}
+                    onChange={(e) => onEditRegistrationFeeChange(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Total Course Fee (Display) (INR)</label>
+                  <input
+                    type="number"
+                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 outline-none text-sm"
+                    value={editCourseFee}
+                    onChange={(e) => onEditCourseFeeChange(e.target.value)}
+                  />
+                </div>
+              </div>
               <SubjectsEditor
                 label={`Subjects for ${c.name}`}
                 drafts={editDrafts}
