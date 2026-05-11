@@ -21,6 +21,7 @@ interface Student {
   duesAmount: number;
   admissionFees?: string;
   centerCode?: string;
+  tpCode?: string;
   dob?: string;
 }
 
@@ -32,6 +33,8 @@ interface Transaction {
   paymentMode: string;
   amount: number;
   type: "collect" | "return";
+  nextInstallmentDate?: string;
+  nextInstallmentAmount?: number;
 }
 
 export default function FeeManager({ role }: { role: "admin" | "atc" }) {
@@ -43,6 +46,7 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
   const [search, setSearch] = useState("");
   const [courseFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [centers, setCenters] = useState<any[]>([]);
   
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -59,9 +63,11 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
     duesAmount: 0,
     date: new Date().toISOString().split("T")[0],
     receiptNo: "",
-    paidFor: "Course Fee",
+    paidFor: "",
     paymentMode: "Cash",
-    amount: 0
+    amount: 0,
+    nextInstallmentDate: "",
+    nextInstallmentAmount: ""
   });
 
   const [submitting, setSubmitting] = useState(false);
@@ -91,6 +97,7 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
   useEffect(() => {
     if (authLoading || !authUser) return;
     fetchStudents();
+    apiFetch("/api/public/centers").then(r => r.json()).then(data => setCenters(data)).catch(() => {});
   }, [fetchStudents, authLoading, authUser]);
 
   const fetchHistory = async (student: Student) => {
@@ -119,7 +126,8 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
           totalFee: data.student.totalFee,
           paidAmount: data.student.paidAmount,
           duesAmount: data.student.duesAmount,
-          enrollmentNo: regNo
+          enrollmentNo: regNo,
+          paidFor: data.student.course
         }));
         // Auto-generate receipt number if empty
         if (!formData.receiptNo) {
@@ -156,7 +164,9 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
           receiptNo: formData.receiptNo,
           paidFor: formData.paidFor,
           paymentMode: formData.paymentMode,
-          amount: formData.amount
+          amount: formData.amount,
+          nextInstallmentDate: formData.nextInstallmentDate,
+          nextInstallmentAmount: formData.nextInstallmentAmount
         })
       });
 
@@ -177,11 +187,25 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
             duesAmount: 0,
             date: new Date().toISOString().split("T")[0],
             receiptNo: "",
-            paidFor: "Course Fee",
+            paidFor: "",
             paymentMode: "Cash",
-            amount: 0
+            amount: 0,
+            nextInstallmentDate: "",
+            nextInstallmentAmount: ""
           });
         }, 1500);
+
+        // Send WhatsApp notification if collect and next installment is set
+        if (formData.type === "collect" && student.mobile) {
+          const mobile = student.mobile.replace(/\D/g, "");
+          const msgBody = `Dear ${student.name},\n\nWe have received your payment of ₹${formData.amount} for ${formData.paidFor} on ${new Date(formData.date).toLocaleDateString()}.\nYour receipt number is ${formData.receiptNo}.\n`;
+          let nextBody = "";
+          if (formData.nextInstallmentDate && formData.nextInstallmentAmount) {
+            nextBody = `\nYour next installment of ₹${formData.nextInstallmentAmount} is due on ${new Date(formData.nextInstallmentDate).toLocaleDateString()}.\nPlease deposit it on time.`;
+          }
+          const finalMsg = encodeURIComponent(msgBody + nextBody + `\n\nThank you,\n${brandName || "Institution"}`);
+          window.open(`https://wa.me/91${mobile}?text=${finalMsg}`, "_blank");
+        }
       } else {
         setMsg({ type: "error", text: data.message });
       }
@@ -193,6 +217,7 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
   };
 
   const printReceipt = (transaction: Transaction, student: Student) => {
+    const center = centers.find(c => c.tpCode === student.centerCode || c.tpCode === student.tpCode || (student as any).tpCode);
     const printWindow = window.open("", "_blank");
     if (!printWindow) return;
 
@@ -201,18 +226,20 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
         <head>
           <title>Fee Receipt - ${transaction.receiptNo}</title>
           <style>
-            body { font-family: sans-serif; padding: 40px; color: #333; }
-            .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
-            .receipt-title { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
-            .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
-            .label { font-weight: bold; color: #666; font-size: 12px; text-transform: uppercase; }
-            .value { font-size: 16px; margin-top: 4px; }
-            .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-            .table th, .table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-            .table th { background: #f9f9f9; }
-            .footer { margin-top: 50px; display: flex; justify-content: space-between; align-items: flex-end; }
-            .signature { border-top: 1px solid #333; width: 200px; text-align: center; padding-top: 10px; font-size: 14px; }
-            .total-row { font-weight: bold; font-size: 18px; }
+            @page { size: A4; margin: 15mm; }
+            body { font-family: sans-serif; color: #333; margin: 0; padding: 10px; font-size: 13px; max-height: 45vh; overflow: hidden; }
+            .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+            .receipt-title { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
+            .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+            .label { font-weight: bold; color: #666; font-size: 10px; text-transform: uppercase; }
+            .value { font-size: 13px; margin-top: 2px; font-weight: bold; }
+            .table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+            .table th, .table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            .table th { background: #f9f9f9; font-size: 11px; }
+            .footer { margin-top: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
+            .signature { border-top: 1px solid #333; width: 150px; text-align: center; padding-top: 5px; font-size: 12px; }
+            .total-row { font-weight: bold; font-size: 14px; }
+            .next-dues { margin-top: 15px; padding: 10px; background: #f9f9f9; border: 1px dashed #ccc; border-radius: 5px; font-size: 12px; }
           </style>
         </head>
         <body>
@@ -258,14 +285,22 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
               </tr>
             </tbody>
           </table>
-          <div style="margin-top: 30px; font-size: 14px;">
+          <div style="margin-top: 15px; font-size: 12px;">
             <p><strong>Remaining Dues:</strong> ₹${student.duesAmount}</p>
           </div>
+          ${transaction.nextInstallmentDate && transaction.nextInstallmentAmount ? `
+            <div class="next-dues">
+              <strong>Next Installment Due:</strong> ₹${transaction.nextInstallmentAmount} on ${new Date(transaction.nextInstallmentDate).toLocaleDateString()}
+            </div>
+          ` : ''}
           <div class="footer">
             <div>
               <p style="font-size: 10px; color: #999;">This is a computer generated receipt.</p>
             </div>
-            <div class="signature">Authorized Signatory</div>
+            <div style="text-align: center; width: 150px;">
+              ${center?.signature ? `<img src="${center.signature}" alt="Signature" style="max-height: 40px; margin-bottom: 5px; display: block; margin-left: auto; margin-right: auto;" />` : '<div style="height: 45px;"></div>'}
+              <div class="signature">Authorized Signatory</div>
+            </div>
           </div>
           <script>window.print(); window.onafterprint = () => window.close();</script>
         </body>
@@ -383,7 +418,7 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
       {showCollectForm && (
         <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setShowCollectForm(false)} />
-          <div className="relative w-full max-w-2xl overflow-hidden rounded-4xl bg-white shadow-2xl animate-in zoom-in-95 duration-300">
+          <div className="relative w-full max-w-4xl overflow-hidden rounded-4xl bg-white shadow-2xl animate-in zoom-in-95 duration-300">
             <div className="flex items-center justify-between bg-linear-to-br from-green-600 to-emerald-700 p-8 text-white">
               <div>
                 <h2 className="text-2xl font-black uppercase tracking-tight">Collect Fee</h2>
@@ -401,7 +436,7 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Transaction Type</label>
                   <select 
@@ -426,7 +461,7 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
                   />
                 </div>
 
-                <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
+                <div className="md:col-span-4 grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
                   <div>
                     <p className="text-[8px] font-black text-slate-400 uppercase mb-1">Student Name</p>
                     <p className="text-xs font-black text-slate-700 truncate">{formData.name || "---"}</p>
@@ -488,6 +523,27 @@ export default function FeeManager({ role }: { role: "admin" | "atc" }) {
                     <option>Cash</option>
                     <option>Online</option>
                   </select>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Next Install Date</label>
+                  <input 
+                    type="date"
+                    min={ISO_DATE_MIN}
+                    value={formData.nextInstallmentDate}
+                    onChange={e => setFormData({ ...formData, nextInstallmentDate: sanitizeIsoDateInput(e.target.value) })}
+                    className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold outline-none focus:bg-white focus:border-green-500 transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Next Install Amt (₹)</label>
+                  <input 
+                    type="number"
+                    min="1"
+                    value={formData.nextInstallmentAmount}
+                    onChange={e => setFormData({...formData, nextInstallmentAmount: e.target.value})}
+                    className="w-full px-5 py-3 bg-slate-50 border border-slate-100 rounded-2xl text-sm font-bold outline-none focus:bg-white focus:border-green-500 transition"
+                    placeholder="Optional"
+                  />
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Amount to {formData.type === 'collect' ? 'Receive' : 'Return'} (₹)</label>

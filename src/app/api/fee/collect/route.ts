@@ -14,7 +14,7 @@ export async function POST(request: Request) {
   
   try {
     const body = await request.json();
-    const { studentId, date, receiptNo, paidFor, paymentMode, amount } = body;
+    const { studentId, date, receiptNo, paidFor, paymentMode, amount, nextInstallmentDate, nextInstallmentAmount } = body;
 
     const student = await AtcStudent.findById(studentId);
     if (!student) {
@@ -46,7 +46,9 @@ export async function POST(request: Request) {
       paidFor,
       paymentMode,
       amount: Number(amount),
-      type: "collect"
+      type: "collect",
+      nextInstallmentDate: nextInstallmentDate ? new Date(nextInstallmentDate) : undefined,
+      nextInstallmentAmount: nextInstallmentAmount ? Number(nextInstallmentAmount) : undefined
     });
 
     // Update student record by recalculating from all transactions

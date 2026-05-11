@@ -90,6 +90,8 @@ export default function StudentDashboardPage() {
   const [showOldPass, setShowOldPass] = useState(false);
   const [showNewPass, setShowNewPass] = useState(false);
   const [toast, setToast] = useState<{ type: "success" | "error", msg: string } | null>(null);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const showToast = (type: "success" | "error", msg: string) => {
     setToast({ type, msg });
@@ -135,6 +137,22 @@ export default function StudentDashboardPage() {
               setCenter(myCenter ?? null);
            }).catch(() => {});
         }
+
+        // Fetch history to populate fee notifications
+        apiFetch(`/api/fee/history/${normalizedStudent._id}`).then(r => r.json()).then(hData => {
+          const transactions = hData.transactions || [];
+          const upcomingInstallment = [...transactions].reverse().find((t: any) => t.type === 'collect' && t.nextInstallmentDate && t.nextInstallmentAmount);
+          const remainingDues = (normalizedStudent.totalFee || Number(normalizedStudent.admissionFees) || 0) - (normalizedStudent.paidAmount || 0);
+          
+          if (remainingDues > 0 && upcomingInstallment) {
+            setNotifications([{
+              id: upcomingInstallment._id,
+              title: "Fee Installment Due",
+              message: `Your next fee installment of ₹${upcomingInstallment.nextInstallmentAmount} is scheduled to be paid by ${new Date(upcomingInstallment.nextInstallmentDate).toLocaleDateString()}.`,
+              date: upcomingInstallment.nextInstallmentDate
+            }]);
+          }
+        }).catch(() => {});
       })
       .catch(() => router.push("/student/login"))
       .finally(() => setLoading(false));
@@ -280,10 +298,46 @@ export default function StudentDashboardPage() {
             >
               Back to Website
             </Link>
-            <button className="relative w-10 h-10 flex items-center justify-center text-slate-400 hover:text-blue-600 transition group">
-              <Bell size={20} />
-              <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
-            </button>
+            <div className="relative">
+              <button onClick={() => setShowNotifications(!showNotifications)} className="relative w-10 h-10 flex items-center justify-center text-slate-400 hover:text-blue-600 transition group">
+                <Bell size={20} />
+                {notifications.length > 0 && (
+                  <div className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
+                )}
+              </button>
+              
+              {showNotifications && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setShowNotifications(false)} />
+                  <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-3xl shadow-2xl shadow-blue-900/10 border border-slate-100 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                    <div className="p-5 border-b border-slate-50 bg-slate-50/50 flex justify-between items-center">
+                      <h3 className="font-black text-slate-800 text-sm uppercase tracking-tight">Notifications</h3>
+                      <span className="text-[10px] font-black text-blue-600 bg-blue-100 px-2.5 py-1 rounded-full">{notifications.length} New</span>
+                    </div>
+                    <div className="max-h-80 overflow-y-auto p-2">
+                      {notifications.length === 0 ? (
+                        <div className="p-8 text-center text-slate-400 text-xs font-bold uppercase">No new notifications</div>
+                      ) : (
+                        notifications.map(n => (
+                          <div key={n.id} className="p-4 rounded-2xl border border-slate-100 mb-2 hover:bg-slate-50 transition cursor-pointer">
+                            <div className="flex items-start gap-3">
+                              <div className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center shrink-0">
+                                <ShieldAlert size={14} className="text-red-500" />
+                              </div>
+                              <div>
+                                <p className="text-xs font-black text-slate-800 mb-1">{n.title}</p>
+                                <p className="text-[11px] font-medium text-slate-500 leading-relaxed mb-2">{n.message}</p>
+                                <p className="text-[9px] font-black text-slate-400 uppercase">{new Date(n.date).toLocaleDateString()}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
             <div className="h-8 w-px bg-slate-200 hidden sm:block" />
             <div className="flex items-center gap-4 pr-1">
               <div className="text-right hidden sm:block">
@@ -555,7 +609,7 @@ export default function StudentDashboardPage() {
             )}
 
             {activeTab === "fees" && (
-              <StudentFeeView student={student} />
+              <StudentFeeView student={student} center={center} />
             )}
           </div>
         </main>

@@ -14,6 +14,8 @@ interface Transaction {
   paymentMode: string;
   amount: number;
   type: "collect" | "return";
+  nextInstallmentDate?: string;
+  nextInstallmentAmount?: number;
 }
 
 type FeeStudent = {
@@ -26,7 +28,7 @@ type FeeStudent = {
   paidAmount?: number;
 };
 
-export default function StudentFeeView({ student }: { student: FeeStudent }) {
+export default function StudentFeeView({ student, center }: { student: FeeStudent; center?: any }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const { brandName } = useBrand();
@@ -50,18 +52,20 @@ export default function StudentFeeView({ student }: { student: FeeStudent }) {
         <head>
           <title>Fee Receipt - ${transaction.receiptNo}</title>
           <style>
-            body { font-family: sans-serif; padding: 40px; color: #333; }
-            .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
-            .receipt-title { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
-            .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
-            .label { font-weight: bold; color: #666; font-size: 12px; text-transform: uppercase; }
-            .value { font-size: 16px; margin-top: 4px; }
-            .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-            .table th, .table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-            .table th { background: #f9f9f9; }
-            .footer { margin-top: 50px; display: flex; justify-content: space-between; align-items: flex-end; }
-            .signature { border-top: 1px solid #333; width: 200px; text-align: center; padding-top: 10px; font-size: 14px; }
-            .total-row { font-weight: bold; font-size: 18px; }
+            @page { size: A4; margin: 15mm; }
+            body { font-family: sans-serif; color: #333; margin: 0; padding: 10px; font-size: 13px; max-height: 45vh; overflow: hidden; }
+            .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+            .receipt-title { font-size: 20px; font-weight: bold; margin-bottom: 5px; }
+            .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+            .label { font-weight: bold; color: #666; font-size: 10px; text-transform: uppercase; }
+            .value { font-size: 13px; margin-top: 2px; font-weight: bold; }
+            .table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+            .table th, .table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            .table th { background: #f9f9f9; font-size: 11px; }
+            .footer { margin-top: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
+            .signature { border-top: 1px solid #333; width: 150px; text-align: center; padding-top: 5px; font-size: 12px; }
+            .total-row { font-weight: bold; font-size: 14px; }
+            .next-dues { margin-top: 15px; padding: 10px; background: #f9f9f9; border: 1px dashed #ccc; border-radius: 5px; font-size: 12px; }
           </style>
         </head>
         <body>
@@ -114,7 +118,10 @@ export default function StudentFeeView({ student }: { student: FeeStudent }) {
             <div>
               <p style="font-size: 10px; color: #999;">This is a computer generated receipt.</p>
             </div>
-            <div class="signature">Authorized Signatory</div>
+            <div style="text-align: center; width: 150px;">
+              ${center?.signature ? `<img src="${center.signature}" alt="Signature" style="max-height: 40px; margin-bottom: 5px; display: block; margin-left: auto; margin-right: auto;" />` : '<div style="height: 45px;"></div>'}
+              <div class="signature">Authorized Signatory</div>
+            </div>
           </div>
           <script>window.print(); window.onafterprint = () => window.close();</script>
         </body>
@@ -125,6 +132,30 @@ export default function StudentFeeView({ student }: { student: FeeStudent }) {
 
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      {/* Upcoming Installment Notification */}
+      {(() => {
+        const remainingDues = (student.totalFee || Number(student.admissionFees) || 0) - (student.paidAmount || 0);
+        const upcomingInstallment = [...transactions].reverse().find(t => t.type === 'collect' && t.nextInstallmentDate && t.nextInstallmentAmount);
+        
+        if (remainingDues > 0 && upcomingInstallment?.nextInstallmentDate && upcomingInstallment?.nextInstallmentAmount) {
+          return (
+            <div className="bg-amber-100 border border-amber-200 rounded-[2rem] p-6 flex items-center gap-6 shadow-xl shadow-amber-500/10 relative overflow-hidden animate-pulse-slow">
+              <div className="w-14 h-14 bg-amber-500 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-amber-500/30">
+                <AlertCircle size={28} />
+              </div>
+              <div className="relative z-10">
+                <h4 className="text-xl font-black text-amber-900 uppercase tracking-tight mb-1">Fee Installment Due</h4>
+                <p className="text-amber-800 font-medium">
+                  Dear Student, your next installment of <span className="font-bold bg-amber-200 px-2 py-0.5 rounded">₹{upcomingInstallment.nextInstallmentAmount}</span> is scheduled to be paid on <span className="font-bold bg-amber-200 px-2 py-0.5 rounded">{new Date(upcomingInstallment.nextInstallmentDate).toLocaleDateString()}</span>. Please deposit it on time.
+                </p>
+              </div>
+              <CreditCard className="absolute -right-4 -top-4 w-32 h-32 text-amber-200 opacity-50 transform rotate-12" />
+            </div>
+          );
+        }
+        return null;
+      })()}
+
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm transition-all hover:shadow-xl hover:shadow-blue-500/5 group">

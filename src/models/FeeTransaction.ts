@@ -9,6 +9,8 @@ export interface IFeeTransaction {
   paymentMode: "Cash" | "Online";
   amount: number;
   type: "collect" | "return";
+  nextInstallmentDate?: Date;
+  nextInstallmentAmount?: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,8 +24,13 @@ const FeeTransactionSchema = new Schema<IFeeTransaction>(
     paymentMode: { type: String, enum: ["Cash", "Online"], required: true },
     amount: { type: Number, required: true },
     type: { type: String, enum: ["collect", "return"], required: true },
+    nextInstallmentDate: { type: Date },
+    nextInstallmentAmount: { type: Number },
   },
   { timestamps: true }
 );
 
-export const FeeTransaction = models.FeeTransaction || model<IFeeTransaction>("FeeTransaction", FeeTransactionSchema);
+if (mongoose.models.FeeTransaction) {
+  delete mongoose.models.FeeTransaction;
+}
+export const FeeTransaction = model<IFeeTransaction>("FeeTransaction", FeeTransactionSchema);
