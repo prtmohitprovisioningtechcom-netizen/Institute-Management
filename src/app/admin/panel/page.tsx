@@ -10,7 +10,7 @@ import {
   CheckCircle, XCircle, Clock, Users, FileText, PlusCircle,
   LogOut, ShieldCheck, ChevronDown, Eye, RefreshCw, Settings, QrCode, Upload, Menu, Layers, Monitor,
   Trash2, Lock, Edit2, AlertTriangle, ShieldAlert, MapPin, BookOpen, User, Building2, CreditCard, EyeOff, Hash, Save, Printer,
-  Layout, Type, Mail, X, GraduationCap
+  Layout, Type, Mail, X, GraduationCap, Images
 } from "lucide-react";
 import AdminAtcForm from "@/components/admin/AdminAtcForm";
 import CourseManager from "@/components/admin/CourseManager";
@@ -42,6 +42,7 @@ import { ISO_DATE_MIN, isoDateToday, sanitizeIsoDateInput } from "@/lib/isoDate"
 import dynamic from "next/dynamic";
 import StudyMaterialManager from "@/components/admin/StudyMaterialManager";
 import WalletRequestManager from "@/components/admin/WalletRequestManager";
+import GalleryManager from "@/components/admin/GalleryManager";
 import SkeletonLoader from "@/components/common/SkeletonLoader";
 
 const FeeManager = dynamic(() => import("@/components/common/FeeManager"), { 
@@ -239,7 +240,7 @@ const fallbackCredentialTextFromStudent = (student: Pick<Student, "qualSchool" |
   return `${qual} | ${school} |  | ${year} | ${obtained}`;
 };
 
-type Tab = "dashboard" | "create" | "courses" | "courseEnquiries" | "questionSets" | "centers" | "examRequests" | "materials" | "settings" | "students" | "resultReview" | "registration" | "fees" | "backgrounds" | "walletRequests" | "walletPayment";
+type Tab = "dashboard" | "create" | "courses" | "courseEnquiries" | "questionSets" | "centers" | "examRequests" | "materials" | "gallery" | "settings" | "students" | "resultReview" | "registration" | "fees" | "backgrounds" | "walletRequests" | "walletPayment";
 
 const PrintField = ({ label, value }: { label: string; value: string | number | null | undefined }) => (
   <div>
@@ -1461,6 +1462,7 @@ export default function AdminPanelPage() {
     centers: "Manage Centers",
     examRequests: "Exam Requests",
     materials: "Study Materials",
+    gallery: "Photo Gallery",
     settings: "Panel Settings",
     registration: "Registration Settings",
     students: "Manage Students",
@@ -1480,6 +1482,7 @@ export default function AdminPanelPage() {
     centers: "View and manage status of approved ATC centers",
     examRequests: "Manage online/offline exam requests and results",
     materials: "Upload and manage course study resources",
+    gallery: "Gallery categories and photos",
     settings: "General Configurations",
     registration: "ID Generation Logic",
     students: "Review and approve student registrations from all centers",
@@ -1538,6 +1541,7 @@ export default function AdminPanelPage() {
                 { id: "examRequests" as Tab, icon: Layers, label: "Exam Requests" },
                 { id: "questionSets" as Tab, icon: BookOpen, label: "Exam Sets" },
                 { id: "materials" as Tab, icon: FileText, label: "Study Materials" },
+                { id: "gallery" as Tab, icon: Images, label: "Photo Gallery" },
                 { id: "fees" as Tab, icon: CreditCard, label: "Fee Management" },
                 { id: "walletRequests" as Tab, icon: CreditCard, label: "Wallet Requests" },
                 { id: "courses" as Tab, icon: BookOpen, label: "Courses" },
@@ -2050,6 +2054,9 @@ export default function AdminPanelPage() {
 
             {/* ── STUDY MATERIALS TAB ── */}
             {tab === "materials" && <StudyMaterialManager role="admin" />}
+
+            {/* ── PHOTO GALLERY TAB ── */}
+            {tab === "gallery" && <GalleryManager />}
 
             {/* ── RESULT REVIEW TAB ── */}
             {tab === "resultReview" && (
