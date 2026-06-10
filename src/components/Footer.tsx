@@ -13,6 +13,7 @@ import {
   FaUniversity,
   FaYoutube,
 } from "react-icons/fa";
+import OurCertificates from "@/components/OurCertificates";
 import { FOOTER_LINKS, SITE_INFO, SOCIAL_LINKS } from "@/utils/constants";
 import { useBrand } from "@/context/BrandContext";
 
@@ -24,7 +25,9 @@ export default function Footer() {
   const bannerCycleDuration = 4.5 + 6.5;
 
   return (
-    <footer id="contact" className="scroll-mt-28 mt-12 bg-[#767171] text-white sm:scroll-mt-32">
+    <>
+      <OurCertificates />
+      <footer id="contact" className="scroll-mt-28 mt-12 bg-[#767171] text-white sm:scroll-mt-32">
       <div className="bg-white text-slate-700">
         <div className="bg-[#090995] text-white">
           <div className="mx-auto flex w-full max-w-7xl flex-col items-start justify-between gap-6 px-6 py-9 md:flex-row md:items-center md:px-10 lg:px-16">
@@ -189,5 +192,6 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+    </>
   );
 }

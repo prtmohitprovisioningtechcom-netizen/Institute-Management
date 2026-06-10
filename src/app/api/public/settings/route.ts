@@ -15,6 +15,8 @@ const ALLOWED_PUBLIC_KEYS = new Set([
   "brand_logo",
   /** JSON array of { minPercent, grade } for marksheet letter grades (public read for print preview). */
   "marksheet_grade_bands",
+  /** JSON array of { id, logo } for footer certificate logos. */
+  "our_certificates",
 ]);
 
 export const dynamic = "force-dynamic";

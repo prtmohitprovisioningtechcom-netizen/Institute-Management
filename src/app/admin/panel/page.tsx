@@ -10,7 +10,7 @@ import {
   CheckCircle, XCircle, Clock, Users, FileText, PlusCircle,
   LogOut, ShieldCheck, ChevronDown, Eye, RefreshCw, Settings, QrCode, Upload, Menu, Layers, Monitor,
   Trash2, Lock, Edit2, AlertTriangle, ShieldAlert, MapPin, BookOpen, User, Building2, CreditCard, EyeOff, Hash, Save, Printer,
-  Layout, Type, Mail, X, GraduationCap, Images
+  Layout, Type, Mail, X, GraduationCap, Images, Award
 } from "lucide-react";
 import AdminAtcForm from "@/components/admin/AdminAtcForm";
 import CourseManager from "@/components/admin/CourseManager";
@@ -44,6 +44,7 @@ import StudyMaterialManager from "@/components/admin/StudyMaterialManager";
 import WalletRequestManager from "@/components/admin/WalletRequestManager";
 import GalleryManager from "@/components/admin/GalleryManager";
 import TeamManager from "@/components/admin/TeamManager";
+import OurCertificatesManager from "@/components/admin/OurCertificatesManager";
 import SkeletonLoader from "@/components/common/SkeletonLoader";
 
 const FeeManager = dynamic(() => import("@/components/common/FeeManager"), { 
@@ -241,7 +242,7 @@ const fallbackCredentialTextFromStudent = (student: Pick<Student, "qualSchool" |
   return `${qual} | ${school} |  | ${year} | ${obtained}`;
 };
 
-type Tab = "dashboard" | "create" | "courses" | "courseEnquiries" | "questionSets" | "centers" | "examRequests" | "materials" | "gallery" | "settings" | "students" | "resultReview" | "registration" | "fees" | "backgrounds" | "walletRequests" | "walletPayment";
+type Tab = "dashboard" | "create" | "courses" | "courseEnquiries" | "questionSets" | "centers" | "examRequests" | "materials" | "gallery" | "settings" | "students" | "resultReview" | "registration" | "fees" | "backgrounds" | "walletRequests" | "walletPayment" | "ourCertificates";
 
 const PrintField = ({ label, value }: { label: string; value: string | number | null | undefined }) => (
   <div>
@@ -1472,6 +1473,7 @@ export default function AdminPanelPage() {
     walletRequests: "Wallet Requests",
     walletPayment: "Wallet Payment Settings",
     backgrounds: "Background Templates",
+    ourCertificates: "Our Certificates",
   };
 
   const tabDesc: Record<Tab, string> = {
@@ -1492,6 +1494,7 @@ export default function AdminPanelPage() {
     walletRequests: "Approve or reject ATC wallet add-money requests",
     walletPayment: "Configure receiver details and QR shown to ATCs for wallet payments",
     backgrounds: "Upload backgrounds for ID Cards, Certificates, and Marksheets",
+    ourCertificates: "Manage certificate logos shown above the footer on all public pages",
   };
 
   return (
@@ -1565,7 +1568,7 @@ export default function AdminPanelPage() {
               <div className="space-y-1">
                 <button
                   onClick={() => toggleMenu("settings")}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition ${tab === "settings" || tab === "registration" || tab === "walletPayment" ? "text-white" : "text-blue-200 hover:bg-white/10 hover:text-white"}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition ${tab === "settings" || tab === "registration" || tab === "walletPayment" || tab === "ourCertificates" || tab === "backgrounds" ? "text-white" : "text-blue-200 hover:bg-white/10 hover:text-white"}`}
                 >
                   <Settings className="w-4 h-4" />
                   Settings
@@ -1601,6 +1604,13 @@ export default function AdminPanelPage() {
                      >
                        <Layers className="w-3.5 h-3.5" />
                        Add Background
+                     </button>
+                     <button
+                       onClick={() => { setTab("ourCertificates"); setIsSidebarOpen(false); }}
+                       className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition ${tab === "ourCertificates" ? "bg-white/10 text-white" : "text-blue-200 hover:text-white"}`}
+                     >
+                       <Award className="w-3.5 h-3.5" />
+                       Our Certificates
                      </button>
                   </div>
                 )}
@@ -3262,6 +3272,8 @@ export default function AdminPanelPage() {
                 </div>
               </div>
             )}
+
+            {tab === "ourCertificates" && <OurCertificatesManager />}
 
             {/* ── BACKGROUND TEMPLATES TAB ── */}
             {tab === "backgrounds" && (

@@ -58,3 +58,23 @@ canvas {
 ::selection {
   @apply bg-blue-200 text-blue-900;
 }
+
+@keyframes certificate-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.certificate-marquee-track {
+  animation: certificate-marquee 28s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .certificate-marquee-track {
+    animation: none;
+  }
+}
