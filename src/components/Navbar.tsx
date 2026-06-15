@@ -150,7 +150,7 @@ export default function Navbar() {
               <img
                 src={brandLogo}
                 alt={brandName}
-                className="h-auto max-h-24 w-28 shrink-0 object-contain sm:max-h-32 sm:w-40 md:max-h-40 md:w-52 lg:max-h-48 lg:w-64"
+                className="h-auto max-h-32 w-36 shrink-0 object-contain sm:max-h-40 sm:w-52 md:max-h-52 md:w-64 lg:max-h-64 lg:w-80"
               />
             ) : (
               <Image
@@ -158,7 +158,7 @@ export default function Navbar() {
                 alt={brandName}
                 width={400}
                 height={168}
-                className="h-auto w-28 shrink-0 object-contain sm:w-40 md:w-52 lg:w-64"
+                className="h-auto w-36 shrink-0 object-contain sm:w-52 md:w-64 lg:w-80"
                 priority
               />
             )}
