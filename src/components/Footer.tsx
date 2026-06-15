@@ -18,11 +18,14 @@ import { FOOTER_LINKS, SITE_INFO, SOCIAL_LINKS } from "@/utils/constants";
 import { useBrand } from "@/context/BrandContext";
 
 export default function Footer() {
-  const { brandName, brandMobile, brandUrl, brandAddress } = useBrand();
+  const { brandName, brandMobile, brandUrl } = useBrand();
   const socialIcons = [FaFacebookF, FaTwitter, FaYoutube, FaGooglePlusG];
   const prefersReducedMotion = useReducedMotion();
 
   const bannerCycleDuration = 4.5 + 6.5;
+  const footerAddressLine1 = "Ho. Subhash Vihar, Delhi RO";
+  const footerAddressLine2 = "14/396 Aryanagar, Firozabad";
+  const footerAddress = `${footerAddressLine1}, ${footerAddressLine2}`;
 
   return (
     <>
@@ -125,7 +128,10 @@ export default function Footer() {
               <FaMapMarkerAlt className="mt-1 h-5 w-5 shrink-0 text-[#0f0fbf]" />
               <div className="space-y-2 text-sm leading-6 sm:text-sm sm:leading-7">
                  <p className="font-extrabold text-white">{brandName}:</p>
-                <p>{brandAddress || "Address not available"}</p>
+                <p>
+                  <span className="block">{footerAddressLine1}</span>
+                  <span className="block">{footerAddressLine2}</span>
+                </p>
               </div>
             </div>
 
@@ -156,7 +162,7 @@ export default function Footer() {
           <div className="mt-6 overflow-hidden border border-white/20 bg-white shadow-lg">
             <iframe
                title={`${brandName} Map`}
-              src={brandAddress ? `https://www.google.com/maps?q=${encodeURIComponent(brandAddress)}&z=15&output=embed` : SITE_INFO.mapEmbedUrl}
+              src={`https://www.google.com/maps?q=${encodeURIComponent(footerAddress)}&z=15&output=embed`}
               className="h-48 w-full sm:h-56 md:h-62.5"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"

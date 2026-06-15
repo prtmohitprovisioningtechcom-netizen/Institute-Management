@@ -21,7 +21,6 @@ export const NAV_LINKS: NavLink[] = [
       { label: "Our Vision", href: "/our-vision" },
       { label: "Achievement", href: "/achievement" },
       { label: "Institute Registration", href: "/institute-registration" },
-      { label: "Training with Government Organization", href: "/training-with-government-organization" },
       { label: "University Partner", href: "/university-partners" },
     ],
   },
@@ -37,6 +36,16 @@ export const NAV_LINKS: NavLink[] = [
     ],
   },
   { label: "COURSES OFFERED", href: "/courses-offered" },
+  {
+    label: "TRAINING WITH GOVERNMENT ORGANIZATION",
+    href: "/training-with-government-organization",
+    children: [
+      { label: "CFTI Government of India", href: "/training-with-government-organization/cfti-government-of-india" },
+      { label: "PDTC Government of India", href: "/training-with-government-organization/pdtc-government-of-india" },
+      { label: "MSME Government of India", href: "/training-with-government-organization/msme-government-of-india" },
+      { label: "CDGI Government of India", href: "/training-with-government-organization/cdgi-government-of-india" },
+    ],
+  },
   {
     label: "VERIFICATION",
     href: "#",

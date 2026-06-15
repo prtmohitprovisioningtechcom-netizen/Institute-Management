@@ -144,15 +144,15 @@ export default function Navbar() {
       </div>
 
       <div className="border-b border-slate-100 bg-white">
-        <div className="mx-auto flex w-full max-w-330 flex-col gap-2 px-3 py-2.5 sm:px-6 sm:py-3 lg:gap-1.5 lg:px-8">
-          <div className="flex items-center justify-between gap-3 lg:justify-start lg:gap-4">
-            <div className="group flex min-w-0 items-start gap-2 sm:gap-3 lg:gap-4">
+        <div className="mx-auto flex w-full max-w-330 flex-col gap-1.5 px-2 py-2 sm:px-3 sm:py-2.5 lg:gap-1 lg:px-3 lg:py-2.5">
+          <div className="flex items-center justify-between gap-1.5 lg:justify-start lg:gap-2.5">
+            <div className="group flex min-w-0 items-start gap-1 sm:gap-2 lg:gap-2.5">
               <Link href="/" onClick={handleNavClick("/")} className="shrink-0">
                 {brandLogo ? (
                   <img
                     src={brandLogo}
                     alt={brandName}
-                    className="h-auto max-h-[224px] w-[256px] shrink-0 object-contain sm:max-h-[244px] sm:w-[292px] md:max-h-[260px] md:w-[314px] lg:max-h-[276px] lg:w-[348px] xl:max-h-[292px] xl:w-[376px]"
+                    className="h-auto max-h-[216px] w-[248px] shrink-0 object-contain sm:max-h-[234px] sm:w-[276px] md:max-h-[248px] md:w-[296px] lg:max-h-[262px] lg:w-[320px] xl:max-h-[276px] xl:w-[344px]"
                   />
                 ) : (
                   <Image
@@ -160,51 +160,48 @@ export default function Navbar() {
                     alt={brandName}
                     width={420}
                     height={176}
-                    className="h-auto w-[256px] shrink-0 object-contain sm:w-[292px] md:w-[314px] lg:w-[348px] xl:w-[376px]"
+                    className="h-auto w-[248px] shrink-0 object-contain sm:w-[276px] md:w-[296px] lg:w-[320px] xl:w-[344px]"
                     priority
                   />
                 )}
               </Link>
-              <div className="flex min-w-0 flex-1 flex-col gap-1 sm:gap-1.5 lg:pt-1">
+              <div className="flex min-w-0 flex-1 flex-col gap-0.5 sm:gap-1 lg:pt-0.5">
                 <div className="flex min-w-0 flex-col leading-none tracking-tight text-[#0a0aa1]">
-                  <span className="text-sm font-black uppercase sm:text-[15px] lg:text-[21px] xl:text-[23px]">
-                    SUNIL GROUP OF EDUCATION FASHION AND
-                  </span>
-                  <span className="text-sm font-black uppercase sm:text-[15px] lg:text-[21px] xl:text-[23px]">
-                    TECHNOLOGY TRUST
+                  <span className="text-[14px] font-black uppercase sm:text-[16px] lg:text-[21px] xl:text-[23px]">
+                    SUNIL GROUP OF EDUCATION FASHION AND TECHNOLOGY TRUST
                   </span>
                 </div>
                 <div className="hidden min-w-0 border-l-2 border-[#0a0aa1]/20 pl-2 sm:block sm:pl-2.5">
-                  <p className="text-[10px] font-bold uppercase leading-snug tracking-wide text-[#0a0aa1]/90 sm:text-[11px] lg:text-xs">
-                    SIFT Skill Development Institute
+                  <p className="text-[10px] font-black uppercase leading-snug tracking-[0.16em] text-[#0a0aa1]/95 sm:text-[11px] lg:text-[13px] xl:text-sm">
+                    SIFT-SKILL DEVELOPMENT INSTITUTE
                   </p>
-                  <p className="max-w-[280px] text-[9px] font-medium leading-snug text-slate-600 sm:max-w-xs sm:text-[10px] lg:max-w-sm lg:text-[11px]">
-                    Undertaken by Sunil Group of Education Fashion and Technology Trust
+                  <p className="max-w-[280px] text-[8px] font-medium leading-snug text-slate-600 sm:max-w-xs sm:text-[9px] lg:max-w-sm lg:text-[10px]">
+                    Undertaking by Sunil Group of Education Fashion and Technology Trust
                   </p>
-                  <div className="mt-2 flex flex-col gap-2 lg:gap-2.5">
+                  <div className="mt-1.5 flex flex-col gap-1.5 lg:gap-2">
                     <a
                       href={brandEmail ? `mailto:${brandEmail}` : undefined}
-                      className={`inline-flex items-center gap-2.5 lg:gap-3 ${brandEmail ? "hover:opacity-80" : "pointer-events-none"}`}
+                      className={`inline-flex items-center gap-2 lg:gap-2.5 ${brandEmail ? "hover:opacity-80" : "pointer-events-none"}`}
                     >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[#0a0aa1] text-white shadow-sm lg:h-10 lg:w-10">
-                        <Mail className="h-4 w-4" />
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#0a0aa1] text-white shadow-sm lg:h-9 lg:w-9">
+                        <Mail className="h-3.5 w-3.5" />
                       </span>
                       <div className="min-w-0">
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500 lg:text-[11px]">Email Us</p>
-                        <p className="truncate text-xs font-semibold text-slate-800 lg:text-sm">{brandEmail || "Not available"}</p>
+                        <p className="text-[9px] font-bold uppercase tracking-wide text-slate-500 lg:text-[10px]">Email Us</p>
+                        <p className="truncate text-[11px] font-semibold text-slate-800 lg:text-[13px]">{brandEmail || "Not available"}</p>
                       </div>
                     </a>
 
                     <a
                       href={brandMobile ? `tel:${brandMobile.replace(/\s/g, "")}` : undefined}
-                      className={`inline-flex items-center gap-2.5 lg:gap-3 ${brandMobile ? "hover:opacity-80" : "pointer-events-none"}`}
+                      className={`inline-flex items-center gap-2 lg:gap-2.5 ${brandMobile ? "hover:opacity-80" : "pointer-events-none"}`}
                     >
-                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-white text-[#0a0aa1] shadow-sm ring-1 ring-slate-200 lg:h-10 lg:w-10">
-                        <Phone className="h-4 w-4" />
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-white text-[#0a0aa1] shadow-sm ring-1 ring-slate-200 lg:h-9 lg:w-9">
+                        <Phone className="h-3.5 w-3.5" />
                       </span>
                       <div className="min-w-0">
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500 lg:text-[11px]">Call Us</p>
-                        <p className="whitespace-nowrap text-xs font-semibold text-slate-800 lg:text-sm">{brandMobile || "Not available"}</p>
+                        <p className="text-[9px] font-bold uppercase tracking-wide text-slate-500 lg:text-[10px]">Call Us</p>
+                        <p className="whitespace-nowrap text-[11px] font-semibold text-slate-800 lg:text-[13px]">{brandMobile || "Not available"}</p>
                       </div>
                     </a>
                   </div>
@@ -212,47 +209,38 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div className="hidden shrink-0 flex-col items-center gap-2 lg:ml-4 lg:flex xl:ml-8">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="relative h-44 w-44 overflow-hidden rounded-[18px] bg-white shadow-sm xl:h-40 xl:w-40">
-                  <Image
-                    src="/certificate.jpeg"
-                    alt="Certificate"
-                    fill
-                    unoptimized
-                    className="object-contain p-1"
-                  />
-                </div>
-                <div className="relative h-44 w-44 overflow-hidden rounded-[18px] bg-white shadow-sm xl:h-40 xl:w-40">
-                  <Image
-                    src="/trophhy.jpeg"
-                    alt="Trophy"
-                    fill
-                    unoptimized
-                    className="object-contain p-1"
-                  />
-                </div>
-                <div className="relative h-44 w-44 overflow-hidden rounded-[18px] bg-white shadow-sm xl:h-40 xl:w-40">
+            <div className="hidden shrink-0 flex-col items-center gap-1 lg:ml-2 lg:flex xl:ml-4">
+              <div className="flex items-center justify-center gap-0.5 xl:gap-1">
+                <div className="relative h-40 w-40 overflow-hidden rounded-[18px] border border-slate-100 bg-white shadow-sm xl:h-44 xl:w-44">
                   <Image
                     src="/p1.jpeg"
                     alt="P1"
                     fill
                     unoptimized
-                    className="object-contain p-1"
+                    className="object-contain p-0.5"
                   />
                 </div>
-                <div className="relative h-44 w-44 overflow-hidden rounded-[18px] bg-white shadow-sm xl:h-40 xl:w-40">
+                <div className="relative h-40 w-40 overflow-hidden rounded-[18px] border border-slate-100 bg-white shadow-sm xl:h-44 xl:w-44">
                   <Image
-                    src="/p2.jpeg"
-                    alt="P2"
+                    src="/certificate.jpeg"
+                    alt="Certificate"
                     fill
                     unoptimized
-                    className="object-contain p-1"
+                    className="object-contain p-0.5"
+                  />
+                </div>
+                <div className="relative h-40 w-40 overflow-hidden rounded-[18px] border border-slate-100 bg-white shadow-sm xl:h-44 xl:w-44">
+                  <Image
+                    src="/trophhy1.jpg"
+                    alt="Trophy"
+                    fill
+                    unoptimized
+                    className="object-contain p-0.5"
                   />
                 </div>
               </div>
-              <p className="text-center text-[11px] font-black uppercase tracking-[0.22em] text-[#0a0aa1] xl:text-xs">
-                State award winner institute
+              <p className="mt-0.5 text-center text-[12px] font-black uppercase tracking-[0.16em] text-[#0a0aa1] xl:text-[13px]">
+                State award winner institute 2021-2022
               </p>
             </div>
 
@@ -308,23 +296,23 @@ export default function Navbar() {
       >
         <div
           id="mobile-nav"
-          className={`mx-auto w-full max-w-330 overflow-x-clip px-2 py-2 lg:flex lg:items-center lg:justify-start lg:px-8 ${
+          className={`w-full overflow-x-clip px-2 py-2 lg:flex lg:items-center lg:justify-start lg:px-6 ${
             isMobileMenuOpen ? "flex flex-col" : "hidden"
           } lg:flex`}
         >
-          <div className="flex w-full flex-col bg-[#0a0aa1] lg:max-w-280 lg:flex-row lg:flex-wrap lg:items-center lg:justify-between lg:px-5 lg:py-2.5 lg:shadow-[0_14px_28px_rgba(12,12,84,0.18)]">
+          <div className="flex w-full flex-col bg-[#0a0aa1] lg:flex-row lg:flex-nowrap lg:items-center lg:justify-start lg:gap-0.5 lg:px-2 lg:py-2 lg:shadow-[0_14px_28px_rgba(12,12,84,0.18)]">
             {NAV_LINKS.map((link) =>
               link.children?.length ? (
                 <div key={link.label} className="group relative">
                   <button
                     type="button"
                     onClick={() => setOpenMobileDropdown((current) => (current === link.label ? null : link.label))}
-                    className={`flex w-full items-center px-4 py-3 text-xs font-semibold text-white transition lg:w-auto lg:px-3 lg:py-2 xl:px-4 ${
+                    className={`flex w-full shrink-0 items-center whitespace-nowrap px-4 py-3 text-[10px] font-semibold tracking-[0.08em] text-white transition lg:w-auto lg:px-2 lg:py-1.5 xl:px-2.5 xl:text-[11px] ${
                       isLinkActive(link.href, link.children) ? "text-blue-100" : "hover:text-blue-100"
                     }`}
                   >
-                    {link.label}
-                    <ChevronDown className="ml-2 h-3.5 w-3.5" />
+                    <span className="truncate">{link.label}</span>
+                    <ChevronDown className="ml-1.5 h-3 w-3 shrink-0" />
                   </button>
 
                   <div className="hidden min-w-56 bg-[#0a0aa1]/95 py-2 text-sm text-white lg:absolute lg:left-0 lg:top-full lg:block lg:translate-y-2 lg:rounded-sm lg:opacity-0 lg:shadow-lg lg:ring-1 lg:ring-white/10 lg:transition lg:group-hover:translate-y-0 lg:group-hover:opacity-100">
@@ -364,7 +352,7 @@ export default function Navbar() {
                   key={link.label}
                   href={link.href}
                   onClick={handleNavClick(link.href)}
-                  className={`flex items-center px-4 py-3 text-xs font-semibold text-white transition lg:px-3 lg:py-2 xl:px-4 ${
+                  className={`flex shrink-0 items-center whitespace-nowrap px-4 py-3 text-[10px] font-semibold tracking-[0.08em] text-white transition lg:px-2 lg:py-1.5 xl:px-2.5 xl:text-[11px] ${
                     isLinkActive(link.href) ? "text-blue-100" : "hover:text-blue-100"
                   }`}
                 >

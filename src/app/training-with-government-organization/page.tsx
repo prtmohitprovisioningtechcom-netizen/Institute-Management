@@ -1,6 +1,29 @@
 import InternalPageLayout from "@/components/InternalPageLayout";
 import { getBrandName } from "@/lib/settings";
 
+const governmentPrograms = [
+  {
+    title: "CFTI Government of India",
+    href: "/training-with-government-organization/cfti-government-of-india",
+    description: "Skill development support focused on practical training, employment readiness and career-building activities.",
+  },
+  {
+    title: "PDTC Government of India",
+    href: "/training-with-government-organization/pdtc-government-of-india",
+    description: "Skill development programs designed to strengthen vocational learning, productivity and self-employment.",
+  },
+  {
+    title: "MSME Government of India",
+    href: "/training-with-government-organization/msme-government-of-india",
+    description: "Skill development awareness and enterprise-focused training for small business growth and industry needs.",
+  },
+  {
+    title: "CDGI Government of India",
+    href: "/training-with-government-organization/cdgi-government-of-india",
+    description: "Skill development initiatives that promote structured learning, modern trades and job-oriented preparation.",
+  },
+];
+
 const trainingAreas = [
   "Government scheme awareness programmes",
   "SC/ST entrepreneur support initiatives",
@@ -52,6 +75,25 @@ export default async function TrainingWithGovernmentOrganizationPage() {
           </p>
         </div>
 
+        <div className="max-w-6xl rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 className="text-xl font-extrabold text-slate-900">Government Skill Development Pages</h3>
+          <p className="mt-2 text-sm leading-7 text-slate-600 sm:text-base">
+            Explore the four Government of India skill development pages below.
+          </p>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2">
+            {governmentPrograms.map((program) => (
+              <a
+                key={program.title}
+                href={program.href}
+                className="rounded-xl border border-slate-200 bg-slate-50 p-5 transition hover:border-[#0a0aa1]/30 hover:bg-[#0a0aa1]/5"
+              >
+                <h4 className="text-base font-extrabold uppercase tracking-wide text-[#0a0aa1]">{program.title}</h4>
+                <p className="mt-2 text-sm leading-7 text-slate-600">{program.description}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+
         <div className="rounded-xl border border-[#0a0aa1]/15 bg-[#0a0aa1]/5 p-6">
           <h3 className="text-lg font-extrabold text-[#0a0aa1]">Our Government Training Objective</h3>
           <p className="mt-3 text-sm leading-8 text-slate-600 sm:text-base">
@@ -86,7 +128,7 @@ export default async function TrainingWithGovernmentOrganizationPage() {
           <h3 className="text-xl font-extrabold text-slate-900">Training Sectors Covered</h3>
           <p>
             Government-linked training through {brandName} includes programmes in fashion designing,
-            interior designing, glass designing, leather goods, embroidery, computer education, mobile
+            interior designing, glass designing, leather goods, embroidery, skill development, mobile
             repairing, AC repairing, solar panel installation, beautician, makeup artist, shoe making,
             jute handicraft, khadi products and other vocational trades.
           </p>

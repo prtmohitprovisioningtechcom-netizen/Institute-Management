@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FRONT_COURSES } from "@/data/frontCourses";
 
-const siftLine = " Promotion of MSMEs SC/ST entrepreneur support Skill development Industrial grievance resolution Vendor development programs Government scheme awareness Trade fairs & exhibitions. MSME support Industrial development Training & awareness Government liaison Vendor development. SIFT skill development by SGEFTT Ragister by government of india.";
+const siftLine = " Promotion of MSMEs SC/ST entrepreneur support Skill development, Industrial grievance resolution, Vendor development programs, Government scheme awareness, Trade fairs & exhibitions. MSME support, Industrial development, Training & awareness, Government liaison, Vendor development. SIFT skill development by SGEFTT.";
 
 const heroImages = [
   {
@@ -97,7 +97,9 @@ export default function Hero() {
 
           <div className="rounded-xl border border-[#0a0aa1]/40 bg-[#0a0aa1]/35 px-3 py-2.5 backdrop-blur-sm sm:px-5 sm:py-4">
             <p className="text-xs font-semibold leading-relaxed text-white sm:text-sm md:text-base md:leading-8">
-              {siftLine}
+              <span>{siftLine}</span>
+              <span className="mt-1 block">Delhi - 110001</span>
+              <span className="block">RO</span>
             </p>
           </div>
 
