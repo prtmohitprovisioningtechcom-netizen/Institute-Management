@@ -4,7 +4,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, Clock3, Download, LogIn, Mail, Menu, Phone, Wallet, X, UserPlus } from "lucide-react";
+import { ChevronDown, Clock3, Download, LogIn, Mail, Menu, Phone, Wallet, X, UserPlus, GraduationCap } from "lucide-react";
 import { type MouseEvent, useEffect, useMemo, useState } from "react";
 import { NAV_LINKS } from "@/utils/constants";
 
@@ -300,14 +300,14 @@ export default function Navbar() {
             isMobileMenuOpen ? "flex flex-col" : "hidden"
           } lg:flex`}
         >
-          <div className="flex w-full flex-col bg-[#0a0aa1] lg:flex-row lg:flex-nowrap lg:items-center lg:justify-start lg:gap-0.5 lg:px-2 lg:py-2 lg:shadow-[0_14px_28px_rgba(12,12,84,0.18)]">
+          <div className="flex w-full flex-col bg-[#0a0aa1] lg:flex-row lg:flex-nowrap lg:items-center lg:justify-between lg:gap-0 lg:px-4 lg:py-2 lg:shadow-[0_14px_28px_rgba(12,12,84,0.18)]">
             {NAV_LINKS.map((link) =>
               link.children?.length ? (
                 <div key={link.label} className="group relative">
                   <button
                     type="button"
                     onClick={() => setOpenMobileDropdown((current) => (current === link.label ? null : link.label))}
-                    className={`flex w-full shrink-0 items-center whitespace-nowrap px-4 py-3 text-[10px] font-semibold tracking-[0.08em] text-white transition lg:w-auto lg:px-2 lg:py-1.5 xl:px-2.5 xl:text-[11px] ${
+                    className={`flex w-full shrink-0 items-center whitespace-nowrap px-4 py-3 text-[10px] font-semibold tracking-[0.03em] text-white transition lg:w-auto lg:px-1 lg:py-1.5 lg:text-[9px] xl:px-1.5 xl:text-[10px] 2xl:px-2.5 2xl:text-[11px] ${
                       isLinkActive(link.href, link.children) ? "text-blue-100" : "hover:text-blue-100"
                     }`}
                   >
@@ -352,7 +352,7 @@ export default function Navbar() {
                   key={link.label}
                   href={link.href}
                   onClick={handleNavClick(link.href)}
-                  className={`flex shrink-0 items-center whitespace-nowrap px-4 py-3 text-[10px] font-semibold tracking-[0.08em] text-white transition lg:px-2 lg:py-1.5 xl:px-2.5 xl:text-[11px] ${
+                  className={`flex shrink-0 items-center whitespace-nowrap px-4 py-3 text-[10px] font-semibold tracking-[0.03em] text-white transition lg:px-1 lg:py-1.5 lg:text-[9px] xl:px-1.5 xl:text-[10px] 2xl:px-2.5 2xl:text-[11px] ${
                     isLinkActive(link.href) ? "text-blue-100" : "hover:text-blue-100"
                   }`}
                 >

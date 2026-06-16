@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import InternalPageLayout from "@/components/InternalPageLayout";
-import { getBrandName } from "@/lib/settings";
+
 
 // All achievement photos
 const achievementPhotos = [
