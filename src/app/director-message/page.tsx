@@ -26,7 +26,7 @@ export default function DirectorMessagePage() {
             </div>
           </div>
           <div className="-mt-8 ml-4 bg-slate-100 px-5 pt-10 pb-4 text-center shadow-sm">
-            <h2 className="text-lg font-extrabold text-slate-900 sm:text-xl">Dr. Sunil Kumar Jain</h2>
+            <h2 className="text-lg font-extrabold text-slate-900 sm:text-xl">Dr. Sunniil Kumar Jain</h2>
             <p className="text-lg font-extrabold leading-tight text-slate-900 sm:text-xl">Director</p>
           </div>
         </div>

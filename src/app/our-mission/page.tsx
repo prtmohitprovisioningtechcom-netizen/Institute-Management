@@ -16,7 +16,7 @@ export default function OurMissionPage() {
           <div className="text-sm leading-8 sm:text-base sm:leading-9">
             <p>
               Our mission is to deliver high-quality, industry-relevant training in a
-              range of computer-related disciplines. We strive to deliver excellence by
+              range of skill development disciplines. We strive to deliver excellence by
               offering comprehensive, up-to-date courses in programming, cybersecurity,
               data science, networking, and more.
             </p>
