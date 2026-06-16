@@ -20,7 +20,7 @@ export const NAV_LINKS: NavLink[] = [
       { label: "Our Mission", href: "/our-mission" },
       { label: "Our Vision", href: "/our-vision" },
       { label: "Achievement", href: "/achievement" },
-      { label: "Institute Registration", href: "/institute-registration" },
+      // Removed Institute Registration link
     ],
   },
   {
