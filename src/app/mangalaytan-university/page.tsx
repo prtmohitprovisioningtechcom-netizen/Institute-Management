@@ -6,7 +6,7 @@ import Image from "next/image";
 import { CheckCircle2, User, Phone, Mail, MessageSquare, X, Loader2 } from "lucide-react";
 import Link from "next/link";
 
-export default function MangalayatanUniversityPage() {
+export default function UniversityCoursesPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
   const [selectedProgram, setSelectedProgram] = useState("");
@@ -76,10 +76,10 @@ export default function MangalayatanUniversityPage() {
 
   return (
     <InternalPageLayout
-      title="Mangalayatan University"
+      title="University Courses"
       breadcrumbs={[
         { label: "Home", href: "/" },
-        { label: "Mangalayatan University" },
+        { label: "University Courses" },
       ]}
     >
       <div className="mx-auto w-full max-w-6xl space-y-16">
@@ -88,7 +88,7 @@ export default function MangalayatanUniversityPage() {
           <div className="relative flex h-36 w-72 items-center justify-center rounded-2xl bg-white p-4 shadow-md ring-1 ring-slate-100 sm:h-44 sm:w-80 md:h-48 md:w-96">
             <Image
   src="/mangalaytan-university-logo.png"
-  alt="Mangalayatan University Logo"
+  alt="University Courses Logo"
   className="max-h-full max-w-full object-contain"
   width={500}
   height={200}
@@ -150,7 +150,7 @@ export default function MangalayatanUniversityPage() {
             </div>
             <h3 className="mt-6 text-xl font-extrabold uppercase tracking-wide text-slate-800 sm:text-2xl lg:text-3xl">Vocational Training Provider and Admission Counselor</h3>
             <div className="mt-6">
-              <Link href="/black" className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 px-6 text-xs font-bold uppercase tracking-wider text-white hover:bg-blue-700" onClick={() => setSelectedProgram('Vocational Training Provider and Admission Counselor')}>Click Here</Link>
+              <Link href="/vocational" className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 px-6 text-xs font-bold uppercase tracking-wider text-white hover:bg-blue-700" onClick={() => setSelectedProgram('Vocational Training Provider and Admission Counselor')}>Click Here</Link>
             </div>
           </div>
         </section>

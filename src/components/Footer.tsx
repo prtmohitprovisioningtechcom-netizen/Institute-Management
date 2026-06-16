@@ -1,6 +1,8 @@
 "use client";
 
+
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   FaChevronCircleRight,
@@ -12,6 +14,7 @@ import {
   FaTwitter,
   FaUniversity,
   FaYoutube,
+  FaEnvelope,
 } from "react-icons/fa";
 import OurCertificates from "@/components/OurCertificates";
 import { FOOTER_LINKS, SITE_INFO, SOCIAL_LINKS } from "@/utils/constants";
@@ -82,6 +85,16 @@ export default function Footer() {
             <FaUniversity className="h-5 w-5 shrink-0 sm:h-6 sm:w-6" />
           </motion.div>
         </div>
+        {/* University PDF Gallery */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-center text-slate-800 mb-6">University PDFs</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Image src="/University%20pdf/MU%20ODL_Fee%20Structure_2026-27%20(2)%20(1)_page-0001.jpg" alt="PDF 1" width={600} height={800} className="rounded-lg object-cover" />
+            <Image src="/University%20pdf/MU%20Online_Fee%20Structure_2026-27%20(1)%20(1)_page-0001.jpg" alt="PDF 2" width={600} height={800} className="rounded-lg object-cover" />
+            <Image src="/University%20pdf/fee_structure_diploma_page-0001.jpg" alt="PDF 3" width={600} height={800} className="rounded-lg object-cover" />
+            <Image src="/University%20pdf/fee_structure_pg_diploma%20(1)_page-0001%20(1).jpg" alt="PDF 4" width={600} height={800} className="rounded-lg object-cover" />
+          </div>
+        </div>
       </div>
 
       <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-12 md:grid-cols-2 xl:grid-cols-[1.1fr_1fr_1.1fr_1.2fr]">
@@ -136,11 +149,16 @@ export default function Footer() {
             </div>
 
             <div className="flex items-start gap-5">
-              <FaPhoneAlt className="mt-1 h-4 w-4 shrink-0 text-[#0f0fbf]" />
-              <div className="space-y-2 text-sm leading-6 sm:text-sm sm:leading-7">
-                <p className="font-extrabold text-white">Phone Number:</p>
-                <p>{brandMobile || "Mobile not available"}</p>
-              </div>
+               <FaPhoneAlt className="mt-1 h-4 w-4 shrink-0 text-[#0f0fbf]" />
+               <div className="space-y-2 text-sm leading-6 sm:text-sm sm:leading-7">
+                 <p className="font-extrabold text-white">Phone Number:</p>
+                 <p>{brandMobile || "Mobile not available"}</p>
+               </div>
+               <FaEnvelope className="mt-1 h-4 w-4 shrink-0 text-[#0f0fbf]" />
+               <div className="space-y-2 text-sm leading-6 sm:text-sm sm:leading-7">
+                 <p className="font-extrabold text-white">Email:</p>
+                 <p>{SITE_INFO.email || "Email not available"}</p>
+               </div>
             </div>
 
             <div className="flex items-start gap-5">

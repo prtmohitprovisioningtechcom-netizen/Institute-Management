@@ -65,7 +65,7 @@ export const NAV_LINKS: NavLink[] = [
       { label: "Student Login", href: "/student/login" },
     ],
   },
-  { label: "MANGALAYATAN UNIVERSITY", href: "/mangalaytan-university" },
+  { label: "UNIVERSITY COURSES", href: "/mangalaytan-university" },
   { label: "CONTACT US", href: "/contact-us" },
 ];
 
