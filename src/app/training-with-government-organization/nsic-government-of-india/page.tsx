@@ -1,8 +1,19 @@
 import InternalPageLayout from "@/components/InternalPageLayout";
 import { getBrandName } from "@/lib/settings";
+import fs from "fs";
+import path from "path";
+import ImageGallery from "@/components/ImageGallery";
 
 export default async function NsicGovernmentOfIndiaPage() {
   const brandName = await getBrandName();
+  
+  const publicDir = path.join(process.cwd(), "public", "training", "NSIC");
+  let images: string[] = [];
+  try {
+    images = fs.readdirSync(publicDir).filter(file => file.match(/\.(jpg|jpeg|png|gif)$/i));
+  } catch (error) {
+    console.error("Error reading directory:", error);
+  }
 
   return (
     <InternalPageLayout
@@ -13,19 +24,10 @@ export default async function NsicGovernmentOfIndiaPage() {
         { label: "NSIC Government of India" },
       ]}
     >
-      <div className="mx-auto w-full max-w-4xl space-y-6 text-sm leading-8 text-slate-600 sm:text-base sm:leading-9">
-        <h2 className="text-2xl font-extrabold text-slate-900">NSIC Government of India</h2>
-        <p>
-          {brandName} uses NSIC-linked initiatives to promote skill development, vocational learning and practical training for learners seeking better career options.
-        </p>
-        <p>
-          The aim is to build confidence, employability and self-reliance through structured skill development activities and guided mentorship.
-        </p>
-        <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 className="text-lg font-extrabold text-[#0a0aa1]">Skill Development Focus</h3>
-          <p className="mt-2">
-            Workshop-based learning, employment-oriented guidance and entrepreneurship support.
-          </p>
+      <div className="mx-auto w-full max-w-5xl">
+        <h2 className="text-3xl font-extrabold text-center text-slate-900 mb-10">NSIC Government of India</h2>
+        <div className="mt-8">
+          <ImageGallery images={images} basePath="/training/NSIC" />
         </div>
       </div>
     </InternalPageLayout>
