@@ -121,7 +121,7 @@ export default function Navbar() {
           <div className="hidden items-center gap-4 sm:flex">
             <Link href="/atc/login" className="inline-flex items-center gap-1 hover:text-blue-200">
               <LogIn className="h-3 w-3" />
-              ATC Login
+              Institute Login
             </Link>
             <Link href="/student/login" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-blue-200">
               <LogIn className="h-3 w-3" />
@@ -144,7 +144,7 @@ export default function Navbar() {
       </div>
 
       <div className="border-b border-slate-100 bg-white">
-        <div className="mx-auto flex w-full max-w-330 flex-col gap-1.5 px-2 py-2 sm:px-3 sm:py-2.5 lg:gap-1 lg:px-3 lg:py-2.5">
+        <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-1.5 px-2 py-2 sm:px-3 sm:py-2.5 lg:gap-1 lg:px-3 lg:py-2.5">
           <div className="flex items-center justify-between gap-1.5 lg:justify-start lg:gap-2.5">
             <div className="group flex min-w-0 items-start gap-1 sm:gap-2 lg:gap-2.5">
               <Link href="/" onClick={handleNavClick("/")} className="shrink-0">
@@ -167,12 +167,15 @@ export default function Navbar() {
               </Link>
               <div className="flex min-w-0 flex-1 flex-col gap-0.5 sm:gap-1 lg:pt-0.5">
                 <div className="flex min-w-0 flex-col leading-none tracking-tight text-[#0a0aa1]">
-                  <span className="text-[14px] font-black uppercase sm:text-[16px] lg:text-[21px] xl:text-[23px]">
-                    SUNIL GROUP OF EDUCATION FASHION AND TECHNOLOGY TRUST
+                  <span className="text-[14px] font-black uppercase sm:text-[16px] lg:text-[clamp(15px,1.35vw,23px)] whitespace-nowrap">
+                    SUNIL GROUP OF EDUCATION FASHION AND
+                  </span>
+                  <span className="text-[14px] font-black uppercase sm:text-[16px] lg:text-[clamp(15px,1.35vw,23px)] whitespace-nowrap mt-0.5">
+                    TECHNOLOGY TRUST
                   </span>
                 </div>
                 <div className="hidden min-w-0 border-l-2 border-[#0a0aa1]/20 pl-2 sm:block sm:pl-2.5">
-                  <p className="text-[10px] font-black uppercase leading-snug tracking-[0.16em] text-[#0a0aa1]/95 sm:text-[11px] lg:text-[13px] xl:text-sm">
+                  <p className="text-[10px] font-black uppercase leading-snug tracking-[0.16em] text-[#0a0aa1]/95 sm:text-[11px] lg:text-[clamp(10px,0.8vw,13px)] whitespace-nowrap">
                     SIFT-SKILL DEVELOPMENT INSTITUTE
                   </p>
                   <p className="max-w-[280px] text-[8px] font-medium leading-snug text-slate-600 sm:max-w-xs sm:text-[9px] lg:max-w-sm lg:text-[10px]">
@@ -209,9 +212,9 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div className="hidden shrink-0 flex-col items-center gap-1 lg:ml-2 lg:flex xl:ml-4">
-              <div className="flex items-center justify-center gap-0.5 xl:gap-1">
-                <div className="relative h-40 w-40 overflow-hidden rounded-[18px] border border-slate-100 bg-white shadow-sm xl:h-44 xl:w-44">
+            <div className="hidden shrink-0 flex-col items-center gap-1.5 lg:ml-2 lg:flex xl:ml-4">
+              <div className="flex items-center justify-center gap-1 xl:gap-2">
+                <div className="relative h-52 w-52 overflow-hidden rounded-[18px] bg-white xl:h-56 xl:w-56">
                   <Image
                     src="/p1.jpeg"
                     alt="P1"
@@ -220,7 +223,7 @@ export default function Navbar() {
                     className="object-contain p-0.5"
                   />
                 </div>
-                <div className="relative h-40 w-40 overflow-hidden rounded-[18px] border border-slate-100 bg-white shadow-sm xl:h-44 xl:w-44">
+                <div className="relative h-52 w-52 overflow-hidden rounded-[18px] bg-white xl:h-56 xl:w-56">
                   <Image
                     src="/certificate.jpeg"
                     alt="Certificate"
@@ -229,7 +232,7 @@ export default function Navbar() {
                     className="object-contain p-0.5"
                   />
                 </div>
-                <div className="relative h-40 w-40 overflow-hidden rounded-[18px] border border-slate-100 bg-white shadow-sm xl:h-44 xl:w-44">
+                <div className="relative h-52 w-52 overflow-hidden rounded-[18px] bg-white xl:h-56 xl:w-56">
                   <Image
                     src="/trophhy1.jpg"
                     alt="Trophy"
@@ -239,7 +242,7 @@ export default function Navbar() {
                   />
                 </div>
               </div>
-              <p className="mt-0.5 text-center text-[12px] font-black uppercase tracking-[0.16em] text-[#0a0aa1] xl:text-[13px]">
+              <p className="mt-1.5 text-center text-[15px] font-black uppercase tracking-[0.16em] text-[#0a0aa1] xl:text-[17px]">
                 State award winner institute 2021-2022
               </p>
             </div>
