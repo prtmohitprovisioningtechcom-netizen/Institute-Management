@@ -1,22 +1,22 @@
 import InternalPageLayout from "@/components/InternalPageLayout";
 import { getBrandName } from "@/lib/settings";
 
-export default async function PdtcGovernmentOfIndiaPage() {
+export default async function NsicGovernmentOfIndiaPage() {
   const brandName = await getBrandName();
 
   return (
     <InternalPageLayout
-      title="PDTC Government of India"
+      title="NSIC Government of India"
       breadcrumbs={[
         { label: "Home", href: "/" },
         { label: "Training with Government Organization", href: "/training-with-government-organization" },
-        { label: "PDTC Government of India" },
+        { label: "NSIC Government of India" },
       ]}
     >
       <div className="mx-auto w-full max-w-4xl space-y-6 text-sm leading-8 text-slate-600 sm:text-base sm:leading-9">
-        <h2 className="text-2xl font-extrabold text-slate-900">PDTC Government of India</h2>
+        <h2 className="text-2xl font-extrabold text-slate-900">NSIC Government of India</h2>
         <p>
-          {brandName} uses PDTC-linked initiatives to promote skill development, vocational learning and practical training for learners seeking better career options.
+          {brandName} uses NSIC-linked initiatives to promote skill development, vocational learning and practical training for learners seeking better career options.
         </p>
         <p>
           The aim is to build confidence, employability and self-reliance through structured skill development activities and guided mentorship.

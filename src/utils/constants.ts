@@ -39,9 +39,10 @@ export const NAV_LINKS: NavLink[] = [
     href: "/training-with-government-organization",
     children: [
       { label: "CFTI Government of India", href: "/training-with-government-organization/cfti-government-of-india" },
-      { label: "PDTC Government of India", href: "/training-with-government-organization/pdtc-government-of-india" },
+      { label: "PPDC Government of India", href: "/training-with-government-organization/ppdc-government-of-india" },
       { label: "MSME Government of India", href: "/training-with-government-organization/msme-government-of-india" },
       { label: "CDGI Government of India", href: "/training-with-government-organization/cdgi-government-of-india" },
+      { label: "NSIC Government of India", href: "/training-with-government-organization/nsic-government-of-india" },
     ],
   },
   {
