@@ -188,7 +188,7 @@ export default function PaymentReceipt({ data, onBack }: Props) {
           <tbody>
             <tr>
               <td className="border border-slate-300 px-3 py-2 font-semibold w-48 bg-slate-50">Applied For</td>
-              <td className="border border-slate-300 px-3 py-2" colSpan={3}>ATC (Authorized Training Center)</td>
+              <td className="border border-slate-300 px-3 py-2" colSpan={3}>Institute (Authorized Training Center)</td>
             </tr>
             <tr>
               <td className="border border-slate-300 px-3 py-2 font-semibold bg-slate-50">Name of the Institute</td>

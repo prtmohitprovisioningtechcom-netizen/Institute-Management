@@ -120,7 +120,7 @@ export default function StudentLoginPage() {
           <div className="mt-8 pt-6 border-t border-slate-50 text-center">
             <p className="text-xs text-slate-500 font-medium">
               Don't have access? Please contact your <br />
-              Authorized Training Center for help.
+              Institute for help.
             </p>
             <Link
               href="/"

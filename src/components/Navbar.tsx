@@ -15,6 +15,7 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("#home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openMobileDropdown, setOpenMobileDropdown] = useState<string | null>(null);
+  const [selectedAwardImg, setSelectedAwardImg] = useState<string | null>(null);
 
   const sectionLinks = useMemo(
     () =>
@@ -145,14 +146,14 @@ export default function Navbar() {
 
       <div className="border-b border-slate-100 bg-white">
         <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-1.5 px-2 py-2 sm:px-3 sm:py-2.5 lg:gap-1 lg:px-3 lg:py-2.5">
-          <div className="flex items-center justify-between gap-1.5 lg:justify-start lg:gap-2.5">
-            <div className="group flex min-w-0 items-start gap-1 sm:gap-2 lg:gap-2.5">
+          <div className="flex items-center justify-between gap-1.5 w-full">
+            <div className="group flex min-w-0 items-center gap-1 sm:gap-2 lg:gap-2.5">
               <Link href="/" onClick={handleNavClick("/")} className="shrink-0">
                 {brandLogo ? (
                   <img
                     src={brandLogo}
                     alt={brandName}
-                    className="h-auto max-h-[216px] w-[248px] shrink-0 object-contain sm:max-h-[234px] sm:w-[276px] md:max-h-[248px] md:w-[296px] lg:max-h-[262px] lg:w-[320px] xl:max-h-[276px] xl:w-[344px]"
+                    className="h-auto w-[110px] min-[360px]:w-[130px] min-[400px]:w-[150px] sm:w-[200px] md:w-[248px] lg:w-[296px] xl:w-[344px] shrink-0 object-contain"
                   />
                 ) : (
                   <Image
@@ -160,18 +161,18 @@ export default function Navbar() {
                     alt={brandName}
                     width={420}
                     height={176}
-                    className="h-auto w-[248px] shrink-0 object-contain sm:w-[276px] md:w-[296px] lg:w-[320px] xl:w-[344px]"
+                    className="h-auto w-[110px] min-[360px]:w-[130px] min-[400px]:w-[150px] sm:w-[200px] md:w-[248px] lg:w-[296px] xl:w-[344px] shrink-0 object-contain"
                     priority
                   />
                 )}
               </Link>
-              <div className="flex min-w-0 flex-1 flex-col gap-0.5 sm:gap-1 lg:pt-0.5">
+              <div className="flex min-w-0 flex-1 flex-col gap-0.5 sm:gap-1">
                 <div className="flex min-w-0 flex-col leading-none tracking-tight text-[#0a0aa1]">
-                  <span className="text-[14px] font-black uppercase sm:text-[16px] lg:text-[clamp(15px,1.35vw,23px)] whitespace-nowrap">
-                    SUNIL GROUP OF EDUCATION FASHION AND
+                  <span className="text-[9px] min-[360px]:text-[11px] min-[400px]:text-[12px] sm:text-[14px] md:text-[16px] lg:text-[clamp(15px,1.35vw,23px)] font-black uppercase whitespace-nowrap">
+                    SUNIL GROUP OF EDUCATION
                   </span>
-                  <span className="text-[14px] font-black uppercase sm:text-[16px] lg:text-[clamp(15px,1.35vw,23px)] whitespace-nowrap mt-0.5">
-                    TECHNOLOGY TRUST
+                  <span className="text-[9px] min-[360px]:text-[11px] min-[400px]:text-[12px] sm:text-[14px] md:text-[16px] lg:text-[clamp(15px,1.35vw,23px)] font-black uppercase whitespace-nowrap mt-0.5">
+                    FASHION AND TECHNOLOGY TRUST
                   </span>
                 </div>
                 <div className="hidden min-w-0 border-l-2 border-[#0a0aa1]/20 pl-2 sm:block sm:pl-2.5">
@@ -212,35 +213,47 @@ export default function Navbar() {
               </div>
             </div>
 
-            <div className="hidden shrink-0 flex-col items-center gap-1.5 lg:ml-2 lg:flex xl:ml-4">
+            <div className="hidden shrink-0 flex-col items-center gap-1.5 lg:ml-auto lg:flex xl:ml-8">
               <div className="flex items-center justify-center gap-1 xl:gap-2">
-                <div className="relative h-52 w-52 overflow-hidden rounded-[18px] bg-white xl:h-56 xl:w-56">
+                <button
+                  type="button"
+                  onClick={() => setSelectedAwardImg("/p1.jpeg")}
+                  className="relative h-56 w-56 overflow-hidden rounded-[18px] bg-white xl:h-60 xl:w-60 2xl:h-64 2xl:w-64 cursor-zoom-in block border-0 p-0 outline-none"
+                >
                   <Image
                     src="/p1.jpeg"
                     alt="P1"
                     fill
                     unoptimized
-                    className="object-contain p-0.5"
+                    className="object-contain"
                   />
-                </div>
-                <div className="relative h-52 w-52 overflow-hidden rounded-[18px] bg-white xl:h-56 xl:w-56">
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedAwardImg("/certificate.jpeg")}
+                  className="relative h-56 w-56 overflow-hidden rounded-[18px] bg-white xl:h-60 xl:w-60 2xl:h-64 2xl:w-64 cursor-zoom-in block border-0 p-0 outline-none"
+                >
                   <Image
                     src="/certificate.jpeg"
                     alt="Certificate"
                     fill
                     unoptimized
-                    className="object-contain p-0.5"
+                    className="object-contain"
                   />
-                </div>
-                <div className="relative h-52 w-52 overflow-hidden rounded-[18px] bg-white xl:h-56 xl:w-56">
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedAwardImg("/trophhy1.jpg")}
+                  className="relative h-56 w-56 overflow-hidden rounded-[18px] bg-white xl:h-60 xl:w-60 2xl:h-64 2xl:w-64 cursor-zoom-in block border-0 p-0 outline-none"
+                >
                   <Image
                     src="/trophhy1.jpg"
                     alt="Trophy"
                     fill
                     unoptimized
-                    className="object-contain p-0.5"
+                    className="object-contain"
                   />
-                </div>
+                </button>
               </div>
               <p className="mt-1.5 text-center text-[15px] font-black uppercase tracking-[0.16em] text-[#0a0aa1] xl:text-[17px]">
                 State award winner institute 2021-2022
@@ -257,6 +270,54 @@ export default function Navbar() {
             >
               {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
+          </div>
+
+          {/* Mobile Awards Block */}
+          <div className="flex lg:hidden flex-col items-center gap-1.5 w-full mt-3 border-t border-slate-100 pt-3">
+            <div className="flex items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => setSelectedAwardImg("/p1.jpeg")}
+                className="relative h-20 w-20 min-[375px]:h-24 min-[375px]:w-24 sm:h-32 sm:w-32 md:h-40 md:w-40 overflow-hidden rounded-lg bg-white cursor-zoom-in block border-0 p-0 outline-none"
+              >
+                <Image
+                  src="/p1.jpeg"
+                  alt="P1"
+                  fill
+                  unoptimized
+                  className="object-contain"
+                />
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedAwardImg("/certificate.jpeg")}
+                className="relative h-20 w-20 min-[375px]:h-24 min-[375px]:w-24 sm:h-32 sm:w-32 md:h-40 md:w-40 overflow-hidden rounded-lg bg-white cursor-zoom-in block border-0 p-0 outline-none"
+              >
+                <Image
+                  src="/certificate.jpeg"
+                  alt="Certificate"
+                  fill
+                  unoptimized
+                  className="object-contain"
+                />
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedAwardImg("/trophhy1.jpg")}
+                className="relative h-20 w-20 min-[375px]:h-24 min-[375px]:w-24 sm:h-32 sm:w-32 md:h-40 md:w-40 overflow-hidden rounded-lg bg-white cursor-zoom-in block border-0 p-0 outline-none"
+              >
+                <Image
+                  src="/trophhy1.jpg"
+                  alt="Trophy"
+                  fill
+                  unoptimized
+                  className="object-contain"
+                />
+              </button>
+            </div>
+            <p className="mt-1 text-center text-[10px] min-[375px]:text-xs sm:text-[13px] md:text-[14px] font-black uppercase tracking-[0.12em] text-[#0a0aa1]">
+              State award winner institute 2021-2022
+            </p>
           </div>
 
         </div>
@@ -366,6 +427,32 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
+
+      {/* Lightbox Modal */}
+      {selectedAwardImg && (
+        <div
+          onClick={() => setSelectedAwardImg(null)}
+          className="fixed inset-0 z-[9999] bg-black/85 flex items-center justify-center p-4 cursor-pointer"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-[90vw] max-h-[90vh] bg-transparent rounded-xl overflow-hidden cursor-default"
+          >
+            <button
+              type="button"
+              onClick={() => setSelectedAwardImg(null)}
+              className="absolute top-2 right-2 bg-black/70 text-white rounded-full w-10 h-10 flex items-center justify-center text-xl cursor-pointer z-10 hover:bg-red-600 transition-colors border-0 outline-none"
+            >
+              ✕
+            </button>
+            <img
+              src={selectedAwardImg}
+              alt="Enlarged Award"
+              className="max-w-[90vw] max-h-[85vh] block object-contain rounded-lg"
+            />
+          </div>
+        </div>
+      )}
     </header>
   );
 }

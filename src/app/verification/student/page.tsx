@@ -182,7 +182,7 @@ export default function StudentVerification() {
                         <Building2 className="w-5 h-5" />
                       </div>
                       <div>
-                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">ATC Code & Name</p>
+                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Institute Code & Name</p>
                         <p className="text-base font-semibold text-slate-900">{result.atcCode} - {result.atcName}</p>
                       </div>
                     </div>
@@ -201,12 +201,12 @@ export default function StudentVerification() {
             )}
           </div>
         </div>
-
+ 
         <div className="mt-8 bg-blue-50 border border-blue-100 rounded-xl p-6 flex gap-4">
           <AlertCircle className="w-6 h-6 text-blue-600 shrink-0" />
           <div className="text-sm text-blue-800">
             <p className="font-bold mb-1">Important Note:</p>
-            <p>Verification results are based on the data provided by the Authorized Training Centers. If you find any discrepancy, please contact your study center or the head office.</p>
+            <p>Verification results are based on the data provided by the Authorized Institutes. If you find any discrepancy, please contact your study center or the head office.</p>
           </div>
         </div>
       </div>

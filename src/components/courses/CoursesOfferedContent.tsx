@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { X } from "lucide-react";
-import PdfFullPageViewer from "@/components/courses/PdfFullPageViewer";
-import { COURSES_OFFERED_PDF_TITLE, COURSES_OFFERED_PDF_URL, COURSES_OFFERED_PDF_VIEW_URL } from "@/data/coursesOfferedPdf";
 
 interface Course {
   _id: string;
@@ -15,12 +13,8 @@ interface Course {
 }
 
 export default function CoursesOfferedContent() {
-  const viewerRef = useRef<HTMLDivElement>(null);
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
-  const [viewerSrc, setViewerSrc] = useState(COURSES_OFFERED_PDF_VIEW_URL);
-  const [viewerTitle, setViewerTitle] = useState(COURSES_OFFERED_PDF_TITLE);
-  const [pdfLoaded, setPdfLoaded] = useState(false);
   const [enquiryCourse, setEnquiryCourse] = useState<Course | null>(null);
 
   const [formData, setFormData] = useState({ name: "", email: "", mobile: "" });
@@ -51,18 +45,7 @@ export default function CoursesOfferedContent() {
     };
   }, []);
 
-  const showPdf = (title: string, url: string) => {
-    setPdfLoaded(true);
-    setViewerTitle(title);
-    setViewerSrc(url);
-    viewerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
-  const resetBrochure = () => {
-    setViewerTitle(COURSES_OFFERED_PDF_TITLE);
-    setViewerSrc(COURSES_OFFERED_PDF_VIEW_URL);
-    viewerRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   const handleEnquirySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -107,26 +90,10 @@ export default function CoursesOfferedContent() {
     );
   }
 
-  const showingBrochure = viewerSrc === COURSES_OFFERED_PDF_VIEW_URL || viewerSrc === COURSES_OFFERED_PDF_URL;
+
 
   return (
     <div className="w-full">
-      <div ref={viewerRef}>
-        <PdfFullPageViewer src={viewerSrc} title={viewerTitle} featured forceLoad={pdfLoaded} />
-      </div>
-
-      {!showingBrochure ? (
-        <div className="mx-auto mt-3 flex w-full max-w-6xl justify-end px-4">
-          <button
-            type="button"
-            onClick={resetBrochure}
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-600 transition hover:bg-slate-50"
-          >
-            <X className="h-4 w-4" />
-            Back to main brochure
-          </button>
-        </div>
-      ) : null}
 
       {courses.length > 0 ? (
         <div className="mx-auto mt-8 w-full max-w-6xl overflow-x-auto border border-slate-300 bg-white px-0 sm:px-0">
@@ -137,13 +104,11 @@ export default function CoursesOfferedContent() {
                 <th className="border border-slate-300 px-4 py-3 text-sm font-semibold">Course Name</th>
                 <th className="border border-slate-300 px-4 py-3 text-sm font-semibold">Short Name</th>
                 <th className="border border-slate-300 px-4 py-3 text-sm font-semibold">Total Course Fee (INR)</th>
-                <th className="border border-slate-300 px-4 py-3 text-sm font-semibold">PDF</th>
                 <th className="border border-slate-300 px-4 py-3 text-sm font-semibold">Enquiry</th>
               </tr>
             </thead>
             <tbody className="text-sm text-slate-700">
               {courses.map((course, index) => {
-                const coursePdf = course.pdfUrl || COURSES_OFFERED_PDF_URL;
 
                 return (
                   <tr key={course._id} className="align-top hover:bg-slate-50">
@@ -152,15 +117,6 @@ export default function CoursesOfferedContent() {
                     <td className="border border-slate-300 px-4 py-3">{course.shortName}</td>
                     <td className="border border-slate-300 px-4 py-3 font-semibold text-slate-800">
                       ₹{course.courseFee || 0}
-                    </td>
-                    <td className="border border-slate-300 px-4 py-3 text-center">
-                      <button
-                        type="button"
-                        onClick={() => showPdf(course.name, coursePdf)}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-rose-50 px-3 py-2 text-xs font-bold text-rose-700 ring-1 ring-rose-100 transition hover:bg-rose-100"
-                      >
-                        View PDF
-                      </button>
                     </td>
                     <td className="border border-slate-300 px-4 py-3 text-center">
                       <button

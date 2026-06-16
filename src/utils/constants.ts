@@ -50,7 +50,7 @@ export const NAV_LINKS: NavLink[] = [
     href: "#",
     children: [
       { label: "Student Verification", href: "/verification/student" },
-      { label: "ATC Verification", href: "/verification/atc" },
+      { label: "Institute Verification", href: "/verification/atc" },
       { label: "Certificate Verification", href: "/verification/certificate" },
       { label: "Marksheet Verification", href: "/verification/marksheet" },
     ],
@@ -62,7 +62,7 @@ export const NAV_LINKS: NavLink[] = [
     href: "#",
     children: [
       { label: "Admin Login", href: "/admin/login" },
-      { label: "ATC Login", href: "/atc/login" },
+      { label: "Institute Login", href: "/atc/login" },
       { label: "Student Login", href: "/student/login" },
     ],
   },

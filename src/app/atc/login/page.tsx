@@ -52,11 +52,11 @@ export default function AtcLoginPage() {
 
   return (
     <InternalPageLayout
-      title="ATC Login"
+      title="Institute Login"
       breadcrumbs={[
         { label: "Home", href: "/" },
         { label: "Affiliation Process" },
-        { label: "ATC Login" },
+        { label: "Institute Login" },
       ]}
     >
       <div className="mx-auto w-full max-w-lg">
@@ -70,7 +70,7 @@ export default function AtcLoginPage() {
               )}
             </div>
             <h2 className="text-3xl font-black text-slate-800 uppercase tracking-tight">{brandName}</h2>
-            <p className="text-xs text-slate-500 mt-2 font-bold uppercase tracking-widest">ATC Access Portal</p>
+            <p className="text-xs text-slate-500 mt-2 font-bold uppercase tracking-widest">Institute Access Portal</p>
           </div>
 
           <form onSubmit={handleSubmit} className="mt-4 space-y-3">

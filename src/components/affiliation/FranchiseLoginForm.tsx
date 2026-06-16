@@ -4,7 +4,7 @@ export default function FranchiseLoginForm() {
   return (
     <div className="mx-auto w-full max-w-6xl">
       <div className="max-w-5xl">
-        <h2 className="text-4xl font-bold text-slate-800 sm:text-5xl">ATC Login</h2>
+        <h2 className="text-4xl font-bold text-slate-800 sm:text-5xl">Institute Login</h2>
 
         <form className="mt-4 space-y-3" action="#" method="post">
           <input

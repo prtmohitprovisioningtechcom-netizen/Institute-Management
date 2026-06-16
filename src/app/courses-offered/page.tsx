@@ -1,4 +1,6 @@
 import CoursesOfferedContent from "@/components/courses/CoursesOfferedContent";
+import SgefttCoursesList from "@/components/courses/SgefttCoursesList";
+import ProspectusViewer from "@/components/courses/ProspectusViewer";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
@@ -42,6 +44,14 @@ export default function CoursesOfferedPage() {
 
         <section className="py-1 sm:py-2">
           <CoursesOfferedContent />
+        </section>
+
+        <section className="border-t border-slate-100 bg-slate-50/50 py-10">
+          <SgefttCoursesList />
+        </section>
+
+        <section className="border-t border-slate-100 py-12 bg-slate-50/30">
+          <ProspectusViewer />
         </section>
       </main>
 

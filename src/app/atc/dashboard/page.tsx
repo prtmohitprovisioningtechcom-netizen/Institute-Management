@@ -351,7 +351,7 @@ export default function AtcDashboardPage() {
             </button>
             <div className="flex items-center gap-2">
               <Building2 className="w-6 h-6 text-green-700" />
-              <span className="font-bold text-slate-800 text-sm">ATC Portal</span>
+              <span className="font-bold text-slate-800 text-sm">Institute Portal</span>
             </div>
           </div>
           <div className="hidden lg:block">
@@ -390,7 +390,7 @@ export default function AtcDashboardPage() {
             </button>
           </div>
         </header>
-
+ 
         {/* Content */}
         <div className="flex-1 p-6 space-y-6 overflow-y-auto">
           {(tab === "dashboard" || tab === "profile") && (
@@ -405,7 +405,7 @@ export default function AtcDashboardPage() {
                   <h2 className="text-2xl font-extrabold leading-tight">
                     Welcome, {user.trainingPartnerName || "User"}!
                   </h2>
-                  <p className="text-green-200 text-sm mt-1">Your Authorized Training Center portal is ready.</p>
+                  <p className="text-green-200 text-sm mt-1">Your Institute portal is ready.</p>
                 </div>
                 {tab === "profile" && (
                   <div className="bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-center">
@@ -414,7 +414,7 @@ export default function AtcDashboardPage() {
                   </div>
                 )}
               </div>
-
+ 
               {tab === "dashboard" && (
                 <div className="space-y-6">
                   <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
@@ -441,7 +441,7 @@ export default function AtcDashboardPage() {
                       ))}
                     </div>
                   </div>
-
+ 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                     {[
                       { label: "Total Students", value: stats.total || 0, icon: Users, bgColor: "bg-blue-50", textColor: "text-blue-600", dotColor: "bg-blue-100", labelColor: "text-blue-700" },
@@ -465,13 +465,13 @@ export default function AtcDashboardPage() {
                       </div>
                     ))}
                   </div>
-
+ 
                   {/* Reports Component */}
                   <AtcReports />
-
+ 
                 </div>
               )}
-
+ 
               {tab === "profile" && (
                 <>
                   {/* Info Cards */}
@@ -479,7 +479,7 @@ export default function AtcDashboardPage() {
                     {[
                       { label: "TP Code", value: user.tpCode, icon: Building2, bgColor: "bg-green-50", textColor: "text-green-600" },
                       { label: "Portal Status", value: "Active", icon: CheckCircle, bgColor: "bg-emerald-50", textColor: "text-emerald-600" },
-                      { label: "Role", value: "ATC Partner", icon: User, bgColor: "bg-teal-50", textColor: "text-teal-600" },
+                      { label: "Role", value: "Institute Partner", icon: User, bgColor: "bg-teal-50", textColor: "text-teal-600" },
                       { label: "Access Level", value: "Standard", icon: LayoutDashboard, bgColor: "bg-green-50", textColor: "text-green-600" },
                     ].map((card) => (
                       <div key={card.label} className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm flex items-center gap-4">
@@ -493,7 +493,7 @@ export default function AtcDashboardPage() {
                       </div>
                     ))}
                   </div>
-
+ 
                   {/* Contact Info Block */}
                   <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
@@ -514,13 +514,13 @@ export default function AtcDashboardPage() {
                         {editMode ? "Cancel Edit" : "Edit Center Info"}
                       </button>
                     </div>
-
+ 
                     {saveMsg && (
                       <div className={`mb-4 rounded-2xl px-4 py-3 text-sm font-semibold ${saveMsg.type === "success" ? "bg-emerald-50 text-emerald-700 border border-emerald-100" : "bg-red-50 text-red-700 border border-red-100"}`}>
                         {saveMsg.text}
                       </div>
                     )}
-
+ 
                     {editMode ? (
                       <form className="space-y-4" onSubmit={handleProfileSave}>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -531,7 +531,7 @@ export default function AtcDashboardPage() {
                               value={centerInfo.trainingPartnerName}
                               onChange={(e) => setCenterInfo((prev) => ({ ...prev, trainingPartnerName: e.target.value }))}
                               className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none focus:border-green-500 focus:ring-2 focus:ring-green-100"
-                              placeholder="Authorized Training Center Name"
+                              placeholder="Institute Name"
                             />
                           </div>
                           <div>

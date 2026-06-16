@@ -7,41 +7,44 @@ import InternalPageLayout from "@/components/InternalPageLayout";
 
 // All achievement photos
 const achievementPhotos = [
-  "WhatsApp Image 2026-06-15 at 18.58.57.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.58.58 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.58.58 (2).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.58.58.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.58.59 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.58.59.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.00 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.00 (2).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.00.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.01 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.01.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.24.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.25.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.26 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.26.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.27 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.27.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.28 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.28.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.29 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.29 (2).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.29.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.30 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.30 (2).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.30.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.31 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.31.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.32 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.32.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.33 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.33.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.34 (1).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.34 (2).jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.34.jpeg",
-  "WhatsApp Image 2026-06-15 at 18.59.35.jpeg",
+  "/Achieve1.jpeg",
+  "/Achieve2.jpeg",
+  "/Achieve3.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.58.57.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.58.58 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.58.58 (2).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.58.58.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.58.59 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.58.59.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.00 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.00 (2).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.00.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.01 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.01.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.24.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.25.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.26 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.26.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.27 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.27.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.28 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.28.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.29 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.29 (2).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.29.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.30 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.30 (2).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.30.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.31 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.31.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.32 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.32.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.33 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.33.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.34 (1).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.34 (2).jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.34.jpeg",
+  "/Achievement/WhatsApp Image 2026-06-15 at 18.59.35.jpeg"
 ];
 
 const achievements = [
@@ -51,7 +54,7 @@ const achievements = [
   "Active participation in trade fairs, exhibitions and vendor development programmes",
   "Entrepreneurship and self-employment support through practical industry-oriented training",
   "MDP-ESDP and government-linked awareness programmes for industrial development",
-  "Growing network of Authorized Training Centers (ATC) and franchise partners",
+  "Growing network of Authorized Institutes and franchise partners",
   "Strong emphasis on employability, wage employment and self-employment outcomes",
 ];
 
@@ -93,20 +96,20 @@ export default function AchievementPage() {
 
         {/* Achievement Photos Gallery */}
         <div className="w-full space-y-4">
-         
-          <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {achievementPhotos.map((photo, index) => (
+          <div className="grid gap-6 grid-cols-2">
+            {achievementPhotos.map((photoSrc, index) => (
               <div
                 key={index}
-                className="relative aspect-square overflow-hidden rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                onClick={() => setSelectedImage(`/Achievement/${photo}`)}
+                className="relative overflow-hidden rounded-lg border border-slate-200 bg-slate-50/20 shadow-sm hover:shadow-md transition-shadow cursor-pointer flex items-center justify-center p-3"
+                onClick={() => setSelectedImage(photoSrc)}
               >
                 <Image
-                  src={`/Achievement/${photo}`}
+                  src={photoSrc}
                   alt={`Achievement ${index + 1}`}
-                  fill
-                  className="object-cover hover:scale-105 transition-transform"
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                  width={600}
+                  height={600}
+                  className="w-full h-auto object-contain hover:scale-[1.02] transition-transform duration-200"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
             ))}
