@@ -1,17 +1,17 @@
-import AffiliationContent from "@/components/affiliation/AffiliationContent";
+import BecomeAtcForm from "@/components/affiliation/BecomeAtcForm";
 import InternalPageLayout from "@/components/InternalPageLayout";
 
-export default function AffiliationProcessPage() {
+export default function BecomeAtcPage() {
   return (
     <InternalPageLayout
       title="Affiliation Process"
       breadcrumbs={[
         { label: "Home", href: "/" },
-        { label: "Franchise" },
         { label: "Affiliation Process" },
       ]}
     >
-      <AffiliationContent />
+      <BecomeAtcForm />
     </InternalPageLayout>
   );
 }
+

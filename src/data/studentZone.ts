@@ -5,7 +5,6 @@ export type StudentZoneItem = {
   body: string[];
   pageType:
     | "registration-process"
-    | "direct-admission"
     | "examination-process"
     | "online-exam"
     | "download-admit-card"
@@ -17,14 +16,13 @@ export const studentZoneItems: StudentZoneItem[] = [
   {
     slug: "registration-process",
     title: "Registration Process",
-    summary: "Start your enrollment with a simple and guided registration process.",
+    summary: "Complete your enrollment through our official registration form.",
     pageType: "registration-process",
     body: [
-      "Our registration process is designed to be simple, transparent, and student-friendly. Learners can enquire about courses, review eligibility details, and choose the program that best matches their goals.",
-      "After selecting a course, students can submit their basic details, required documents, and preferred batch timing. Our team then verifies the information and confirms the admission steps clearly.",
+      "Fill out the registration form with your personal details, course preference, and required documents.",
+      "Our team will verify your information and confirm your enrollment after review.",
     ],
   },
-
   {
     slug: "examination-process",
     title: "Examination Process",
@@ -73,16 +71,6 @@ export const studentZoneItems: StudentZoneItem[] = [
     body: [
       "Our certification verification support helps students and institutions confirm the authenticity of course completion and related academic credentials issued by the institute.",
       "This section is intended to improve transparency and trust for both students and external verification requests.",
-    ],
-  },
-  {
-    slug: "direct-admission",
-    title: "Direct Admission",
-    summary: "Enroll directly into our courses through our simplified online admission portal.",
-    pageType: "direct-admission",
-    body: [
-      "The Direct Admission portal is designed for independent students who wish to apply for courses without visiting a physical study center initially.",
-      "Fill out the comprehensive admission form, upload required documents, and choose your preferred course and exam mode. Our team will review your application and process your enrollment accordingly.",
     ],
   },
 ];

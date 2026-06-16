@@ -273,7 +273,7 @@ export default function AtcDashboardPage() {
             onClick={() => { setTab("frontAdmission"); setIsSidebarOpen(false); }}
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition ${tab === "frontAdmission" ? "bg-white/20 text-white" : "text-green-200 hover:bg-white/10 hover:text-white"}`}
           >
-            <UserPlus className="w-4 h-4" /> Front Admission
+            <UserPlus className="w-4 h-4" /> Registration Process
             {stats.frontPending > 0 && (
               <span className="ml-auto bg-amber-500 text-white text-[10px] px-2 py-0.5 rounded-full font-black animate-pulse">
                 {stats.frontPending}
@@ -358,7 +358,7 @@ export default function AtcDashboardPage() {
             <h1 className="text-xl font-bold text-slate-800">
               {tab === "dashboard" ? "Dashboard" : 
                tab === "students" ? "Student Management" : 
-               tab === "frontAdmission" ? "Front Admission" : 
+               tab === "frontAdmission" ? "Registration Process" : 
                tab === "exams" ? "Exam Requests" :
                tab === "certificates" ? "Certificate Requests" :
                tab === "examSets" ? "My Exam Sets" :
@@ -419,7 +419,7 @@ export default function AtcDashboardPage() {
                 <div className="space-y-6">
                   <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                     <div className="px-6 py-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-                      <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider">Front Admission Overview</h3>
+                      <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider">Registration Process Overview</h3>
                       <button onClick={() => setTab("frontAdmission")} className="text-[10px] font-black text-green-600 uppercase hover:underline">View All</button>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-x divide-slate-100">
@@ -729,7 +729,7 @@ export default function AtcDashboardPage() {
             <div className="space-y-6">
               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
                 <div className="px-6 py-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-                  <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider">Front Admission Overview</h3>
+                  <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider">Registration Process Overview</h3>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-x divide-slate-100">
                   {[

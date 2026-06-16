@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
 import DirectAdmissionForm from "@/components/student-zone/DirectAdmissionForm";
 import OnlineExamPortal from "@/components/student-zone/OnlineExamPortal";
 import AdmitCardViewer from "@/components/student-zone/AdmitCardViewer";
@@ -42,49 +40,16 @@ function SearchForm({ buttonText }: { buttonText: string }) {
   );
 }
 
-function RegistrationIntro() {
-  return (
-    <div className="mx-auto grid w-full max-w-5xl gap-8 lg:grid-cols-[360px_1fr] lg:items-center">
-      <div className="mx-auto w-full max-w-82">
-        <div className="relative aspect-4/5 w-full overflow-hidden border border-slate-200 bg-slate-50">
-          <Image
-            src="/team-placeholder.svg"
-            alt="Registration support"
-            fill
-            className="object-contain p-2"
-            sizes="(max-width: 1024px) 300px, 28vw"
-          />
-        </div>
-      </div>
-      <div className="text-slate-700">
-        <h2 className="text-4xl font-bold leading-tight text-slate-800">
-          Registration Process
-        </h2>
-        <p className="mt-3 text-lg text-slate-500">Click to Student Zone</p>
-      </div>
-    </div>
-  );
-}
-
 export default function StudentZoneContent({ item }: StudentZoneContentProps) {
   if (!item) {
     return (
-      <div className="p-10 text-center border border-dashed border-slate-200 rounded-2xl">
-        <p className="text-slate-400 font-medium">Page content not found. Please try again later.</p>
+      <div className="rounded-2xl border border-dashed border-slate-200 p-10 text-center">
+        <p className="font-medium text-slate-400">Page content not found. Please try again later.</p>
       </div>
     );
   }
 
   if (item.pageType === "registration-process") {
-    return (
-      <div className="space-y-10">
-        <RegistrationIntro />
-
-      </div>
-    );
-  }
-
-  if (item.pageType === "direct-admission") {
     return <DirectAdmissionForm />;
   }
 

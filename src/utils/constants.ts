@@ -21,7 +21,6 @@ export const NAV_LINKS: NavLink[] = [
       { label: "Our Vision", href: "/our-vision" },
       { label: "Achievement", href: "/achievement" },
       { label: "Institute Registration", href: "/institute-registration" },
-      { label: "University Partner", href: "/university-partners" },
     ],
   },
   {
@@ -29,7 +28,6 @@ export const NAV_LINKS: NavLink[] = [
     href: "/student-zone/registration-process",
     children: [
       { label: "Registration Process", href: "/student-zone/registration-process" },
-      { label: "Direct Admission", href: "/direct-admission" },
       { label: "Examination Process", href: "/student-zone/examination-process" },
       { label: "Download Admit Card", href: "/student-zone/download-admit-card" },
       { label: "Registered Student", href: "/student-zone/registered-student" },
@@ -56,14 +54,7 @@ export const NAV_LINKS: NavLink[] = [
       { label: "Marksheet Verification", href: "/verification/marksheet" },
     ],
   },
-  {
-    label: "AFFILIATION PROCESS",
-    href: "/affiliation-process",
-    children: [
-      { label: "Affiliation Process", href: "/affiliation-process" },
-      { label: "Become ATC", href: "/become-atc" },
-    ],
-  },
+  { label: "AFFILIATION PROCESS", href: "/affiliation-process" },
   { label: "GALLERY", href: "/gallery" },
   {
     label: "LOGIN",

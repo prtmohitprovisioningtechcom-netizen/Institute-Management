@@ -2,10 +2,13 @@
 
 import { useState } from "react";
 import InternalPageLayout from "@/components/InternalPageLayout";
-import { GraduationCap, BookOpen, Briefcase, CheckCircle2, User, Phone, Mail, MessageSquare, ArrowRight, X, Loader2 } from "lucide-react";
+import Image from "next/image";
+import { CheckCircle2, User, Phone, Mail, MessageSquare, X, Loader2 } from "lucide-react";
+import Link from "next/link";
 
 export default function MangalayatanUniversityPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImg, setSelectedImg] = useState<string | null>(null);
   const [selectedProgram, setSelectedProgram] = useState("");
   const [formData, setFormData] = useState({
     name: "",
@@ -17,48 +20,9 @@ export default function MangalayatanUniversityPage() {
   const [submitSuccess, setSubmitSuccess] = useState<boolean | null>(null);
   const [submitError, setSubmitError] = useState("");
 
-  const programs = [
-    {
-      id: "distance-learning",
-      title: "Distance & Online Learning Programs",
-      subtitle: "Admission Counselor",
-      description:
-        "Accelerate your career with flexible, fully online and distance learning programs approved by UGC-DEB. Learn at your own pace from industry-expert faculty with modern learning management systems.",
-      icon: BookOpen,
-      badge: "UGC-DEB Approved",
-      color: "from-blue-600 to-indigo-700",
-      features: [
-        "UGC-DEB Approved Degree & Diploma Programs",
-        "100% Online Classes & Flexible Learning Management System (LMS)",
-        "Self-paced Examination & Learning Options",
-        "Dedicated Student Support & Academic Counseling",
-      ],
-    },
-    {
-      id: "vocational-training",
-      title: "Vocational Training & Admission Counselor",
-      subtitle: "Skill Development Partner",
-      description:
-        "Gain hands-on skills with specialized vocational training programs designed to make you industry-ready. Our expert counselors will guide you through government-aligned certifications and job-oriented diplomas.",
-      icon: Briefcase,
-      badge: "Skill India Aligned",
-      color: "from-orange-500 to-red-600",
-      features: [
-        "Career-centric Vocational Diplomas & Certificates",
-        "Practical, Lab-intensive Training Curriculum",
-        "Government & Industry Recognized Certifications",
-        "Job Placement Assistance & Counseling Support",
-      ],
-    },
-  ];
+ 
 
-  const openInquiryModal = (programTitle: string) => {
-    setSelectedProgram(programTitle);
-    setSubmitSuccess(null);
-    setSubmitError("");
-    setFormData({ name: "", email: "", mobile: "", message: "" });
-    setIsModalOpen(true);
-  };
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -101,7 +65,8 @@ export default function MangalayatanUniversityPage() {
         setSubmitError(data.message || "Something went wrong. Please try again.");
         setSubmitSuccess(false);
       }
-    } catch (err) {
+    } catch (error) {
+      console.error(error);
       setSubmitError("Failed to connect to the server. Please check your connection.");
       setSubmitSuccess(false);
     } finally {
@@ -119,83 +84,74 @@ export default function MangalayatanUniversityPage() {
     >
       <div className="mx-auto w-full max-w-6xl space-y-16">
         {/* University Logo Section */}
-        <section className="flex justify-center py-4">
-          <div className="relative flex h-28 w-64 items-center justify-center rounded-2xl bg-white p-4 shadow-md ring-1 ring-slate-100 sm:h-32 sm:w-72 md:h-36 md:w-80">
-            <img
-              src="/mangalaytan-university-logo.png"
-              alt="Mangalayatan University Logo"
-              className="max-h-full max-w-full object-contain"
-            />
+        <section className="flex flex-col items-center py-4">
+          <div className="relative flex h-36 w-72 items-center justify-center rounded-2xl bg-white p-4 shadow-md ring-1 ring-slate-100 sm:h-44 sm:w-80 md:h-48 md:w-96">
+            <Image
+  src="/mangalaytan-university-logo.png"
+  alt="Mangalayatan University Logo"
+  className="max-h-full max-w-full object-contain"
+  width={500}
+  height={200}
+  priority
+/>
+          </div>
+          {/* Image Gallery from public/Mangal */}
+          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+            <Image
+  src="/Mangal/WhatsApp Image 2026-06-15 at 18.12.49.jpeg"
+  alt="Mangal Image 1"
+  className="h-64 w-full object-cover rounded-lg cursor-pointer"
+  width={400}
+  height={256}
+  onClick={() => setSelectedImg('/Mangal/WhatsApp Image 2026-06-15 at 18.12.49.jpeg')}
+/>
+            <Image
+  src="/Mangal/WhatsApp Image 2026-06-15 at 18.12.50 (1).jpeg"
+  alt="Mangal Image 2"
+  className="h-64 w-full object-cover rounded-lg cursor-pointer"
+  width={400}
+  height={256}
+  onClick={() => setSelectedImg('/Mangal/WhatsApp Image 2026-06-15 at 18.12.50 (1).jpeg')}
+/>
+            <Image
+  src="/Mangal/WhatsApp Image 2026-06-15 at 18.12.50.jpeg"
+  alt="Mangal Image 3"
+  className="h-64 w-full object-cover rounded-lg cursor-pointer"
+  width={400}
+  height={256}
+  onClick={() => setSelectedImg('/Mangal/WhatsApp Image 2026-06-15 at 18.12.50.jpeg')}
+/>
           </div>
         </section>
 
-        {/* Program Options Grid */}
+        {selectedImg && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-transparent" onClick={() => setSelectedImg(null)}>
+            <div className="relative" onClick={e => e.stopPropagation()}>
+              <button className="absolute top-2 right-2 text-white text-2xl" onClick={() => setSelectedImg(null)}>&times;</button>
+{selectedImg && (
+  <Image
+    src={selectedImg}
+    alt="Enlarged"
+    className="max-w-full max-h-[90vh]"
+    width={800}
+    height={600}
+  />
+)}
+            </div>
+          </div>
+        )}
+
+      {/* Program Options Grid */}
         <section className="space-y-8">
           <div className="text-center">
-            <h3 className="text-xl font-extrabold uppercase tracking-wide text-slate-800 sm:text-2xl lg:text-3xl">
-              Academic & Vocational Programs
-            </h3>
-            <p className="mx-auto mt-2 max-w-xl text-xs text-slate-500 sm:text-sm">
-              Explore our special learning streams and speak directly to an expert counselor to secure your admission.
-            </p>
-          </div>
-
-          <div className="grid gap-8 md:grid-cols-2">
-            {programs.map((prog) => {
-              const IconComponent = prog.icon;
-              return (
-                <article
-                  key={prog.id}
-                  className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:scale-[1.01] hover:shadow-lg"
-                >
-                  <div className="space-y-6">
-                    {/* Card Header */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-[#0a0aa1]">
-                        <IconComponent className="h-6 w-6" />
-                      </div>
-                      <span className="rounded-full bg-slate-100 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-600">
-                        {prog.badge}
-                      </span>
-                    </div>
-
-                    {/* Content */}
-                    <div className="space-y-2.5">
-                      <p className="text-xs font-bold uppercase tracking-wider text-orange-600">
-                        {prog.subtitle}
-                      </p>
-                      <h4 className="text-lg font-black uppercase leading-tight text-slate-800 transition group-hover:text-[#0a0aa1]">
-                        {prog.title}
-                      </h4>
-                      <p className="text-xs leading-relaxed text-slate-500">
-                        {prog.description}
-                      </p>
-                    </div>
-
-                    {/* Features checklist */}
-                    <ul className="space-y-2 pt-2">
-                      {prog.features.map((feat, index) => (
-                        <li key={index} className="flex items-start gap-2.5 text-xs text-slate-600">
-                          <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-green-500" />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Button Action */}
-                  <div className="mt-8">
-                    <button
-                      onClick={() => openInquiryModal(prog.title)}
-                      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0a0aa1] py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-[#070773] hover:shadow-md active:scale-95"
-                    >
-                      <span>Click Here</span>
-                      <ArrowRight className="h-4 w-4 transition duration-300 group-hover:translate-x-1" />
-                    </button>
-                  </div>
-                </article>
-              );
-            })}
+            <h3 className="text-xl font-extrabold uppercase tracking-wide text-slate-800 sm:text-2xl lg:text-3xl">Admission Counselor Distance Online Learning Programs</h3>
+            <div className="mt-6">
+              <Link href="/black" className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 px-6 text-xs font-bold uppercase tracking-wider text-white hover:bg-blue-700" onClick={() => setSelectedProgram('Admission Counselor Distance Online Learning Programs')}>Click Here</Link>
+            </div>
+            <h3 className="mt-6 text-xl font-extrabold uppercase tracking-wide text-slate-800 sm:text-2xl lg:text-3xl">Vocational Training Provider and Admission Counselor</h3>
+            <div className="mt-6">
+              <Link href="/black" className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 py-3 px-6 text-xs font-bold uppercase tracking-wider text-white hover:bg-blue-700" onClick={() => setSelectedProgram('Vocational Training Provider and Admission Counselor')}>Click Here</Link>
+            </div>
           </div>
         </section>
 

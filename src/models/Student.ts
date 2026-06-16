@@ -23,16 +23,20 @@ export interface IStudent {
   registrationNo?: string;
   name: string;
   fatherName: string;
+  husbandName?: string;
   motherName: string;
   dob: string;
+  age?: string;
   gender: string;
   mobile: string;
   parentsMobile?: string;
   email: string;
   currentAddress: string;
   permanentAddress: string;
+  education?: string;
   course: string; // or Schema.Types.ObjectId if referencing Course
   courseId?: mongoose.Types.ObjectId;
+  courseDuration?: string;
   courseType?: "Regular" | "ODL";
   session: string;
   classRollNo?: string;
@@ -61,6 +65,11 @@ export interface IStudent {
   graduationDoc?: string;
   highestQualDoc?: string;
   referredBy?: string;
+  caste?: string;
+  residence?: string;
+  declarationName?: string;
+  declarationAge?: string;
+  declarationCourse?: string;
   admissionDate: string;
   password?: string; // hashed
   status: "pending" | "approved" | "rejected" | "active" | "pending_atc" | "pending_admin";
@@ -91,16 +100,20 @@ const StudentSchema = new Schema<IStudent>(
     registrationNo: { type: String, unique: true, sparse: true },
     name: { type: String, required: true },
     fatherName: { type: String, required: true },
+    husbandName: { type: String, default: "" },
     motherName: { type: String, required: true },
     dob: { type: String, required: true },
+    age: { type: String, default: "" },
     gender: { type: String, required: true },
     mobile: { type: String, required: true },
     parentsMobile: { type: String },
     email: { type: String, default: "" },
     currentAddress: { type: String, required: true },
     permanentAddress: { type: String, required: true },
+    education: { type: String, default: "" },
     course: { type: String, required: true },
     courseId: { type: Schema.Types.ObjectId, ref: "Course" },
+    courseDuration: { type: String, default: "" },
     courseType: { type: String, enum: ["Regular", "ODL", "ODL (Open Distance Learning)"], default: "Regular" },
     session: { type: String, required: true },
     classRollNo: { type: String },
@@ -129,6 +142,11 @@ const StudentSchema = new Schema<IStudent>(
     graduationDoc: { type: String },
     highestQualDoc: { type: String },
     referredBy: { type: String },
+    caste: { type: String, default: "" },
+    residence: { type: String, default: "" },
+    declarationName: { type: String, default: "" },
+    declarationAge: { type: String, default: "" },
+    declarationCourse: { type: String, default: "" },
     password: { type: String },
     status: { type: String, default: "pending" },
     userStatus: { type: String, default: "active" },
@@ -145,7 +163,7 @@ const StudentSchema = new Schema<IStudent>(
     paidAmount: { type: Number, default: 0 },
     duesAmount: { type: Number, default: 0 },
 
-    // Direct Admission
+    // Registration Process (online form submissions)
     isDirectAdmission: { type: Boolean, default: false }
   },
   { timestamps: true }

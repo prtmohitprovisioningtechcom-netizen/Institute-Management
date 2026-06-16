@@ -131,9 +131,9 @@ export default function Navbar() {
               <Download className="h-3 w-3" />
               Downloads
             </Link>
-            <Link href="/direct-admission" className="inline-flex items-center gap-1 hover:text-blue-200">
+            <Link href="/student-zone/registration-process" className="inline-flex items-center gap-1 hover:text-blue-200">
               <UserPlus className="h-3 w-3" />
-              Direct Admission
+              Registration Process
             </Link>
             <Link href="#" className="inline-flex items-center gap-1 hover:text-blue-200">
               <Wallet className="h-3 w-3" />

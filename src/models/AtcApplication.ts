@@ -54,6 +54,32 @@ export interface IAtcApplication {
   submittedByAdmin: boolean; // true if Admin filled and directly approved
   postalAddressOffice: string;
   zones: string[];
+  city?: string;
+  postOffice?: string;
+  classRoom?: string;
+  officeRoom?: string;
+  institutePhone?: string;
+  instituteStd?: string;
+  instituteCell?: string;
+  website?: string;
+  directorAddress?: string;
+  directorCity?: string;
+  directorPostOffice?: string;
+  directorPinCode?: string;
+  directorDistrict?: string;
+  directorState?: string;
+  directorCountry?: string;
+  directorPhone?: string;
+  directorStd?: string;
+  directorCell?: string;
+  govPresident?: string;
+  govVicePresident?: string;
+  govSecretary?: string;
+  govAssistantSecretary?: string;
+  govTreasurer?: string;
+  govMember1?: string;
+  govMember2?: string;
+  applicationDate?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -67,6 +93,32 @@ const AtcApplicationSchema = new Schema<IAtcApplication>(
     trainingPartnerAddress: { type: String, required: true },
     postalAddressOffice: { type: String, default: "" },
     zones: { type: [String], default: [] },
+    city: { type: String, default: "" },
+    postOffice: { type: String, default: "" },
+    classRoom: { type: String, default: "" },
+    officeRoom: { type: String, default: "" },
+    institutePhone: { type: String, default: "" },
+    instituteStd: { type: String, default: "" },
+    instituteCell: { type: String, default: "" },
+    website: { type: String, default: "" },
+    directorAddress: { type: String, default: "" },
+    directorCity: { type: String, default: "" },
+    directorPostOffice: { type: String, default: "" },
+    directorPinCode: { type: String, default: "" },
+    directorDistrict: { type: String, default: "" },
+    directorState: { type: String, default: "" },
+    directorCountry: { type: String, default: "" },
+    directorPhone: { type: String, default: "" },
+    directorStd: { type: String, default: "" },
+    directorCell: { type: String, default: "" },
+    govPresident: { type: String, default: "" },
+    govVicePresident: { type: String, default: "" },
+    govSecretary: { type: String, default: "" },
+    govAssistantSecretary: { type: String, default: "" },
+    govTreasurer: { type: String, default: "" },
+    govMember1: { type: String, default: "" },
+    govMember2: { type: String, default: "" },
+    applicationDate: { type: String, default: "" },
     totalName: { type: String, default: "" },
     district: { type: String, required: true },
     state: { type: String, required: true },

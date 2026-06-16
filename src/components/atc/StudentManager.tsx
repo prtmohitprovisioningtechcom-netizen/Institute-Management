@@ -1004,7 +1004,7 @@ export default function StudentManager({ isDirectAdmission = false, initialFilte
           onClick={() => setTab("list")}
           className={`px-4 py-3 text-sm font-bold transition-all relative ${tab === "list" ? "text-green-600" : "text-slate-400 hover:text-slate-600"}`}
         >
-          <span className="flex items-center gap-2"><Users className="w-4 h-4" /> {isDirectAdmission ? "Front Admission Requests" : "All Students"}</span>
+          <span className="flex items-center gap-2"><Users className="w-4 h-4" /> {isDirectAdmission ? "Registration Requests" : "All Students"}</span>
           {tab === "list" && <div className="absolute bottom-0 left-0 right-0 h-1 bg-green-600 rounded-t-full" />}
         </button>
         {!isDirectAdmission && (

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import InternalPageLayout from "@/components/InternalPageLayout";
 
 
 // All achievement photos

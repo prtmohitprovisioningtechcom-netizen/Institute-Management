@@ -53,7 +53,7 @@ export default function StudentZonePage() {
       title: "Registration Process",
       desc: "Detailed guide on how to register for our professional training courses.",
       icon: ListChecks,
-      link: "/admission",
+      link: "/student-zone/registration-process",
       color: "bg-blue-500",
       tag: "Process"
     },
