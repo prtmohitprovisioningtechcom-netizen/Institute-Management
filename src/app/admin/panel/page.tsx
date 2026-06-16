@@ -43,6 +43,7 @@ import dynamic from "next/dynamic";
 import StudyMaterialManager from "@/components/admin/StudyMaterialManager";
 import WalletRequestManager from "@/components/admin/WalletRequestManager";
 import GalleryManager from "@/components/admin/GalleryManager";
+import GovTrainingImagesManager from "@/components/admin/GovTrainingImagesManager";
 import OurCertificatesManager from "@/components/admin/OurCertificatesManager";
 import SkeletonLoader from "@/components/common/SkeletonLoader";
 
@@ -241,7 +242,7 @@ const fallbackCredentialTextFromStudent = (student: Pick<Student, "qualSchool" |
   return `${qual} | ${school} |  | ${year} | ${obtained}`;
 };
 
-type Tab = "dashboard" | "create" | "courses" | "courseEnquiries" | "questionSets" | "centers" | "examRequests" | "materials" | "gallery" | "settings" | "students" | "resultReview" | "registration" | "fees" | "backgrounds" | "walletRequests" | "walletPayment" | "ourCertificates";
+type Tab = "dashboard" | "create" | "courses" | "courseEnquiries" | "questionSets" | "centers" | "examRequests" | "materials" | "gallery" | "govTraining" | "settings" | "students" | "resultReview" | "registration" | "fees" | "backgrounds" | "walletRequests" | "walletPayment" | "ourCertificates";
 
 const PrintField = ({ label, value }: { label: string; value: string | number | null | undefined }) => (
   <div>
@@ -1473,6 +1474,7 @@ export default function AdminPanelPage() {
     walletPayment: "Wallet Payment Settings",
     backgrounds: "Background Templates",
     ourCertificates: "Our Certificates",
+    govTraining: "Gov Training Images",
   };
 
   const tabDesc: Record<Tab, string> = {
@@ -1494,6 +1496,7 @@ export default function AdminPanelPage() {
     walletPayment: "Configure receiver details and QR shown to ATCs for wallet payments",
     backgrounds: "Upload backgrounds for ID Cards, Certificates, and Marksheets",
     ourCertificates: "Manage certificate logos shown above the footer on all public pages",
+    govTraining: "Manage photos/images for CFTI, PPDC, MSME, CDGI, NSIC organizations",
   };
 
   return (
@@ -1567,7 +1570,7 @@ export default function AdminPanelPage() {
               <div className="space-y-1">
                 <button
                   onClick={() => toggleMenu("settings")}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition ${tab === "settings" || tab === "registration" || tab === "walletPayment" || tab === "ourCertificates" || tab === "backgrounds" ? "text-white" : "text-blue-200 hover:bg-white/10 hover:text-white"}`}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition ${tab === "settings" || tab === "registration" || tab === "walletPayment" || tab === "ourCertificates" || tab === "backgrounds" || tab === "govTraining" ? "text-white" : "text-blue-200 hover:bg-white/10 hover:text-white"}`}
                 >
                   <Settings className="w-4 h-4" />
                   Settings
@@ -1610,6 +1613,13 @@ export default function AdminPanelPage() {
                      >
                        <Award className="w-3.5 h-3.5" />
                        Our Certificates
+                     </button>
+                     <button
+                       onClick={() => { setTab("govTraining"); setIsSidebarOpen(false); }}
+                       className={`w-full flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-medium transition ${tab === "govTraining" ? "bg-white/10 text-white" : "text-blue-200 hover:text-white"}`}
+                     >
+                       <Images className="w-3.5 h-3.5" />
+                       Gov Training Images
                      </button>
                   </div>
                 )}
@@ -2067,6 +2077,9 @@ export default function AdminPanelPage() {
 
             {/* ── PHOTO GALLERY TAB ── */}
             {tab === "gallery" && <GalleryManager />}
+
+            {/* ── GOV TRAINING IMAGES TAB ── */}
+            {tab === "govTraining" && <GovTrainingImagesManager />}
 
             {/* ── RESULT REVIEW TAB ── */}
             {tab === "resultReview" && (

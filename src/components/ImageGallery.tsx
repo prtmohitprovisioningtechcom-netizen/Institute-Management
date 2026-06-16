@@ -10,25 +10,40 @@ interface ImageGalleryProps {
 export default function ImageGallery({ images, basePath }: ImageGalleryProps) {
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
 
+  const getImgUrl = (img: string) => {
+    if (img.startsWith("http")) {
+      return img;
+    }
+    if (img.startsWith("/")) {
+      const parts = img.split("/");
+      const filename = parts.pop() || "";
+      return [...parts, encodeURIComponent(filename)].join("/");
+    }
+    return `${basePath}/${encodeURIComponent(img)}`;
+  };
+
   return (
     <>
       {/* 2-Column Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         {images.length > 0 ? (
-          images.map((img, idx) => (
-            <div 
-              key={idx} 
-              onClick={() => setSelectedImg(`${basePath}/${encodeURIComponent(img)}`)}
-              className="cursor-pointer overflow-hidden rounded-xl shadow-lg border-4 border-slate-100 hover:shadow-2xl transition-transform duration-300 hover:scale-[1.02]"
-            >
-              <img 
-                src={`${basePath}/${encodeURIComponent(img)}`} 
-                alt={`Gallery Image ${idx + 1}`} 
-                className="w-full h-auto object-cover" 
-                loading="lazy" 
-              />
-            </div>
-          ))
+          images.map((img, idx) => {
+            const url = getImgUrl(img);
+            return (
+              <div 
+                key={idx} 
+                onClick={() => setSelectedImg(url)}
+                className="cursor-pointer overflow-hidden rounded-xl shadow-lg border-4 border-slate-100 hover:shadow-2xl transition-transform duration-300 hover:scale-[1.02]"
+              >
+                <img 
+                  src={url} 
+                  alt={`Gallery Image ${idx + 1}`} 
+                  className="w-full h-auto object-cover" 
+                  loading="lazy" 
+                />
+              </div>
+            );
+          })
         ) : (
           <p className="text-slate-500 col-span-2 text-center">No images available in this folder yet.</p>
         )}

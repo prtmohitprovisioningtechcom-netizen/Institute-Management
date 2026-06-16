@@ -3,17 +3,41 @@ import { getBrandName } from "@/lib/settings";
 import fs from "fs";
 import path from "path";
 import ImageGallery from "@/components/ImageGallery";
+import { connectDB } from "@/lib/mongodb";
+import { GovTrainingImage } from "@/models/GovTrainingImage";
+
+export const dynamic = "force-dynamic";
 
 export default async function MsmeGovernmentOfIndiaPage() {
   const brandName = await getBrandName();
   
-  const publicDir = path.join(process.cwd(), "public", "training", "MSME");
-  let images: string[] = [];
+  // Fetch from DB
+  let dbUrls: string[] = [];
   try {
-    images = fs.readdirSync(publicDir).filter(file => file.match(/\.(jpg|jpeg|png|gif)$/i));
+    await connectDB();
+    const dbImages = await GovTrainingImage.find({ org: "MSME" })
+      .sort({ sortOrder: 1, createdAt: -1 })
+      .select("_id")
+      .lean();
+    dbUrls = dbImages.map(img => `/api/public/training-images/media/${img._id}`);
+  } catch (error) {
+    console.error("Error reading from DB:", error);
+  }
+
+  // Fallback / Combine with public folder local files
+  const publicDir = path.join(process.cwd(), "public", "training", "MSME");
+  let localImages: string[] = [];
+  try {
+    if (fs.existsSync(publicDir)) {
+      localImages = fs.readdirSync(publicDir)
+        .filter(file => file.match(/\.(jpg|jpeg|png|gif)$/i))
+        .map(file => `/training/MSME/${file}`);
+    }
   } catch (error) {
     console.error("Error reading directory:", error);
   }
+
+  const images = [...dbUrls, ...localImages];
 
   return (
     <InternalPageLayout
