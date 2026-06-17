@@ -258,6 +258,12 @@ export default function Navbar() {
               <p className="mt-1.5 text-center text-[15px] font-black uppercase tracking-[0.16em] text-[#0a0aa1] xl:text-[17px]">
                 State award winner institute 2021-2022
               </p>
+              <p>
+                We started <strong className="text-[#0a0aa1]">1000+ businesses</strong> with Udyam registration under MSME, Government of India.
+              </p>
+              <p>
+                 We provide <strong className="text-[#0a0aa1]">job support to 600+ students</strong> in private, national, state, and multinational companies.
+              </p>
             </div>
 
             <button
