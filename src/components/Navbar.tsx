@@ -172,7 +172,7 @@ export default function Navbar() {
                     SUNIL GROUP OF EDUCATION
                   </span>
                   <span className="text-[9px] min-[360px]:text-[11px] min-[400px]:text-[12px] sm:text-[14px] md:text-[16px] lg:text-[clamp(15px,1.35vw,23px)] font-black uppercase whitespace-normal md:whitespace-nowrap mt-0.5">
-                    FASHION AND TECHNOLOGY TRUST
+                    FASHION & TECHNOLOGY TRUST
                   </span>
                 </div>
                 <div className="hidden min-w-0 border-l-2 border-[#0a0aa1]/20 pl-2 sm:block sm:pl-2.5">
@@ -180,7 +180,7 @@ export default function Navbar() {
                     SIFT-SKILL DEVELOPMENT INSTITUTE
                   </p>
                   <p className="max-w-[280px] text-[8px] font-medium leading-snug text-slate-600 sm:max-w-xs sm:text-[9px] lg:max-w-sm lg:text-[10px]">
-                    Undertaking by Sunil Group of Education Fashion and Technology Trust
+                    Undertaking by Sunil Group of Education Fashion and Technology Trust Established in 2003 , 1000+ business start with Udhyam Ragistration with MSME Support
                   </p>
                   <div className="mt-1.5 flex flex-col gap-1.5 lg:gap-2">
                     <a

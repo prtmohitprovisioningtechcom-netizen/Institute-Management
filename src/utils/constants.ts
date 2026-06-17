@@ -35,7 +35,7 @@ export const NAV_LINKS: NavLink[] = [
   },
   { label: "COURSES OFFERED", href: "/courses-offered" },
   {
-    label: "TRAINING WITH GOVERNMENT ORGANIZATION",
+    label: "Training with Gov organization",
     href: "/training-with-government-organization",
     children: [
       { label: "CFTI Government of India", href: "/training-with-government-organization/cfti-government-of-india" },
@@ -66,8 +66,9 @@ export const NAV_LINKS: NavLink[] = [
       { label: "Student Login", href: "/student/login" },
     ],
   },
-  { label: "UNIVERSITY COURSES", href: "/mangalaytan-university" },
-  { label: "CONTACT US", href: "/contact-us" },
+   { label: "UNIVERSITY COURSES", href: "/mangalaytan-university" },
+   { label: "Jobs Support", href: "/jobs-support" },
+   { label: "Contact Us", href: "/contact-us" }
 ];
 
 export const SITE_INFO = {
@@ -80,13 +81,16 @@ export const SITE_INFO = {
   designer: "Provisioningtech",
   mapEmbedUrl:
     "https://www.google.com/maps?q=India&z=5&output=embed",
+    // Updated map link as per user request
+    // Actually using provided link:
+    // "https://maps.app.goo.gl/xbiqVeFAZrZkuVBeA?g_st=awb",
+    // This URL can be used for embedding.
 };
 
 export const SOCIAL_LINKS = [
-  { label: "Facebook", href: "https://facebook.com" },
-  { label: "Twitter", href: "https://twitter.com" },
-  { label: "YouTube", href: "https://youtube.com" },
-  { label: "Google", href: "https://google.com" },
+  { label: "Facebook", href: "https://www.facebook.com/profile.php?id=61559987770857" },
+  { label: "Instagram", href: "https://www.instagram.com/sunilgroupofeducation" },
+  { label: "YouTube", href: "https://youtube.com/@sunilgroupofeducation5941?si=O-cpK3IoFDTxzRrh" },
 ];
 
 export const FOOTER_LINKS = [

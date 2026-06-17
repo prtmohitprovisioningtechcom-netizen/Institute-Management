@@ -242,9 +242,12 @@ export default function BecomeAtcForm() {
       if (instituteDocument) payload.append("instituteDocument", instituteDocument);
       payload.append("infrastructure", JSON.stringify(infra));
       
-      const response = await fetch("/api/become-atc", { method: "POST", body: payload });
-      const data = (await response.json()) as { message?: string; refNumber?: string };
+      const response = await fetch("/api/send-to-phone", { method: "POST", body: payload });
+      const data = (await response.json()) as { whatsappUrl?: string; refNumber?: string; message?: string };
       if (!response.ok) { setError(data.message ?? "Form submission failed. Try again."); return; }
+      if (data.whatsappUrl) {
+        window.open(data.whatsappUrl, "_blank");
+      }
       const newRef = data.refNumber ?? Date.now().toString().slice(-6);
       setLastRefNumber(newRef);
       setReceiptData({
@@ -304,7 +307,7 @@ export default function BecomeAtcForm() {
           </div>
           
           <div className="w-32 shrink-0 flex flex-col">
-            <label className="border-2 border-dashed border-white/40 rounded-2xl w-full h-40 flex flex-col items-center justify-center cursor-pointer hover:bg-white/10 transition relative overflow-hidden bg-white/5 backdrop-blur-sm group">
+            <label className="border-2 border-dashed border-white/40 rounded-2xl w-full h-28 flex flex-col items-center justify-center cursor-pointer hover:bg-white/10 transition relative overflow-hidden bg-white/5 backdrop-blur-sm group">
               {photo ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={URL.createObjectURL(photo)} alt="Photo" className="w-full h-full object-cover" />

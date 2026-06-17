@@ -6,6 +6,15 @@ import { GalleryCategory } from "@/models/GalleryCategory";
 
 export const dynamic = "force-dynamic";
 
+// Increase body parser limit to allow larger base64 uploads (up to 20 MB)
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "20mb",
+    },
+  },
+};
+
 const MAX_IMAGE_BYTES = 2 * 1024 * 1024;
 const MAX_VIDEO_BYTES = 10 * 1024 * 1024;
 

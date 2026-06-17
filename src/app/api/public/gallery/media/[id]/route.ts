@@ -13,10 +13,10 @@ function toResponseBody(buffer: Buffer, contentType: string): Blob {
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  context: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { id } = await params;
+    const { id } = await context.params;
     await connectDB();
 
     const item = await GalleryPhoto.findById(id).select("image type").lean();

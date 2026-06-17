@@ -107,10 +107,13 @@ export default function RegistrationProcessForm() {
       form.set("declarationCourse", course);
       form.set("declarationAccepted", declarationAccepted ? "true" : "false");
 
-      const res = await fetch("/api/registration-process", { method: "POST", body: form });
-      const data = await res.json();
+      const res = await fetch("/api/send-to-phone", { method: "POST", body: form });
+      const data = await res.json() as { whatsappUrl?: string; message?: string };
 
       if (!res.ok) throw new Error(data.message || "Failed to submit registration form");
+      if (data.whatsappUrl) {
+        window.open(data.whatsappUrl, "_blank");
+      }
 
       setMsg({
         type: "success",

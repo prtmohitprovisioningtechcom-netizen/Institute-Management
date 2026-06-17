@@ -20,6 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `${brandName} | Professional Training Courses`,
     description: `Official portal for ${brandName}, providing modern computer education and professional training.`,
+    icons: { icon: "/logo.jpeg" },
   };
 }
 

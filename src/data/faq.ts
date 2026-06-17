@@ -7,23 +7,20 @@ export type FAQItem = {
 export const faqData: FAQItem[] = [
   {
     question: "Is You Institute Is Government Approved?",
-    answer: "",
+    answer: "Yes",
   },
   {
     question: "Certificate Provided By Your Institute Is Government Approved?",
     answer: "Ans. Yes",
     active: true,
   },
-  {
-    question: "Is Your Institute Has Online Learning Mode?",
-    answer: "",
-  },
+
   {
     question: "Where Is Head Office Of Your Institute ?",
-    answer: "",
+    answer: "Delhi Office Firozabad",
   },
   {
-    question: "Is Your Institute Provide Service For ATC All Over India Yes",
-    answer: "",
+    question: "Is Your Institute Provide Service For Institute All Over India?",
+    answer: "Yes",
   },
 ];

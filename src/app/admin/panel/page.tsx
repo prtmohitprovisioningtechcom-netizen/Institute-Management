@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
 import { useBrand } from "@/context/BrandContext";
 import { apiFetch } from "@/utils/api";
-import {
+import { Briefcase,
   CheckCircle, XCircle, Clock, Users, FileText, PlusCircle,
   LogOut, ShieldCheck, ChevronDown, Eye, RefreshCw, Settings, QrCode, Upload, Menu, Layers, Monitor,
   Trash2, Lock, Edit2, AlertTriangle, ShieldAlert, MapPin, BookOpen, User, Building2, CreditCard, EyeOff, Hash, Save, Printer,
@@ -242,7 +242,7 @@ const fallbackCredentialTextFromStudent = (student: Pick<Student, "qualSchool" |
   return `${qual} | ${school} |  | ${year} | ${obtained}`;
 };
 
-type Tab = "dashboard" | "create" | "courses" | "courseEnquiries" | "questionSets" | "centers" | "examRequests" | "materials" | "gallery" | "govTraining" | "settings" | "students" | "resultReview" | "registration" | "fees" | "backgrounds" | "walletRequests" | "walletPayment" | "ourCertificates";
+type Tab = "dashboard" | "create" | "courses" | "courseEnquiries" | "questionSets" | "centers" | "examRequests" | "materials" | "gallery" | "govTraining" | "settings" | "students" | "resultReview" | "registration" | "fees" | "backgrounds" | "walletRequests" | "walletPayment" | "ourCertificates" | "jobsSupport";
 
 const PrintField = ({ label, value }: { label: string; value: string | number | null | undefined }) => (
   <div>
@@ -1466,6 +1466,7 @@ export default function AdminPanelPage() {
     materials: "Study Materials",
     gallery: "Photo Gallery",
     settings: "Panel Settings",
+    jobsSupport: "Jobs Support",
     registration: "Registration Settings",
     students: "Manage Students",
     resultReview: "Result Review",
@@ -1488,6 +1489,7 @@ export default function AdminPanelPage() {
     materials: "Upload and manage course study resources",
     gallery: "Gallery categories and photos",
     settings: "General Configurations",
+    jobsSupport: "Manage photos and videos for Jobs Support",
     registration: "ID Generation Logic",
     students: "Review and approve student registrations from all centers",
     resultReview: "Authorize ATC submitted results and release marksheet/certificate after review",
@@ -1548,6 +1550,7 @@ export default function AdminPanelPage() {
                 { id: "questionSets" as Tab, icon: BookOpen, label: "Exam Sets" },
                 { id: "materials" as Tab, icon: FileText, label: "Study Materials" },
                 { id: "gallery" as Tab, icon: Images, label: "Photo Gallery" },
+                { id: "jobsSupport" as Tab, icon: Briefcase, label: "Jobs Support" },
                 { id: "fees" as Tab, icon: CreditCard, label: "Fee Management" },
                 { id: "walletRequests" as Tab, icon: CreditCard, label: "Wallet Requests" },
                 { id: "courses" as Tab, icon: BookOpen, label: "Courses" },
