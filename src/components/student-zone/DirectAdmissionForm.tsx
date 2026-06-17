@@ -6,42 +6,12 @@ import { useBrand } from "@/context/BrandContext";
 import SkeletonLoader from "@/components/common/SkeletonLoader";
 import { ISO_DATE_MIN, isoDateToday, sanitizeIsoDateInput } from "@/lib/isoDate";
 
-interface Course {
-  _id: string;
-  name: string;
-  durationMonths?: number;
-  courseFee?: number;
-}
-
-function computeAge(dob: string): string {
-  if (!dob || !/^\d{4}-\d{2}-\d{2}$/.test(dob)) return "";
-  const birth = new Date(`${dob}T00:00:00Z`);
-  if (Number.isNaN(birth.getTime())) return "";
-  const today = new Date();
-  let age = today.getFullYear() - birth.getFullYear();
-  const monthDiff = today.getMonth() - birth.getMonth();
-  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) age -= 1;
-  return age > 0 ? String(age) : "";
-}
-
-function formatDuration(months?: number): string {
-  if (!months || months <= 0) return "";
-  if (months === 1) return "1 Month";
-  if (months < 12) return `${months} Months`;
-  if (months % 12 === 0) {
-    const years = months / 12;
-    return years === 1 ? "1 Year" : `${years} Years`;
-  }
-  return `${months} Months`;
-}
-
 export default function RegistrationProcessForm() {
   const todayIso = useMemo(() => isoDateToday(), []);
   const { brandName } = useBrand();
   const formRef = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
-  const [availableCourses, setAvailableCourses] = useState<Course[]>([]);
   const [invalidFields, setInvalidFields] = useState<Set<string>>(new Set());
   const [registrationDate, setRegistrationDate] = useState("");
   const [dob, setDob] = useState("");
@@ -55,38 +25,10 @@ export default function RegistrationProcessForm() {
   const [isMounted, setIsMounted] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
-  const selectedCourse = useMemo(
-    () => availableCourses.find((c) => c.name === course),
-    [availableCourses, course],
-  );
-
   useEffect(() => {
     setIsMounted(true);
     setRegistrationDate(isoDateToday());
-    void fetchCourses();
   }, []);
-
-  useEffect(() => {
-    setAge(computeAge(dob));
-  }, [dob]);
-
-  useEffect(() => {
-    if (selectedCourse?.durationMonths) {
-      setCourseDuration(formatDuration(selectedCourse.durationMonths));
-    }
-  }, [selectedCourse]);
-
-  const fetchCourses = async () => {
-    try {
-      const res = await fetch("/api/public/courses");
-      if (res.ok) {
-        const data = await res.json();
-        setAvailableCourses(Array.isArray(data) ? data : data.courses || []);
-      }
-    } catch (err) {
-      console.error("Failed to fetch courses", err);
-    }
-  };
 
   const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -313,9 +255,10 @@ export default function RegistrationProcessForm() {
                   id="age"
                   name="age"
                   type="text"
-                  readOnly
+                  placeholder="Enter Age"
                   value={age}
-                  className="mt-1 block w-full rounded-md bg-gray-100 border-gray-300 shadow-sm sm:text-sm"
+                  onChange={(e) => setAge(e.target.value)}
+                  className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${invalidFields.has("age") ? "border-red-500" : ""}`}
                 />
               </div>
               <div>
@@ -365,22 +308,16 @@ export default function RegistrationProcessForm() {
                 <label htmlFor="course" className="block text-sm font-medium text-gray-700 mb-1">
                   Course <span className="text-red-600">*</span>
                 </label>
-                <select
+                <input
                   id="course"
                   name="course"
+                  type="text"
                   required
+                  placeholder="Enter Course Name"
                   className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${invalidFields.has("course") ? "border-red-500" : ""}`}
                   value={course}
                   onChange={(e) => setCourse(e.target.value)}
-                  disabled={availableCourses.length === 0}
-                >
-                  <option value="">{availableCourses.length > 0 ? "Select course" : "Loading courses..."}</option>
-                  {availableCourses.map((c) => (
-                    <option key={c._id} value={c.name}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
+                />
               </div>
               <div>
                 <label htmlFor="courseDuration" className="block text-sm font-medium text-gray-700 mb-1">
@@ -610,7 +547,13 @@ export default function RegistrationProcessForm() {
                 </div>
                 <div>
                   <label className={labelCls("age")}>Age</label>
-                  <input readOnly name="age" value={age} className={`${inputCls("age")} bg-slate-50`} placeholder="Auto-calculated" />
+                  <input
+                    name="age"
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                    className={inputCls("age")}
+                    placeholder="Enter Age"
+                  />
                 </div>
                 <div className="md:col-span-2">
                   <label className={labelCls("education")}>Education *</label>
@@ -659,23 +602,14 @@ export default function RegistrationProcessForm() {
                 </div>
                 <div>
                   <label className={labelCls("course")}>Course Name *</label>
-                  <select
+                  <input
                     required
                     name="course"
                     value={course}
                     onChange={(e) => setCourse(e.target.value)}
                     className={inputCls("course")}
-                    disabled={availableCourses.length === 0}
-                  >
-                    <option value="">
-                      {availableCourses.length > 0 ? "Select course" : "Loading courses..."}
-                    </option>
-                    {availableCourses.map((c) => (
-                      <option key={c._id} value={c.name}>
-                        {c.name}
-                      </option>
-                    ))}
-                  </select>
+                    placeholder="Enter Course Name"
+                  />
                 </div>
                 <div>
                   <label className={labelCls("courseDuration")}>Duration *</label>

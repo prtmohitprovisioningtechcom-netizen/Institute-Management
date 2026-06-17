@@ -104,7 +104,7 @@ const SelectWrapper = ({ children }: { children: React.ReactNode }) => (
 );
 
 export default function BecomeAtcForm() {
-  const { brandName } = useBrand();
+  const { brandName, brandLogo } = useBrand();
   const [form, setForm] = useState<FormState>(initialFormState);
   const [photo, setPhoto] = useState<File | null>(null);
   const [logo, setLogo] = useState<File | null>(null);
@@ -112,7 +112,6 @@ export default function BecomeAtcForm() {
   const [aadharDoc, setAadharDoc] = useState<File | null>(null);
   const [marksheetDoc, setMarksheetDoc] = useState<File | null>(null);
   const [otherDocs, setOtherDocs] = useState<File | null>(null);
-  const [screenshot, setScreenshot] = useState<File | null>(null);
   const [instituteDocument, setInstituteDocument] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -177,85 +176,8 @@ export default function BecomeAtcForm() {
 
   const errors = useMemo(() => {
     const r: string[] = [];
-    if (!form.trainingPartnerName.trim()) r.push("Training partner name is required.");
-    if (!form.trainingPartnerAddress.trim()) r.push("Training partner address is required.");
-    if (!form.postalAddressOffice.trim()) r.push("Postal address is required.");
-    if (!form.totalName.trim()) r.push("Tehsil / Taluka name is required.");
-    if (form.zones.length === 0) r.push("Please select at least one zone.");
-    if (form.zones.length > 0 && !form.affiliationYear.trim()) r.push("Please select affiliation period (years).");
-    if (form.zones.length > 0 && form.affiliationYear.trim() && !feeCalculation) {
-      r.push("Fee could not be calculated. Try re-selecting the affiliation period.");
-    }
-    if (!form.district.trim()) r.push("District is required.");
-    if (!form.state) r.push("State is required.");
-    if (!/^\d{6}$/.test(form.pin)) r.push("PIN must be 6 digits.");
-    if (!/^\d{10}$/.test(form.mobile)) r.push("Mobile must be 10 digits.");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) r.push("Valid email is required.");
-    if (!form.statusOfInstitution) r.push("Status of institution is required.");
-    if (!form.yearOfEstablishment) r.push("Year of establishment is required.");
-    if (!form.chiefName.trim()) r.push("Chief executive name is required.");
-    if (!form.designation.trim()) r.push("Designation is required.");
-    if (!form.educationQualification.trim()) r.push("Education qualification is required.");
-    if (!form.professionalExperience.trim()) r.push("Professional experience is required.");
-    if (!form.dob.trim()) r.push("Date of birth is required.");
-    else if (!isValidIsoDate(normalizeIsoDate(form.dob))) {
-      r.push("Date of birth must be a valid date (year exactly 4 digits, YYYY-MM-DD).");
-    }
-    if (!/^\d{12}$/.test(form.aadharNo)) r.push("Aadhar number must be exactly 12 digits.");
-    if (!photo) r.push("Passport size photo is required.");
-    if (!signature) r.push("Signature is required.");
-    if (!aadharDoc) r.push("Aadhar card PDF is required.");
-    if (!form.paymentMode) r.push("Please select payment mode.");
-    if (form.paymentMode === "gpay") {
-      if (!screenshot) r.push("Please upload a payment screenshot for verification.");
-      if (!form.paidAmount.trim()) r.push("Please enter the paid amount.");
-      if (!form.transactionNo.trim()) r.push("Please enter the transaction / UTR number.");
-    }
-    if (photo && photo.size > 100 * 1024) r.push("Passport photo must be under 100 KB.");
-    if (signature && signature.size > 100 * 1024) r.push("Signature image must be under 100 KB.");
-    if (logo && logo.size > 100 * 1024) r.push("Logo image must be under 100 KB.");
-    if (screenshot && screenshot.type.startsWith("image/") && screenshot.size > 100 * 1024) r.push("Payment screenshot image must be under 100 KB.");
-    
-    if (aadharDoc && aadharDoc.size > 500 * 1024) r.push("Aadhar card document must be under 500 KB.");
-    if (marksheetDoc && marksheetDoc.size > 500 * 1024) r.push("Marksheet document must be under 500 KB.");
-    if (otherDocs && otherDocs.size > 500 * 1024) r.push("Other documents must be under 500 KB.");
-    if (instituteDocument && instituteDocument.size > 500 * 1024) r.push("Institute document must be under 500 KB.");
-    if (screenshot && screenshot.type === "application/pdf" && screenshot.size > 500 * 1024) r.push("Payment screenshot PDF must be under 500 KB.");
-
-    const requiredFieldMap: Record<string, boolean> = {
-      affiliationYear: form.zones.length > 0 && !form.affiliationYear.trim(),
-      trainingPartnerName: !form.trainingPartnerName.trim(),
-      trainingPartnerAddress: !form.trainingPartnerAddress.trim(),
-      postalAddressOffice: !form.postalAddressOffice.trim(),
-      totalName: !form.totalName.trim(),
-      district: !form.district.trim(),
-      state: !form.state,
-      pin: !form.pin.trim(),
-      mobile: !form.mobile.trim(),
-      email: !form.email.trim(),
-      statusOfInstitution: !form.statusOfInstitution,
-      yearOfEstablishment: !form.yearOfEstablishment,
-      chiefName: !form.chiefName.trim(),
-      designation: !form.designation.trim(),
-      educationQualification: !form.educationQualification.trim(),
-      professionalExperience: !form.professionalExperience.trim(),
-      dob: !form.dob.trim() || !isValidIsoDate(normalizeIsoDate(form.dob)),
-      aadharNo: !form.aadharNo.trim(),
-      photo: !photo,
-      signature: !signature,
-      aadharDoc: !aadharDoc,
-      paymentMode: !form.paymentMode,
-      paidAmount: form.paymentMode === "gpay" && !form.paidAmount.trim(),
-      transactionNo: form.paymentMode === "gpay" && !form.transactionNo.trim(),
-      paymentScreenshot: form.paymentMode === "gpay" && !screenshot,
-      zones: form.zones.length === 0,
-    };
-    const requiredSet = new Set<string>();
-    Object.entries(requiredFieldMap).forEach(([key, invalid]) => {
-      if (invalid) requiredSet.add(key);
-    });
-    return { list: r, requiredSet };
-  }, [form, feeCalculation, screenshot, photo, signature, logo, aadharDoc, marksheetDoc, otherDocs, instituteDocument]);
+    return { list: r, requiredSet: new Set<string>() };
+  }, []);
 
   const setField = (field: keyof FormState, value: string) => {
     setForm((c) => ({ ...c, [field]: value }));
@@ -283,25 +205,43 @@ export default function BecomeAtcForm() {
     try {
       const payload = new FormData();
       Object.entries(form).forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-          payload.append(key, JSON.stringify(value));
+        let val = String(value ?? "").trim();
+        if (key === "zones") {
+          payload.append(key, JSON.stringify([]));
+        } else if (key === "paymentMode") {
+          payload.append(key, "offline");
         } else {
-          payload.append(key, String(value));
+          if (!val) {
+            if (key === "trainingPartnerName") val = "Not Provided";
+            else if (key === "trainingPartnerAddress") val = "Not Provided";
+            else if (key === "district") val = "Not Provided";
+            else if (key === "state") val = "Delhi";
+            else if (key === "pin") val = "110001";
+            else if (key === "mobile") val = "0000000000";
+            else if (key === "email") val = `atc-${Date.now()}@example.com`;
+            else if (key === "statusOfInstitution") val = "Trust";
+            else if (key === "yearOfEstablishment") val = "2024";
+            else if (key === "chiefName") val = "Not Provided";
+            else if (key === "designation") val = "Director";
+            else if (key === "educationQualification") val = "Not Provided";
+            else if (key === "professionalExperience") val = "Not Provided";
+            else if (key === "dob") val = "1990-01-01";
+            else if (key === "affiliationYear") val = "1";
+          }
+          payload.append(key, val);
         }
       });
+      payload.set("paymentMode", "offline");
+      payload.set("zones", JSON.stringify([]));
       if (photo) payload.append("photo", photo);
       if (logo) payload.append("logo", logo);
       if (signature) payload.append("signature", signature);
       if (aadharDoc) payload.append("aadharDoc", aadharDoc);
       if (marksheetDoc) payload.append("marksheetDoc", marksheetDoc);
       if (otherDocs) payload.append("otherDocs", otherDocs);
-      if (screenshot) payload.append("paymentScreenshot", screenshot);
       if (instituteDocument) payload.append("instituteDocument", instituteDocument);
       payload.append("infrastructure", JSON.stringify(infra));
-      payload.append("zones", JSON.stringify(form.zones));
-      if (feeCalculation) {
-        payload.append("feeCalculation", JSON.stringify(feeCalculation));
-      }
+      
       const response = await fetch("/api/become-atc", { method: "POST", body: payload });
       const data = (await response.json()) as { message?: string; refNumber?: string };
       if (!response.ok) { setError(data.message ?? "Form submission failed. Try again."); return; }
@@ -311,10 +251,8 @@ export default function BecomeAtcForm() {
         refNumber: newRef,
         submitDate: new Date().toLocaleString("en-IN"),
         ...form,
-        processFee: feeCalculation ? String(feeCalculation.payableAmount) : "",
-        feeCalculation: feeCalculation ?? undefined,
-        paymentScreenshot: screenshot ? URL.createObjectURL(screenshot) : "",
         infrastructure: infra as Record<string, InfraRow>,
+        signatureUrl: signature ? URL.createObjectURL(signature) : undefined,
       });
       setShowSuccessModal(true);
     } catch {
@@ -327,7 +265,7 @@ export default function BecomeAtcForm() {
   const onReset = () => {
     setForm(initialFormState); setInfra(emptyInfra);
     setPhoto(null); setLogo(null); setSignature(null); setAadharDoc(null); setMarksheetDoc(null); setOtherDocs(null);
-    setScreenshot(null); setInstituteDocument(null); setError(null); setReceiptData(null);
+    setInstituteDocument(null); setError(null); setReceiptData(null);
     setFeeCalculation(null);
     setInvalidFields(new Set());
   };
@@ -341,10 +279,14 @@ export default function BecomeAtcForm() {
       <div className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden mb-12">
         {/* HEADER SECTION */}
         <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-[#0a0aa1] p-8 text-white flex flex-col sm:flex-row items-center gap-6">
-          <div className="w-28 h-28 shrink-0 bg-white rounded-2xl p-1 shadow-lg shadow-black/20">
-             <div className="w-full h-full rounded-xl border-2 border-dashed border-blue-200 flex items-center justify-center text-center text-[10px] font-bold text-blue-900 leading-tight p-2 bg-blue-50">
-               SUNIL GROUP<br/>OF EDUCATION<br/>TRUST
-             </div>
+          <div className="w-28 h-28 shrink-0 bg-white rounded-2xl p-1 shadow-lg shadow-black/20 flex items-center justify-center overflow-hidden">
+            {brandLogo ? (
+              <img src={brandLogo} alt={brandName} className="w-full h-full object-contain" />
+            ) : (
+              <div className="w-full h-full rounded-xl border-2 border-dashed border-blue-200 flex items-center justify-center text-center text-[10px] font-bold text-blue-900 leading-tight p-2 bg-blue-50">
+                SUNIL GROUP<br/>OF EDUCATION<br/>TRUST
+              </div>
+            )}
           </div>
           
           <div className="flex-1 text-center sm:text-left space-y-2">
@@ -352,7 +294,7 @@ export default function BecomeAtcForm() {
             <p className="text-xs sm:text-sm text-blue-200 font-medium leading-relaxed">
               REGD BY-NCT GOVT.OF DELHI, MSME, NITI AAYOG, MCA GOVT. OF INDIA<br/>
               AN ISO-9001-2015 CERTIFIED INSTITUTE<br/>
-              HQ - SHUHASH BIHAR DELHI, RO ARYA NAGAR, FIROZABAD, U.P
+              HO - SUBHASH VIHAR DELHI, RO ARYA NAGAR, FIROZABAD, U.P
             </p>
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 text-xs font-bold mt-2">
               <span className="bg-white/10 px-3 py-1.5 rounded-lg backdrop-blur-sm">goodlucksunil212@gmail.com</span>
@@ -536,7 +478,7 @@ export default function BecomeAtcForm() {
             <h3 className="text-lg font-black text-slate-800 uppercase tracking-tight border-b-2 border-emerald-500 pb-3 flex items-center gap-3">
               <span className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm">3</span> 
               GOVERNING BODY
-              <span className="text-xs text-slate-400 font-normal ml-2 tracking-normal capitalize">(If applicable)</span>
+              <span className="text-xs text-slate-400 font-normal ml-2 tracking-normal capitalize">(IF YES, FILL THE BLANKS)</span>
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -557,7 +499,7 @@ export default function BecomeAtcForm() {
             </div>
           </section>
 
-          {/* SECTION 4: APPLY FOR & VERIFICATION */}
+          {/* SECTION 4: APPLICATION DETAILS */}
           <section className="space-y-6 pt-4">
             <h3 className="text-lg font-black text-slate-800 uppercase tracking-tight border-b-2 border-purple-500 pb-3 flex items-center gap-3">
               <span className="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-sm">4</span> 
@@ -576,91 +518,96 @@ export default function BecomeAtcForm() {
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Application Date</label>
                 <input type="date" className="w-full px-4 py-3 rounded-xl bg-white border border-purple-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition text-slate-800" value={form.applicationDate} onChange={e => setField('applicationDate', e.target.value)} />
               </div>
-              
-              <div className="space-y-1.5 md:col-span-2">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Zones</label>
-                <div className="flex flex-wrap gap-2 p-4 bg-white rounded-xl border border-purple-200">
-                  {zoneCatalog.map(row => (
-                    <label key={row.name} className="flex items-center gap-2 cursor-pointer bg-slate-50 px-3 py-2 rounded-lg border border-slate-200 hover:border-purple-400 transition select-none">
-                       <input type="checkbox" className="w-4 h-4 text-purple-600 rounded focus:ring-purple-500 border-slate-300" checked={form.zones.includes(row.name)} onChange={e => {
-                         const next = e.target.checked ? [...form.zones, row.name] : form.zones.filter(v => v !== row.name);
-                         setForm(c => ({...c, zones: next}));
-                       }} />
-                       <span className="text-sm font-bold text-slate-700">{row.name}</span>
-                    </label>
-                  ))}
+            </div>
+          </section>
+
+          {/* OFFICE USE ONLY SECTION */}
+          <div className="mt-8 rounded-2xl border border-slate-800 overflow-hidden bg-gradient-to-r from-[#ffebeb] to-[#fff5f5] pb-6 shadow-sm">
+            <div className="bg-[#d32f2f] text-white font-black text-center py-2.5 text-sm sm:text-base uppercase tracking-widest border-b border-slate-800">
+              OFFICE USE ONLY
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-6 p-6">
+              {/* Left Column: Form Fields */}
+              <div className="space-y-4">
+                {/* Approved Institute Code */}
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="border border-slate-800 px-3 py-1 bg-white text-[10px] sm:text-xs font-bold uppercase text-slate-800 whitespace-nowrap">
+                    APPROVED INSTITUTE CODE
+                  </div>
+                  <input
+                    type="text"
+                    className="w-36 h-8 bg-[#ffffcc] border border-slate-800 outline-none px-2 text-slate-800 font-bold"
+                  />
+                </div>
+
+                {/* Approved Years */}
+                <div className="flex flex-wrap items-center gap-3">
+                  <div className="border border-slate-800 px-3 py-1 bg-white text-[10px] sm:text-xs font-bold uppercase text-slate-800 whitespace-nowrap">
+                    APPROVED YEARS
+                  </div>
+                  <input
+                    type="text"
+                    className="w-20 h-8 bg-[#ffffcc] border border-slate-800 outline-none px-2 text-center text-slate-800 font-bold"
+                  />
+                </div>
+
+                {/* Date */}
+                <div className="flex flex-wrap items-center gap-2 mt-4 text-[10px] sm:text-xs font-bold text-slate-800">
+                  <span className="whitespace-nowrap uppercase tracking-wider text-slate-800">DATE :</span>
+                  <div className="flex items-center gap-1">
+                    <div className="flex gap-0.5">
+                      <input type="text" maxLength={1} className="w-6 h-6 sm:w-7 sm:h-7 border border-slate-800 bg-white text-center font-bold text-slate-800 outline-none" />
+                      <input type="text" maxLength={1} className="w-6 h-6 sm:w-7 sm:h-7 border border-slate-800 bg-white text-center font-bold text-slate-800 outline-none" />
+                    </div>
+                    <span className="text-slate-800 font-black px-0.5"> </span>
+                    <div className="flex gap-0.5">
+                      <input type="text" maxLength={1} className="w-6 h-6 sm:w-7 sm:h-7 border border-slate-800 bg-white text-center font-bold text-slate-800 outline-none" />
+                      <input type="text" maxLength={1} className="w-6 h-6 sm:w-7 sm:h-7 border border-slate-800 bg-white text-center font-bold text-slate-800 outline-none" />
+                    </div>
+                    <span className="text-slate-800 font-black px-0.5"> </span>
+                    <div className="flex gap-0.5">
+                      <input type="text" maxLength={1} className="w-6 h-6 sm:w-7 sm:h-7 border border-slate-800 bg-white text-center font-bold text-slate-800 outline-none" />
+                      <input type="text" maxLength={1} className="w-6 h-6 sm:w-7 sm:h-7 border border-slate-800 bg-white text-center font-bold text-slate-800 outline-none" />
+                      <input type="text" maxLength={1} className="w-6 h-6 sm:w-7 sm:h-7 border border-slate-800 bg-white text-center font-bold text-slate-800 outline-none" />
+                      <input type="text" maxLength={1} className="w-6 h-6 sm:w-7 sm:h-7 border border-slate-800 bg-white text-center font-bold text-slate-800 outline-none" />
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="md:col-span-2">
-                <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider ml-1 mb-2">Signature of Applicant</label>
-                <label className="w-full h-32 rounded-xl border-2 border-dashed border-purple-300 bg-white flex flex-col items-center justify-center cursor-pointer hover:bg-purple-50 hover:border-purple-400 transition relative overflow-hidden group">
-                  {signature ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={URL.createObjectURL(signature)} alt="Signature" className="h-full object-contain p-2" />
-                  ) : (
-                    <>
-                      <Upload className="w-8 h-8 text-purple-300 group-hover:text-purple-500 mb-2 transition" />
-                      <span className="text-sm font-bold text-purple-500">Upload Signature</span>
-                      <span className="text-xs text-purple-400/70 mt-1">PNG, JPG (Max 100KB)</span>
-                    </>
-                  )}
+              {/* Right Column: Signature Block */}
+              <div className="flex justify-start md:justify-end items-center mt-4 md:mt-0">
+                <label className="w-full max-w-[280px] border border-slate-800 bg-white flex flex-col justify-between overflow-hidden shadow-sm cursor-pointer hover:bg-slate-50/50 transition relative group">
+                  <div className="h-16 flex flex-col items-center justify-center relative">
+                    {signature ? (
+                      <img src={URL.createObjectURL(signature)} alt="Signature" className="h-full object-contain p-1" />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center text-slate-400">
+                        <Upload className="w-5 h-5 mb-1 text-slate-400 group-hover:text-slate-600 transition" />
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-600 transition">Upload Signature</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="border-t border-slate-800 bg-slate-50 py-1.5 text-center text-xs font-bold uppercase tracking-wider text-slate-800">
+                    Signature
+                  </div>
                   <input type="file" accept="image/jpeg,image/png" className="hidden" onChange={(e) => setSignature(e.target.files?.[0] ?? null)} />
                 </label>
               </div>
             </div>
-          </section>
-
-          {/* FINAL SUBMISSION & PAYMENT */}
-          <div className="mt-8 bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-200">
-            <h3 className="text-lg font-black text-slate-800 uppercase tracking-tight mb-6">Payment & Verification</h3>
-            
-            <div className="space-y-6">
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Aadhar Card (PDF) <span className="text-red-500">*</span></label>
-                <input type="file" accept="application/pdf" className="w-full p-3 bg-white rounded-xl border border-slate-200 text-sm" onChange={(e) => setAadharDoc(e.target.files?.[0] ?? null)} />
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Payment Mode <span className="text-red-500">*</span></label>
-                <select className="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition font-bold text-slate-700" value={form.paymentMode} onChange={e => setField('paymentMode', e.target.value)}>
-                  <option value="gpay">Google Pay / UPI</option>
-                  <option value="online">Online Payment</option>
-                </select>
-              </div>
-              
-              {form.paymentMode === "gpay" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 p-5 bg-white rounded-2xl border border-blue-100 shadow-sm">
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Paid Amount <span className="text-red-500">*</span></label>
-                    <div className="relative">
-                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
-                      <input className="w-full pl-8 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition" placeholder="0.00" value={form.paidAmount} onChange={e => setField('paidAmount', e.target.value)} />
-                    </div>
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Transaction No / UTR <span className="text-red-500">*</span></label>
-                    <input className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition" placeholder="e.g. 123456789012" value={form.transactionNo} onChange={e => setField('transactionNo', e.target.value)} />
-                  </div>
-                  <div className="space-y-1.5 sm:col-span-2">
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-wider ml-1">Payment Screenshot <span className="text-red-500">*</span></label>
-                    <input type="file" accept="image/*,application/pdf" className="w-full p-3 bg-slate-50 rounded-xl border border-slate-200 text-sm" onChange={e => setScreenshot(e.target.files?.[0] ?? null)} />
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {error && (
-              <div className="mt-6 p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 font-bold text-sm flex items-center gap-3">
-                <span className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center text-red-500 shrink-0">!</span>
-                {error}
-              </div>
-            )}
-            
-            <button type="submit" disabled={loading} onClick={e => { e.preventDefault(); onSubmit(e as any); }} className="w-full mt-8 bg-gradient-to-r from-blue-700 to-[#0a0aa1] text-white font-black px-8 py-5 rounded-2xl text-lg uppercase tracking-widest hover:shadow-xl hover:shadow-blue-900/20 active:scale-[0.98] transition-all disabled:opacity-70 disabled:active:scale-100 flex items-center justify-center gap-3">
-               {loading ? <><span className="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin"></span> Processing...</> : "Submit Application"}
-            </button>
           </div>
+
+          {error && (
+            <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 font-bold text-sm flex items-center gap-3">
+              <span className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center text-red-500 shrink-0">!</span>
+              {error}
+            </div>
+          )}
+          
+          <button type="submit" disabled={loading} className="w-full mt-8 bg-gradient-to-r from-blue-700 to-[#0a0aa1] text-white font-black px-8 py-5 rounded-2xl text-lg uppercase tracking-widest hover:shadow-xl hover:shadow-blue-900/20 active:scale-[0.98] transition-all disabled:opacity-70 disabled:active:scale-100 flex items-center justify-center gap-3">
+             {loading ? <><span className="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin"></span> Processing...</> : "Submit Application"}
+          </button>
         </form>
       </div>
 

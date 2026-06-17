@@ -139,17 +139,21 @@ export default function Footer() {
               </div>
             </div>
 
-            <div className="flex items-start gap-5">
-               <FaPhoneAlt className="mt-1 h-4 w-4 shrink-0 text-[#0f0fbf]" />
-               <div className="space-y-2 text-sm leading-6 sm:text-sm sm:leading-7">
-                 <p className="font-extrabold text-white">Phone Number:</p>
-                 <p>{brandMobile || "Mobile not available"}</p>
-               </div>
-               <FaEnvelope className="mt-1 h-4 w-4 shrink-0 text-[#0f0fbf]" />
-               <div className="space-y-2 text-sm leading-6 sm:text-sm sm:leading-7">
-                 <p className="font-extrabold text-white">Email:</p>
-                 <p>{SITE_INFO.email || "Email not available"}</p>
-               </div>
+            <div className="space-y-4">
+              <div className="flex items-start gap-5">
+                 <FaPhoneAlt className="mt-1 h-4 w-4 shrink-0 text-[#0f0fbf]" />
+                 <div className="space-y-2 text-sm leading-6 sm:text-sm sm:leading-7">
+                   <p className="font-extrabold text-white">Phone Number:</p>
+                   <p>{brandMobile || "Mobile not available"}</p>
+                 </div>
+              </div>
+              <div className="flex items-start gap-5">
+                 <FaEnvelope className="mt-1 h-4 w-4 shrink-0 text-[#0f0fbf]" />
+                 <div className="space-y-2 text-sm leading-6 sm:text-sm sm:leading-7">
+                   <p className="font-extrabold text-white">Email:</p>
+                   <p>{SITE_INFO.email || "Email not available"}</p>
+                 </div>
+              </div>
             </div>
 
             <div className="flex items-start gap-5">

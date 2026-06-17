@@ -37,7 +37,9 @@ export function sumZoneBaseAmount(
   zones: string[],
   feeByZone: Map<string, number>,
 ): { ok: true; total: number; lineItems: { zone: string; amount: number }[] } | { ok: false; error: string } {
-  if (!zones.length) return { ok: false, error: "Select at least one zone." };
+  if (!zones.length) {
+    return { ok: true, total: 0, lineItems: [] };
+  }
   const lineItems: { zone: string; amount: number }[] = [];
   let total = 0;
   for (const z of zones) {

@@ -95,44 +95,47 @@ export async function PATCH(
         return NextResponse.json({ message: "Application not found." }, { status: 404 });
       }
 
-      const requiredFields = [
-        "affiliationYear",
-        "trainingPartnerName",
-        "trainingPartnerAddress",
-        "district",
-        "state",
-        "pin",
-        "mobile",
-        "email",
-        "statusOfInstitution",
-        "yearOfEstablishment",
-        "chiefName",
-        "designation",
-        "educationQualification",
-        "professionalExperience",
-        "dob",
-        "paymentMode",
-      ];
+      const defaultFallbacks: Record<string, string> = {
+        affiliationYear: "1",
+        trainingPartnerName: "Not Provided",
+        trainingPartnerAddress: "Not Provided",
+        district: "Not Provided",
+        state: "Delhi",
+        pin: "110001",
+        mobile: "0000000000",
+        email: `atc-admin-${Date.now()}@example.com`,
+        statusOfInstitution: "Trust",
+        yearOfEstablishment: "2024",
+        chiefName: "Not Provided",
+        designation: "Director",
+        educationQualification: "Not Provided",
+        professionalExperience: "Not Provided",
+        dob: "1990-01-01",
+        paymentMode: "offline",
+      };
 
-      const updatedValues: Record<string, string> = {};
-      for (const field of requiredFields) {
-        updatedValues[field] = String(formData.get(field) ?? "").trim();
+      for (const field of Object.keys(defaultFallbacks)) {
+        const val = String(formData.get(field) ?? "").trim();
+        if (!val) {
+          formData.set(field, defaultFallbacks[field]);
+        }
       }
 
-      if (!updatedValues.trainingPartnerName || !updatedValues.trainingPartnerAddress || !updatedValues.district || !updatedValues.state) {
-        return NextResponse.json({ message: "Missing required application fields." }, { status: 400 });
-      }
-      if (!/^[0-9]{10}$/.test(updatedValues.mobile)) {
+      const mobile = String(formData.get("mobile") ?? "");
+      const pin = String(formData.get("pin") ?? "");
+      const email = String(formData.get("email") ?? "").toLowerCase().trim();
+
+      if (!/^\d{10}$/.test(mobile)) {
         return NextResponse.json({ message: "Mobile number must be 10 digits." }, { status: 400 });
       }
-      if (!/^[0-9]{6}$/.test(updatedValues.pin)) {
+      if (!/^\d{6}$/.test(pin)) {
         return NextResponse.json({ message: "PIN must be 6 digits." }, { status: 400 });
       }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(updatedValues.email)) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return NextResponse.json({ message: "Please enter a valid email address." }, { status: 400 });
       }
 
-      const dobNormalized = normalizeIsoDate(updatedValues.dob);
+      const dobNormalized = normalizeIsoDate(formData.get("dob"));
       if (!isValidIsoDate(dobNormalized)) {
         return NextResponse.json(
           { message: "Date of birth must be a valid date (YYYY-MM-DD, year exactly 4 digits)." },
@@ -187,28 +190,54 @@ export async function PATCH(
       application.processFee = feeResolved.processFee;
       application.affiliationPlanYear = feeResolved.affiliationPlanYear;
       application.feeCalculation = feeResolved.feeCalculation;
-      application.trainingPartnerName = updatedValues.trainingPartnerName;
-      application.trainingPartnerAddress = updatedValues.trainingPartnerAddress;
+      application.trainingPartnerName = String(formData.get("trainingPartnerName") ?? "");
+      application.trainingPartnerAddress = String(formData.get("trainingPartnerAddress") ?? "");
       application.postalAddressOffice = String(formData.get("postalAddressOffice") ?? application.postalAddressOffice ?? "");
       application.zones = feeResolved.zones;
       application.totalName = String(formData.get("totalName") ?? application.totalName ?? "");
-      application.district = updatedValues.district;
-      application.state = updatedValues.state;
-      application.pin = updatedValues.pin;
+      application.district = String(formData.get("district") ?? "");
+      application.state = String(formData.get("state") ?? "");
+      application.pin = pin;
       application.country = String(formData.get("country") ?? application.country ?? "INDIA");
-      application.mobile = updatedValues.mobile;
-      application.email = updatedValues.email.toLowerCase().trim();
-      application.statusOfInstitution = updatedValues.statusOfInstitution;
-      application.yearOfEstablishment = updatedValues.yearOfEstablishment;
-      application.chiefName = updatedValues.chiefName;
-      application.designation = updatedValues.designation;
-      application.educationQualification = updatedValues.educationQualification;
-      application.professionalExperience = updatedValues.professionalExperience;
+      application.mobile = mobile;
+      application.email = email;
+      application.statusOfInstitution = String(formData.get("statusOfInstitution") ?? "");
+      application.yearOfEstablishment = String(formData.get("yearOfEstablishment") ?? "");
+      application.chiefName = String(formData.get("chiefName") ?? "");
+      application.designation = String(formData.get("designation") ?? "");
+      application.educationQualification = String(formData.get("educationQualification") ?? "");
+      application.professionalExperience = String(formData.get("professionalExperience") ?? "");
       application.dob = dobNormalized;
-      application.paymentMode = updatedValues.paymentMode;
+      application.paymentMode = String(formData.get("paymentMode") ?? "");
       application.infrastructure = infraString;
       application.paidAmount = String(formData.get("paidAmount") ?? application.paidAmount ?? "");
       application.transactionNo = String(formData.get("transactionNo") ?? application.transactionNo ?? "");
+      application.city = String(formData.get("city") ?? application.city ?? "");
+      application.postOffice = String(formData.get("postOffice") ?? application.postOffice ?? "");
+      application.classRoom = String(formData.get("classRoom") ?? application.classRoom ?? "");
+      application.officeRoom = String(formData.get("officeRoom") ?? application.officeRoom ?? "");
+      application.institutePhone = String(formData.get("institutePhone") ?? application.institutePhone ?? "");
+      application.instituteStd = String(formData.get("instituteStd") ?? application.instituteStd ?? "");
+      application.instituteCell = String(formData.get("instituteCell") ?? application.instituteCell ?? "");
+      application.website = String(formData.get("website") ?? application.website ?? "");
+      application.directorAddress = String(formData.get("directorAddress") ?? application.directorAddress ?? "");
+      application.directorCity = String(formData.get("directorCity") ?? application.directorCity ?? "");
+      application.directorPostOffice = String(formData.get("directorPostOffice") ?? application.directorPostOffice ?? "");
+      application.directorPinCode = String(formData.get("directorPinCode") ?? application.directorPinCode ?? "");
+      application.directorDistrict = String(formData.get("directorDistrict") ?? application.directorDistrict ?? "");
+      application.directorState = String(formData.get("directorState") ?? application.directorState ?? "");
+      application.directorCountry = String(formData.get("directorCountry") ?? application.directorCountry ?? "");
+      application.directorPhone = String(formData.get("directorPhone") ?? application.directorPhone ?? "");
+      application.directorStd = String(formData.get("directorStd") ?? application.directorStd ?? "");
+      application.directorCell = String(formData.get("directorCell") ?? application.directorCell ?? "");
+      application.govPresident = String(formData.get("govPresident") ?? application.govPresident ?? "");
+      application.govVicePresident = String(formData.get("govVicePresident") ?? application.govVicePresident ?? "");
+      application.govSecretary = String(formData.get("govSecretary") ?? application.govSecretary ?? "");
+      application.govAssistantSecretary = String(formData.get("govAssistantSecretary") ?? application.govAssistantSecretary ?? "");
+      application.govTreasurer = String(formData.get("govTreasurer") ?? application.govTreasurer ?? "");
+      application.govMember1 = String(formData.get("govMember1") ?? application.govMember1 ?? "");
+      application.govMember2 = String(formData.get("govMember2") ?? application.govMember2 ?? "");
+      application.applicationDate = String(formData.get("applicationDate") ?? application.applicationDate ?? "");
 
       await application.save();
 

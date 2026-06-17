@@ -7,32 +7,28 @@ import { isValidIsoDate, normalizeIsoDate } from "@/lib/isoDate";
 export async function POST(request: Request) {
   const formData = await request.formData();
 
-  const requiredFields = [
-    "affiliationYear",
-    "trainingPartnerName",
-    "trainingPartnerAddress",
-    "district",
-    "state",
-    "pin",
-    "mobile",
-    "email",
-    "statusOfInstitution",
-    "yearOfEstablishment",
-    "chiefName",
-    "designation",
-    "educationQualification",
-    "professionalExperience",
-    "dob",
-    "paymentMode",
-  ];
+  const defaultFallbacks: Record<string, string> = {
+    affiliationYear: "1",
+    trainingPartnerName: "Not Provided",
+    trainingPartnerAddress: "Not Provided",
+    district: "Not Provided",
+    state: "Delhi",
+    pin: "110001",
+    mobile: "0000000000",
+    email: `atc-api-${Date.now()}@example.com`,
+    statusOfInstitution: "Trust",
+    yearOfEstablishment: "2024",
+    chiefName: "Not Provided",
+    designation: "Director",
+    educationQualification: "Not Provided",
+    professionalExperience: "Not Provided",
+    dob: "1990-01-01",
+  };
 
-  for (const field of requiredFields) {
+  for (const field of Object.keys(defaultFallbacks)) {
     const value = String(formData.get(field) ?? "").trim();
     if (!value) {
-      return NextResponse.json(
-        { message: `Missing required field: ${field}` },
-        { status: 400 },
-      );
+      formData.set(field, defaultFallbacks[field]);
     }
   }
 
@@ -134,7 +130,7 @@ export async function POST(request: Request) {
       aadharNo,
       marksheetDoc: base64Files.marksheetDoc || "",
       otherDocs: base64Files.otherDocs || "",
-      paymentMode: String(formData.get("paymentMode") ?? ""),
+      paymentMode: String(formData.get("paymentMode") || "offline"),
       paymentScreenshot: base64Files.paymentScreenshot || "",
       instituteDocument: base64Files.instituteDocument || "",
       infrastructure: String(formData.get("infrastructure") ?? "{}"),

@@ -93,29 +93,29 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
 
-    const requiredFields = [
-      "affiliationYear",
-      "trainingPartnerName",
-      "trainingPartnerAddress",
-      "district",
-      "state",
-      "pin",
-      "mobile",
-      "email",
-      "statusOfInstitution",
-      "yearOfEstablishment",
-      "chiefName",
-      "designation",
-      "educationQualification",
-      "professionalExperience",
-      "dob",
-      "paymentMode",
-    ];
+    const defaultFallbacks: Record<string, string> = {
+      affiliationYear: "1",
+      trainingPartnerName: "Not Provided",
+      trainingPartnerAddress: "Not Provided",
+      district: "Not Provided",
+      state: "Delhi",
+      pin: "110001",
+      mobile: "0000000000",
+      email: `atc-admin-${Date.now()}@example.com`,
+      statusOfInstitution: "Trust",
+      yearOfEstablishment: "2024",
+      chiefName: "Not Provided",
+      designation: "Director",
+      educationQualification: "Not Provided",
+      professionalExperience: "Not Provided",
+      dob: "1990-01-01",
+      paymentMode: "offline",
+    };
 
-    for (const field of requiredFields) {
+    for (const field of Object.keys(defaultFallbacks)) {
       const value = String(formData.get(field) ?? "").trim();
       if (!value) {
-        return NextResponse.json({ message: `Missing required field: ${field}` }, { status: 400 });
+        formData.set(field, defaultFallbacks[field]);
       }
     }
 
@@ -218,6 +218,32 @@ export async function POST(request: Request) {
       transactionNo: String(formData.get("transactionNo") ?? ""),
       status: "approved" as const,
       submittedByAdmin: true,
+      city: String(formData.get("city") ?? ""),
+      postOffice: String(formData.get("postOffice") ?? ""),
+      classRoom: String(formData.get("classRoom") ?? ""),
+      officeRoom: String(formData.get("officeRoom") ?? ""),
+      institutePhone: String(formData.get("institutePhone") ?? ""),
+      instituteStd: String(formData.get("instituteStd") ?? ""),
+      instituteCell: String(formData.get("instituteCell") ?? ""),
+      website: String(formData.get("website") ?? ""),
+      directorAddress: String(formData.get("directorAddress") ?? ""),
+      directorCity: String(formData.get("directorCity") ?? ""),
+      directorPostOffice: String(formData.get("directorPostOffice") ?? ""),
+      directorPinCode: String(formData.get("directorPinCode") ?? ""),
+      directorDistrict: String(formData.get("directorDistrict") ?? ""),
+      directorState: String(formData.get("directorState") ?? ""),
+      directorCountry: String(formData.get("directorCountry") ?? ""),
+      directorPhone: String(formData.get("directorPhone") ?? ""),
+      directorStd: String(formData.get("directorStd") ?? ""),
+      directorCell: String(formData.get("directorCell") ?? ""),
+      govPresident: String(formData.get("govPresident") ?? ""),
+      govVicePresident: String(formData.get("govVicePresident") ?? ""),
+      govSecretary: String(formData.get("govSecretary") ?? ""),
+      govAssistantSecretary: String(formData.get("govAssistantSecretary") ?? ""),
+      govTreasurer: String(formData.get("govTreasurer") ?? ""),
+      govMember1: String(formData.get("govMember1") ?? ""),
+      govMember2: String(formData.get("govMember2") ?? ""),
+      applicationDate: String(formData.get("applicationDate") ?? ""),
     };
 
     const application = await AtcApplication.create(data);

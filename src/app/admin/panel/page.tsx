@@ -1461,7 +1461,7 @@ export default function AdminPanelPage() {
     courses: "Course Management",
     courseEnquiries: "Course Enquiries",
     questionSets: "Exam Sets",
-    centers: "Manage Centers",
+    centers: "Manage Institute",
     examRequests: "Exam Requests",
     materials: "Study Materials",
     gallery: "Photo Gallery",
@@ -1520,29 +1520,29 @@ export default function AdminPanelPage() {
 
         {/* Sidebar */}
         <aside className={`fixed inset-y-0 left-0 w-72 bg-linear-to-b from-[#0a0a2e] to-[#0a0aa1] text-white flex flex-col shadow-2xl z-50 transition-transform duration-300 transform lg:translate-x-0 lg:static lg:block ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
-          <div className="px-4 py-1 border-b border-white/10 flex items-start justify-between">
-            <div className="flex-1 flex flex-col items-center text-center gap-0">
-              <div className="h-24 w-24 shrink-0 overflow-hidden flex items-center justify-center">
-                {globalBrandLogo || brandLogo ? (
-                  <Image src={globalBrandLogo || brandLogo} alt={globalBrandName || brandName} width={96} height={96} unoptimized className="h-full w-full object-contain scale-[1.75]" />
-                ) : (
-                  <ShieldCheck className="w-5 h-5 text-white" />
-                )}
+            <div className="px-4 py-1 border-b border-white/10 flex items-start justify-between">
+              <div className="flex-1 flex flex-col items-center text-center gap-0">
+                <div className="h-28 w-28 shrink-0 overflow-hidden flex items-center justify-center">
+                  {globalBrandLogo || brandLogo ? (
+                    <Image src={globalBrandLogo || brandLogo} alt={globalBrandName || brandName} width={128} height={128} unoptimized className="h-full w-full object-contain rounded-full shadow-lg" />
+                  ) : (
+                    <ShieldCheck className="w-8 h-8 text-white" />
+                  )}
+                </div>
+                <div className="-mt-2 overflow-hidden w-full">
+                  <p className="font-bold text-sm leading-none">{globalBrandName || brandName}</p>
+                  <p className="text-blue-300 text-[10px] font-black uppercase tracking-widest mt-0">Admin Panel</p>
+                </div>
               </div>
-              <div className="-mt-2 overflow-hidden w-full">
-                <p className="font-bold text-sm leading-none">{globalBrandName || brandName}</p>
-                <p className="text-blue-300 text-[10px] font-black uppercase tracking-widest mt-0">Admin Panel</p>
-              </div>
+              <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition">
+                <XCircle className="w-5 h-5 text-blue-200" />
+              </button>
             </div>
-            <button onClick={() => setIsSidebarOpen(false)} className="lg:hidden p-2 rounded-lg hover:bg-white/10 transition">
-              <XCircle className="w-5 h-5 text-blue-200" />
-            </button>
-          </div>
 
             <nav className="flex-1 px-3 py-4 space-y-1">
               {[
                 { id: "dashboard" as Tab, icon: Monitor, label: "Dashboard", badge: counts.pending },
-                { id: "centers" as Tab, icon: ShieldCheck, label: "Manage Centers" },
+                { id: "centers" as Tab, icon: ShieldCheck, label: "Manage Institute" },
                 { id: "students" as Tab, icon: Users, label: "Manage Students" },
                 { id: "examRequests" as Tab, icon: Layers, label: "Exam Requests" },
                 { id: "questionSets" as Tab, icon: BookOpen, label: "Exam Sets" },
@@ -1675,7 +1675,7 @@ export default function AdminPanelPage() {
                 <div>
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-1.5 h-6 bg-[#0a0aa1] rounded-full" />
-                    <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">ATC Center Metrics</h3>
+                    <h3 className="text-sm font-black text-slate-800 uppercase tracking-widest">Institute Metrics</h3>
                   </div>
                   <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
                     {[

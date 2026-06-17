@@ -114,12 +114,12 @@ export default function Navbar() {
   return (
     <header className="relative z-50">
       <div className="bg-[#0a0aa1] text-xs text-white">
-        <div className="mx-auto flex w-full max-w-330 items-center justify-between gap-2 px-3 py-2 sm:px-6 sm:py-2.5 lg:px-8">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-2 px-3 py-2 sm:px-6 sm:py-2.5 lg:px-8">
           <p className="flex min-w-0 items-center gap-1.5 font-medium text-[9px] sm:text-xs md:text-sm">
             <Clock3 className="h-3 w-3 shrink-0 sm:h-4 sm:w-4" />
             <span className="truncate">Mon to Sat: 9AM to 5PM</span>
           </p>
-          <div className="hidden items-center gap-4 sm:flex">
+          <div className="hidden items-center gap-4 lg:flex">
             <Link href="/atc/login" className="inline-flex items-center gap-1 hover:text-blue-200">
               <LogIn className="h-3 w-3" />
               Institute Login
@@ -168,10 +168,10 @@ export default function Navbar() {
               </Link>
               <div className="flex min-w-0 flex-1 flex-col gap-0.5 sm:gap-1">
                 <div className="flex min-w-0 flex-col leading-none tracking-tight text-[#0a0aa1]">
-                  <span className="text-[9px] min-[360px]:text-[11px] min-[400px]:text-[12px] sm:text-[14px] md:text-[16px] lg:text-[clamp(15px,1.35vw,23px)] font-black uppercase whitespace-nowrap">
+                  <span className="text-[9px] min-[360px]:text-[11px] min-[400px]:text-[12px] sm:text-[14px] md:text-[16px] lg:text-[clamp(15px,1.35vw,23px)] font-black uppercase whitespace-normal md:whitespace-nowrap">
                     SUNIL GROUP OF EDUCATION
                   </span>
-                  <span className="text-[9px] min-[360px]:text-[11px] min-[400px]:text-[12px] sm:text-[14px] md:text-[16px] lg:text-[clamp(15px,1.35vw,23px)] font-black uppercase whitespace-nowrap mt-0.5">
+                  <span className="text-[9px] min-[360px]:text-[11px] min-[400px]:text-[12px] sm:text-[14px] md:text-[16px] lg:text-[clamp(15px,1.35vw,23px)] font-black uppercase whitespace-normal md:whitespace-nowrap mt-0.5">
                     FASHION AND TECHNOLOGY TRUST
                   </span>
                 </div>
@@ -364,7 +364,7 @@ export default function Navbar() {
             isMobileMenuOpen ? "flex flex-col" : "hidden"
           } lg:flex`}
         >
-          <div className="flex w-full flex-col bg-[#0a0aa1] lg:flex-row lg:flex-nowrap lg:items-center lg:justify-between lg:gap-0 lg:px-4 lg:py-2 lg:shadow-[0_14px_28px_rgba(12,12,84,0.18)]">
+          <div className="flex w-full flex-col bg-[#0a0aa1] lg:flex-row lg:flex-wrap lg:items-center lg:justify-start lg:gap-x-2 lg:px-4 lg:py-2 lg:shadow-[0_14px_28px_rgba(12,12,84,0.18)]">
             {NAV_LINKS.map((link) =>
               link.children?.length ? (
                 <div key={link.label} className="group relative">

@@ -6,7 +6,7 @@ import { getBrandName } from "@/lib/settings";
 export default async function FaqAbout() {
   const brandName = await getBrandName();
   return (
-    <section id="about" className="scroll-mt-24 bg-white px-3 py-10 sm:scroll-mt-28 sm:px-6 sm:py-12 lg:scroll-mt-32 lg:px-8 lg:py-16">
+    <section id="about" className="scroll-mt-24 bg-white px-3 py-10 sm:scroll-mt-28 sm:px-6 sm:py-12 lg:scroll-mt-32 lg:px-8 lg:py-16 overflow-hidden">
       <div className="mx-auto grid w-full max-w-6xl gap-8 md:gap-10 lg:grid-cols-[0.98fr_1.02fr] lg:gap-12 lg:items-start">
         <div id="faq" className="scroll-mt-24 sm:scroll-mt-28 lg:scroll-mt-32">
           <div>
