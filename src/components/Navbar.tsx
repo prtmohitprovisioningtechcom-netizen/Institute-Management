@@ -259,7 +259,7 @@ export default function Navbar() {
                 State award winner institute 2021-2022
               </p>
               <p>
-                We started <strong className="text-[#0a0aa1]">1000+ businesses</strong> with Udyam registration under MSME, Government of India.
+                We started <strong className="text-[#0a0aa1]">1000+ businesses</strong> with Udhyam registration under MSME, Government of India.
               </p>
               <p>
                  We provide <strong className="text-[#0a0aa1]">job support to 600+ students</strong> in private, national, state, and multinational companies.
